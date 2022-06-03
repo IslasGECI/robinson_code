@@ -1,0 +1,24 @@
+Package: robinson
+Title: R package for the Coati Eradication Project on Robinson Crusoe Island
+Authors@R: c(
+    person(given = "Ciencia de Datos",
+           family = "GECI",
+           role = c("aut", "cre", "cph"),
+           email = "ciencia.datos@islas.org.mx"
+           ))
+Config/testthat/edition: 3
+Description: Data Management Support for the Coati Eradication Project on Robinson Crusoe Island, Chile.
+Encoding: UTF-8
+Imports:
+    R6,
+    tidyverse
+LazyData: true
+License: AGPL-3.0-or-later
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Suggests:
+    devtools,
+    roxygen2,
+    testthat
+Type: Package
+Version: 0.1.0
