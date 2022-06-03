@@ -1,4 +1,6 @@
-<img src="https://www.islas.org.mx/img/logo.svg" width="256" /> &nbsp; <img src="assets/images/ic_logo.png" width="256" />
+<img src="https://www.islas.org.mx/img/logo.svg" width="256" />
+
+<img src="assets/images/ic_logo.png" width="256" />
 
 # robinson
 
