@@ -5,13 +5,13 @@ describe("We define the expected data structures", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path)
     expected <- tibble(
-      Grid_ID = c(1, 2, 1, 2),
-      Session = c(1, 1, 2, 2),
-      r1 = c(),
+      Grid_ID = c(1),
+      Session = c(1),
+      r1 = c(0),
       r2 = c(),
       r3 = c(),
       r4 = c(),
-      e1 = c(),
+      e1 = c(3),
       e2 = c(),
       e3 = c(),
       e4 = c()
