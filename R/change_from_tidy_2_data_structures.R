@@ -5,7 +5,7 @@ f <- function(data) {
   coati_count <- sum(data$CoatiCount)
   result <- tibble(
     Grid_ID = c(1),
-    Session = c(1),
+    Session = c("April"),
     r1 = c(coati_count),
     r2 = c(),
     r3 = c(),

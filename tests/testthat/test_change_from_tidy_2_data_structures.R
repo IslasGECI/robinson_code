@@ -6,7 +6,7 @@ describe("We define the expected data structures", {
     data <- read_csv(path)
     expected <- tibble(
       Grid_ID = c(1),
-      Session = c(1),
+      Session = c("April"),
       r1 = c(0),
       r2 = c(),
       r3 = c(),
