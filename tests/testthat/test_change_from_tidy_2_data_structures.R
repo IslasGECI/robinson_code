@@ -17,4 +17,8 @@ describe("We define the expected data structures", {
         obtained <- f()
         expect_equal(expected, obtained)
     })
+    it("Read raw_cameras data",{
+        path <- "../data/raw_cameras.csv"
+        data <- read_csv(path)
+    })
 })
