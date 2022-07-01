@@ -16,7 +16,7 @@ describe("We define the expected data structures", {
       e3 = c(),
       e4 = c()
     )
-    obtained <- f(data)
+    obtained <- get_cameras_data_structure(data)
     expect_equal(expected, obtained)
   })
   it("Read camaras with a detection", {
@@ -34,7 +34,7 @@ describe("We define the expected data structures", {
       e3 = c(),
       e4 = c()
     )
-    obtained <- f(data)
+    obtained <- get_cameras_data_structure(data)
     expect_equal(expected, obtained)
   })
 })

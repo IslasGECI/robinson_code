@@ -1,7 +1,7 @@
 library(tidyverse)
 
 
-f <- function(data) {
+get_cameras_data_structure <- function(data) {
   coati_count <- sum(data$CoatiCount)
   result <- tibble(
     Grid_ID = c(1),
