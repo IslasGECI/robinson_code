@@ -1,7 +1,7 @@
 library(tidyverse)
 
-describe("Define tidy data structure", {
-  it("Expected tidy data structure", {
+describe("Define ocassion data structure", {
+  it("Expected ocassion data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path)
     expected_dates <- c(
@@ -12,13 +12,13 @@ describe("Define tidy data structure", {
       "2022-04-04 02:02:42",
       "2022-04-04 02:02:45"
     )
-    expected_tidy <- tibble(
+    expected_ocassion <- tibble(
       date = c(expected_dates),
-      camera_ID = c(),
       ocassion = c(),
+      camera_ID = c(),
       coati_count = c()
     )
-    obtained_tidy <- raw_2_tidy(data)
-    expect_equal(expected_tidy, obtained_tidy)
+    obtained_ocassion <- raw_2_ocassion(data)
+    expect_equal(expected_ocassion, obtained_ocassion)
   })
 })
