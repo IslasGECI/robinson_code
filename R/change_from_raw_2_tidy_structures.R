@@ -1,8 +1,9 @@
 library(tidyverse)
 
+#' @export
 raw_2_ocassion <- function(data) {
   dates <- as.character(data$DateTime)
-  ocassions <- lubridate::week(dates)
+  ocassions <- lubridate::isoweek(dates)
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
   coati_count <- data$CoatiCount
   result <- tibble(
