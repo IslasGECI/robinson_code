@@ -12,13 +12,14 @@ describe("Define ocassion data structure", {
       "2022-04-04 02:02:42",
       "2022-04-04 02:02:45"
     )
-    expected_ocassion <- tibble(
+    expected_ocassion <- rep(14,6)
+    expected_structure <- tibble(
       date = c(expected_dates),
-      ocassion = c(),
+      ocassion = c(expected_ocassion),
       camera_ID = c(),
       coati_count = c()
     )
-    obtained_ocassion <- raw_2_ocassion(data)
-    expect_equal(expected_ocassion, obtained_ocassion)
+    obtained_structure <- raw_2_ocassion(data)
+    expect_equal(expected_structure, obtained_structure)
   })
 })
