@@ -14,9 +14,9 @@ describe("Define tidy data structure", {
     )
     expected_tidy <- tibble(
       date = c(expected_dates),
-      Grid_ID = c(),
-      r = c(),
-      e = c()
+      camera_ID = c(),
+      ocassion = c(),
+      coati_count = c()
     )
     obtained_tidy <- raw_2_tidy(data)
     expect_equal(expected_tidy, obtained_tidy)

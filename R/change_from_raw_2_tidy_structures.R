@@ -1,11 +1,12 @@
 library(tidyverse)
 
 raw_2_tidy <- function(data) {
+  dates <- as.character(data$DateTime)
   result <- tibble(
-    date = c("2022-04-02 07:25:23"),
-    Grid_ID = c(),
-    r = c(),
-    e = c()
+    date = c(dates),
+    camera_ID = c(),
+    ocassion = c(),
+    coati_count = c()
   )
   return(result)
 }
