@@ -39,6 +39,7 @@ describe("Define ocassion data structure", {
     expected_tidy <- tibble(
       camera_id = expected_id,
       ocassion = expected_ocassion,
+      day = c(2,4,4,5),
       r = expected_captures,
       e = expected_effort,
       method = expected_method
