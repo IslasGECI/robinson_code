@@ -30,6 +30,14 @@ describe("Define ocassion data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path)
     ocassion_structure <- raw_2_ocassion(data)
-    ocassion_2_tidy(ocassion_structure)
+    obtained_tidy <- ocassion_2_tidy(ocassion_structure)
+    expected_tidy <- tibble(
+      camera_id = c(),
+      ocassion = c(),
+      r = c(),
+      e = c(),
+      method = c()
+    )
+    expect_equal(obtained_tidy, expected_tidy)
   })
 })
