@@ -21,7 +21,7 @@ describe("Define ocassion data structure", {
       camera_id = expected_id,
       coati_count = expected_coati_count
     )
-    obtained_structure <- raw_2_ocassion(data)
+    obtained_structure <- filter_raw_data(data)
     expect_equal(expected_structure, obtained_structure)
   })
 })
@@ -29,7 +29,7 @@ describe("Define ocassion data structure", {
   it("Expected tidy data structure", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path)
-    ocassion_structure <- raw_2_ocassion(data)
+    ocassion_structure <- filter_raw_data(data)
     obtained_tidy <- ocassion_2_tidy(ocassion_structure)
     expected_id <- c(1, 2 ,10, 10)
     expected_ocassion <- c(13,14,14,14)
