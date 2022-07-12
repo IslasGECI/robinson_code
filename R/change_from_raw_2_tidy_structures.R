@@ -16,8 +16,8 @@ filter_raw_data <- function(data) {
 }
 
 #' @export
-group_filtered_data <- function(ocassion_structure) {
-  filtered_structure <- ocassion_structure %>%
+group_filtered_data <- function(filter_table) {
+  filtered_structure <- filter_table %>%
       group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
       summarize(r = sum(coati_count)) %>%
       mutate(e = 1, method = "Camera-Traps") 

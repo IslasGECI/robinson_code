@@ -1,7 +1,7 @@
 library(tidyverse)
 
-describe("Define ocassion data structure", {
-  it("Expected ocassion data structure", {
+describe("Define filtered data structure", {
+  it("Expected filtered data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path)
     expected_dates <- c(
@@ -25,18 +25,19 @@ describe("Define ocassion data structure", {
     expect_equal(expected_structure, obtained_structure)
   })
 })
-describe("Define ocassion data structure", {
-  it("Expected tidy data structure", {
+
+describe("Group data by day", {
+  it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path)
-    ocassion_structure <- filter_raw_data(data)
-    obtained_tidy <- group_filtered_data(ocassion_structure)
+    filtered_structure <- filter_raw_data(data)
+    obtained_grouped <- group_filtered_data(filtered_structure)
     expected_id <- c(1, 2 ,10, 10)
     expected_ocassion <- c(13,14,14,14)
     expected_captures <- c(1,0,1,0)
     expected_method <- c("Camera-Traps", "Camera-Traps", "Camera-Traps","Camera-Traps")
     expected_effort <- c(1,1,1,1)
-    expected_tidy <- tibble(
+    expected_grouped <- tibble(
       camera_id = expected_id,
       ocassion = expected_ocassion,
       day = c(2,4,4,5),
@@ -44,6 +45,6 @@ describe("Define ocassion data structure", {
       e = expected_effort,
       method = expected_method
     )
-    expect_equal(obtained_tidy, expected_tidy)
+    expect_equal(obtained_grouped, expected_grouped)
   })
 })
