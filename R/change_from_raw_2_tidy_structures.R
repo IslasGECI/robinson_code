@@ -16,10 +16,10 @@ raw_2_ocassion <- function(data) {
 }
 
 ocassion_2_tidy <- function(ocassion_structure) {
-  camera_ids <- unique(ocassion_structure$camera_id)
+  filtered_structure <- ocassion_structure %>% group_by(camera_id, ocassion) %>% summarize()
   tidy_structure <- tibble(
-      camera_id = camera_ids,
-      ocassion = c(),
+      camera_id = filtered_structure$camera_id,
+      ocassion = filtered_structure$ocassion,
       r = c(),
       e = c(),
       method = c()
