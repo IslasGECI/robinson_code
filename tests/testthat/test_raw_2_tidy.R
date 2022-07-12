@@ -31,6 +31,5 @@ describe("Define ocassion data structure", {
     data <- read_csv(path)
     ocassion_structure <- raw_2_ocassion(data)
     ocassion_2_tidy(ocassion_structure)
-     
   })
 })
