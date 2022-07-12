@@ -14,3 +14,7 @@ raw_2_ocassion <- function(data) {
   )
   return(result)
 }
+
+ocassion_2_tidy <- function(ocassion_structure) {
+  return(TRUE)
+}
