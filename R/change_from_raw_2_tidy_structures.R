@@ -17,12 +17,13 @@ raw_2_ocassion <- function(data) {
 
 ocassion_2_tidy <- function(ocassion_structure) {
   filtered_structure <- ocassion_structure %>% group_by(camera_id, ocassion) %>% summarize(r = sum(coati_count))
+  n_rows = nrow(filtered_structure)
   tidy_structure <- tibble(
       camera_id = filtered_structure$camera_id,
       ocassion = filtered_structure$ocassion,
       r = filtered_structure$r,
       e = c(),
-      method = c()
+      method = rep("Camera-Traps",n_rows)
     )
   return(tidy_structure)
 }
