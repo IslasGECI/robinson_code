@@ -20,6 +20,6 @@ jobs:
         docker_password: ${{ secrets.docker_password }}
       run: echo "${docker_password}" | docker login -u "${docker_username}" --password-stdin
     - name: Upload image to Docker Hub
-      run: docker push islasgeci/development_server_setup:latest
+      run: docker push islasgeci/robinson_code:latest
     - name: Tag image with hash
-      run: docker push islasgeci/development_server_setup:${github_sha:0:4}
+      run: docker push islasgeci/robinson_code:${github_sha:0:4}
