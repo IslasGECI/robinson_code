@@ -35,11 +35,12 @@ describe("Define ocassion data structure", {
     expected_ocassion <- c(13,14,14)
     expected_captures <- c(1,0,1)
     expected_method <- c("Camera-Traps", "Camera-Traps", "Camera-Traps")
+    expected_effort <- c(1,1,1)
     expected_tidy <- tibble(
       camera_id = expected_id,
       ocassion = expected_ocassion,
       r = expected_captures,
-      e = c(),
+      e = expected_effort,
       method = expected_method
     )
     expect_equal(obtained_tidy, expected_tidy)
