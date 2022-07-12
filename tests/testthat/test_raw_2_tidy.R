@@ -1,7 +1,7 @@
 library(tidyverse)
 
-describe("Define ocassion data structure", {
-  it("Expected ocassion data structure", {
+describe("Define filtered data structure", {
+  it("Expected filtered data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path)
     expected_dates <- c(
@@ -18,10 +18,33 @@ describe("Define ocassion data structure", {
     expected_structure <- tibble(
       date = c(expected_dates),
       ocassion = c(expected_ocassion),
-      camera_ID = expected_id,
+      camera_id = expected_id,
       coati_count = expected_coati_count
     )
-    obtained_structure <- raw_2_ocassion(data)
+    obtained_structure <- filter_raw_data(data)
     expect_equal(expected_structure, obtained_structure)
+  })
+})
+
+describe("Group data by day", {
+  it("Expected grouped data structure", {
+    path <- "../data/raw_cameras_effort.csv"
+    data <- read_csv(path)
+    filtered_structure <- filter_raw_data(data)
+    obtained_grouped <- group_filtered_data(filtered_structure)
+    expected_id <- c(1, 2, 10, 10)
+    expected_ocassion <- c(13, 14, 14, 14)
+    expected_captures <- c(1, 0, 1, 0)
+    expected_method <- c("Camera-Traps", "Camera-Traps", "Camera-Traps", "Camera-Traps")
+    expected_effort <- c(1, 1, 1, 1)
+    expected_grouped <- tibble(
+      camera_id = expected_id,
+      ocassion = expected_ocassion,
+      day = c(2, 4, 4, 5),
+      r = expected_captures,
+      e = expected_effort,
+      method = expected_method
+    )
+    expect_equal(obtained_grouped, expected_grouped)
   })
 })

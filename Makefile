@@ -1,11 +1,11 @@
-init: setup tests
+init: install tests
 
 .PHONY: \
     check \
     clean \
     coverage \
     format \
-    setup \
+    install \
     tests
 
 check:
@@ -21,7 +21,7 @@ clean:
 	rm --force --recursive tests/testthat/_snaps
 	rm --force NAMESPACE
 
-coverage: setup
+coverage: install
 	Rscript tests/testthat/coverage.R
 
 format:
@@ -30,7 +30,7 @@ format:
       -e "style_dir('tests')" \
       -e "style_dir('tests/testthat')"
 
-setup: clean
+install: clean
 	R -e "devtools::document()" && \
     R CMD build . && \
     R CMD check robinson_0.1.0.tar.gz && \
