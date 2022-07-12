@@ -25,3 +25,12 @@ describe("Define ocassion data structure", {
     expect_equal(expected_structure, obtained_structure)
   })
 })
+describe("Define ocassion data structure", {
+  it("Expected tidy data structure", {
+    path <- "../data/raw_cameras.csv"
+    data <- read_csv(path)
+    ocassion_structure <- raw_2_ocassion(data)
+    ocassion_2_tidy(ocassion_structure)
+     
+  })
+})
