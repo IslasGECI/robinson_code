@@ -16,5 +16,12 @@ raw_2_ocassion <- function(data) {
 }
 
 ocassion_2_tidy <- function(ocassion_structure) {
-  return(TRUE)
+  tidy_structure <- tibble(
+      camera_id = c(),
+      ocassion = c(),
+      r = c(),
+      e = c(),
+      method = c()
+    )
+  return(tidy_structure)
 }
