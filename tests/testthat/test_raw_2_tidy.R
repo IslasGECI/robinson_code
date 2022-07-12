@@ -18,7 +18,7 @@ describe("Define ocassion data structure", {
     expected_structure <- tibble(
       date = c(expected_dates),
       ocassion = c(expected_ocassion),
-      camera_ID = expected_id,
+      camera_id = expected_id,
       coati_count = expected_coati_count
     )
     obtained_structure <- raw_2_ocassion(data)

@@ -9,15 +9,16 @@ raw_2_ocassion <- function(data) {
   result <- tibble(
     date = dates,
     ocassion = ocassions,
-    camera_ID = camera_IDs,
+    camera_id = camera_IDs,
     coati_count = coati_count
   )
   return(result)
 }
 
 ocassion_2_tidy <- function(ocassion_structure) {
+  camera_ids <- unique(ocassion_structure$camera_id)
   tidy_structure <- tibble(
-      camera_id = c(),
+      camera_id = camera_ids,
       ocassion = c(),
       r = c(),
       e = c(),
