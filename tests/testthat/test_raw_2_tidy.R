@@ -32,9 +32,10 @@ describe("Define ocassion data structure", {
     ocassion_structure <- raw_2_ocassion(data)
     obtained_tidy <- ocassion_2_tidy(ocassion_structure)
     expected_id <- c(1, 2 ,10)
+    expected_ocassion <- c(13,14,14)
     expected_tidy <- tibble(
       camera_id = expected_id,
-      ocassion = c(),
+      ocassion = expected_ocassion,
       r = c(),
       e = c(),
       method = c()
