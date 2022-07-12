@@ -30,7 +30,7 @@ describe("Define ocassion data structure", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path)
     ocassion_structure <- filter_raw_data(data)
-    obtained_tidy <- ocassion_2_tidy(ocassion_structure)
+    obtained_tidy <- group_filtered_data(ocassion_structure)
     expected_id <- c(1, 2 ,10, 10)
     expected_ocassion <- c(13,14,14,14)
     expected_captures <- c(1,0,1,0)

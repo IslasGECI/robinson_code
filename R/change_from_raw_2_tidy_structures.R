@@ -16,7 +16,7 @@ filter_raw_data <- function(data) {
 }
 
 #' @export
-ocassion_2_tidy <- function(ocassion_structure) {
+group_filtered_data <- function(ocassion_structure) {
   filtered_structure <- ocassion_structure %>%
       group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
       summarize(r = sum(coati_count)) %>%
@@ -40,7 +40,7 @@ xxocassion_2_tidy <- function(ocassion_structure) {
   return(filtered_structure)
 }
 calculate_effort <- function(raw_table) {
-  tidy_table <- ocassion_2_tidy(raw_table)
+  tidy_table <- group_filtered_data(raw_table)
   tidy_with_effort <- tidy_table %>% group_by() %>% cuenta
   return(tidy_with_effort)  
 }
