@@ -22,7 +22,7 @@ ocassion_2_tidy <- function(ocassion_structure) {
       camera_id = filtered_structure$camera_id,
       ocassion = filtered_structure$ocassion,
       r = filtered_structure$r,
-      e = c(),
+      e = c(1,1,1),
       method = rep("Camera-Traps",n_rows)
     )
   return(tidy_structure)
