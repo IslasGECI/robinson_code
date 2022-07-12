@@ -9,11 +9,11 @@ jobs:
     - name: Copia repositorio
       uses: actions/checkout@v2
     - name: Construye imagen
-      run: docker build --tag islasgeci .
+      run: docker build --tag islasgeci/robinson_code:latest --tag islasgeci/robinson_code:${github_sha:0:4} .
     - name: Verifica el formato
-      run: docker run islasgeci make check
+      run: docker run islasgeci/robinson_code:latest make check
     - name: Corre pruebas y evalúa cobertura
-      run: docker run islasgeci make coverage
+      run: docker run islasgeci/robinson_code:latest make coverage
     - name: Docker log-in
       env:
         docker_username: ${{ secrets.docker_username }}
