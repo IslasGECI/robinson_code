@@ -3,6 +3,8 @@ on: push
 jobs:
   actions:
     runs-on: ubuntu-latest
+    env:
+      github_sha: ${{ github.sha }}
     steps:
     - name: Copia repositorio
       uses: actions/checkout@v2
@@ -12,3 +14,12 @@ jobs:
       run: docker run islasgeci make check
     - name: Corre pruebas y evalúa cobertura
       run: docker run islasgeci make coverage
+    - name: Docker log-in
+      env:
+        docker_username: ${{ secrets.docker_username }}
+        docker_password: ${{ secrets.docker_password }}
+      run: echo "${docker_password}" | docker login -u "${docker_username}" --password-stdin
+    - name: Upload image to Docker Hub
+      run: docker push islasgeci/development_server_setup:latest
+    - name: Tag image with hash
+      run: docker push islasgeci/development_server_setup:${github_sha:0:4}
