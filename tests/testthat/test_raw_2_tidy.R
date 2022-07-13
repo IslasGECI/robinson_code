@@ -48,3 +48,9 @@ describe("Group data by day", {
     expect_equal(obtained_grouped, expected_grouped)
   })
 })
+
+describe("Calculate effort", {
+  it("Compute effort from grouped data", {
+    return(calculate_effort())
+  })
+})
