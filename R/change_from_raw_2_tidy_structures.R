@@ -23,10 +23,10 @@ group_filtered_data <- function(filter_table) {
     mutate(e = 1, method = "Camera-Traps")
   return(as_tibble(filtered_structure))
 }
-calculate_effort <- function(raw_table) {
-  tidy_table <- group_filtered_data(raw_table)
-  tidy_with_effort <- tidy_table %>%
-    group_by() %>%
-    cuenta()
-  return(tidy_with_effort)
+calculate_effort <- function() {
+#  tidy_table <- group_filtered_data(raw_table)
+#  tidy_with_effort <- tidy_table %>%
+#    group_by() %>%
+#    cuenta()
+  return(TRUE)
 }
