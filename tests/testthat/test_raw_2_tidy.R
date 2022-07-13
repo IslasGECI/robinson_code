@@ -59,4 +59,13 @@ describe("Calculate effort", {
     expected_effort <- c(1, 1, 2)
     expect_equal(obtained_effort, expected_effort)
   })
+  it("Compute effort from grouped data with different ocassion", {
+    path <- "../data/raw_cameras_effort_2.csv"
+    data <- read_csv(path)
+    filtered_structure <- filter_raw_data(data)
+    obtained_grouped <- group_filtered_data(filtered_structure)
+    obtained_effort <- calculate_effort(obtained_grouped)
+    expected_effort <- c(1, 1,1,1)
+    expect_equal(obtained_effort, expected_effort)
+  })
 })
