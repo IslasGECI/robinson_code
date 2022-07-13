@@ -51,6 +51,10 @@ describe("Group data by day", {
 
 describe("Calculate effort", {
   it("Compute effort from grouped data", {
-    return(calculate_effort())
+    path <- "../data/raw_cameras_effort.csv"
+    data <- read_csv(path)
+    filtered_structure <- filter_raw_data(data)
+    obtained_grouped <- group_filtered_data(filtered_structure)
+    calculate_effort(obtained_grouped)
   })
 })
