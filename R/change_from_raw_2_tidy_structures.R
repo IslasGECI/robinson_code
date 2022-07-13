@@ -24,9 +24,7 @@ group_filtered_data <- function(filter_table) {
   return(as_tibble(filtered_structure))
 }
 calculate_effort <- function(grouped_data) {
-#  tidy_table <- group_filtered_data(raw_table)
-#  tidy_with_effort <- tidy_table %>%
-#    group_by() %>%
-#    cuenta()
-  return(TRUE)
+  group_by_id <- grouped_data %>% group_by(camera_id) %>% summarize(e = sum(e)) 
+  effort <- group_by_id$e
+  return(effort)
 }
