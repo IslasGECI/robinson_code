@@ -23,10 +23,20 @@ group_filtered_data <- function(filter_table) {
     mutate(e = 1, method = "Camera-Traps")
   return(as_tibble(filtered_structure))
 }
+
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>% 
       group_by(camera_id, ocassion) %>% 
       summarize(e = sum(e), r = sum(r)) %>% 
       mutate(method = "Camera-Traps") 
   return(group_by_id_ocassion)
+}
+
+#' @export
+tidy_from_path <- function(path) {
+  data <- readr::read_csv(path)
+  filtered_structure <- filter_raw_data(data)
+  obtained_grouped <- group_filtered_data(filtered_structure)
+  obtained_effort <- calculate_effort(obtained_grouped)
+  return(obtained_effort)
 }
