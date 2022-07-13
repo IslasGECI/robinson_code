@@ -24,7 +24,9 @@ group_filtered_data <- function(filter_table) {
   return(as_tibble(filtered_structure))
 }
 calculate_effort <- function(grouped_data) {
-  group_by_id <- grouped_data %>% group_by(camera_id, ocassion) %>% summarize(e = sum(e)) 
-  effort <- group_by_id$e
-  return(effort)
+  group_by_id_ocassion <- grouped_data %>% 
+      group_by(camera_id, ocassion) %>% 
+      summarize(e = sum(e), r = sum(r)) %>% 
+      mutate(method = "Camera-Traps") 
+  return(group_by_id_ocassion)
 }
