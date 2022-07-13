@@ -55,7 +55,7 @@ describe("Calculate effort", {
     data <- read_csv(path)
     filtered_structure <- filter_raw_data(data)
     obtained_grouped <- group_filtered_data(filtered_structure)
-    obtained_effort <- calculate_effort(obtained_grouped)
+    obtained_effort <- calculate_effort(obtained_grouped)$e
     expected_effort <- c(1, 1, 2)
     expect_equal(obtained_effort, expected_effort)
   })
@@ -64,8 +64,8 @@ describe("Calculate effort", {
     data <- read_csv(path)
     filtered_structure <- filter_raw_data(data)
     obtained_grouped <- group_filtered_data(filtered_structure)
-    obtained_effort <- calculate_effort(obtained_grouped)
-    expected_effort <- c(1, 1,1,1)
+    obtained_effort <- calculate_effort(obtained_grouped)$e
+    expected_effort <- c(1, 1, 2, 1)
     expect_equal(obtained_effort, expected_effort)
   })
 })
