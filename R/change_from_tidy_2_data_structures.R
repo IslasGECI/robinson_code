@@ -17,3 +17,9 @@ get_cameras_data_structure <- function(data) {
   )
   return(result)
 }
+
+tidy_2_final <- function(tidy_table){
+  final <- tidy_table %>%
+    pivot_wider(names_from = ocassion, values_from = c(r, e))
+  return(final)
+}
