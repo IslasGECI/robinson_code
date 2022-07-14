@@ -2,7 +2,7 @@ library(tidyverse)
 
 filter_raw_data <- function(data) {
   dates <- as.character(data$DateTime)
-  ocassions <- lubridate::isoweek(dates) 
+  ocassions <- lubridate::isoweek(dates)
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
   coati_count <- data$CoatiCount
   result <- tibble(
@@ -28,7 +28,7 @@ calculate_effort <- function(grouped_data) {
     group_by(camera_id, ocassion) %>%
     summarize(e = sum(e), r = sum(r)) %>%
     ungroup() %>%
-    mutate(method = "Camera-Traps") 
+    mutate(method = "Camera-Traps")
   return(group_by_id_ocassion)
 }
 
