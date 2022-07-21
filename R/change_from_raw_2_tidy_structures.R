@@ -1,6 +1,5 @@
 library(tidyverse)
 
-#' @export
 filter_raw_data <- function(data) {
   dates <- as.character(data$DateTime)
   ocassions <- lubridate::isoweek(dates)
@@ -15,7 +14,6 @@ filter_raw_data <- function(data) {
   return(result)
 }
 
-#' @export
 group_filtered_data <- function(filter_table) {
   filtered_structure <- filter_table %>%
     group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
@@ -25,11 +23,10 @@ group_filtered_data <- function(filter_table) {
   return(filtered_structure)
 }
 
-#' @export
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
-    group_by(camera_id, ocassion) %>%
-    summarize(e = sum(e), r = sum(r)) %>%
+    group_by(camera_id, ocassion, r) %>%
+    summarize(e = max(day)- min(day) + 1) %>%
     ungroup() %>%
     mutate(method = "Camera-Traps")
   return(group_by_id_ocassion)
