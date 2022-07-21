@@ -17,10 +17,12 @@ filter_raw_data <- function(data) {
 
 #' @export
 group_data_by_window <- function(filtered_structure) {
-    filtered_structure %>% mutate(window = substr(date,start=0, stop=15)) %>% 
-        group_by(camera_id, window) %>% mutate(max_coati_count = max(coati_count))
-
-  return(FALSE)
+    result <- filtered_structure %>% mutate(window = substr(date,start=0, stop=15)) %>% 
+        group_by(window, camera_id, ocassion) %>% 
+        summarize(coati_count = max(coati_count)) %>% 
+        mutate(date = substr(window,start=0,stop=10)) %>% 
+        ungroup()
+  return(result)
 }
 
 #' @export

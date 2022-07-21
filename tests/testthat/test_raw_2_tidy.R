@@ -31,7 +31,8 @@ describe("Group data by window", {
     path <- "../data/raw_camera_id_35_and_61.csv"
     data <- read_csv(path)
     filtered_structure <- filter_raw_data(data)
-    obtained_grouped <- group_data_by_window(filtered_structure)
+    data_grouped_by_window <- group_data_by_window(filtered_structure)
+    obtained_grouped <- group_filtered_data(data_grouped_by_window)
     expected_grouped <- read_csv("../data/max_captures_grouped_by_window.csv")
     expect_equal(obtained_grouped, expected_grouped)
   })
