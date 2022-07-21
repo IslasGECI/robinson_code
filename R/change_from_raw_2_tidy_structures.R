@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#' @export
+
 filter_raw_data <- function(data) {
   dates <- as.character(data$DateTime)
   ocassions <- lubridate::isoweek(dates)
@@ -15,7 +15,7 @@ filter_raw_data <- function(data) {
   return(result)
 }
 
-#' @export
+
 group_data_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
     mutate(window = substr(date, start = 0, stop = 15)) %>%
@@ -26,7 +26,7 @@ group_data_by_window <- function(filtered_structure) {
   return(result)
 }
 
-#' @export
+
 group_filtered_data <- function(filter_table) {
   filtered_structure <- filter_table %>%
     group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
@@ -36,7 +36,7 @@ group_filtered_data <- function(filter_table) {
   return(filtered_structure)
 }
 
-#' @export
+
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
     group_by(camera_id, ocassion) %>%
