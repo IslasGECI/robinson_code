@@ -68,5 +68,8 @@ describe("Calculate effort", {
     obtained_effort <- calculate_effort(data)$e
     expected_effort <- c(1, 6, 7, 6, 6)
     expect_equal(obtained_effort, expected_effort)
+    obtained_captures <- calculate_effort(data)$r
+    expected_captures <- c(0, 0, 5, 0, 0)
+    expect_equal(obtained_captures, expected_captures)
   })
 })
