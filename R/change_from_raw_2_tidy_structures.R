@@ -50,7 +50,8 @@ calculate_effort <- function(grouped_data) {
 tidy_from_path <- function(path) {
   data <- readr::read_csv(path)
   filtered_structure <- filter_raw_data(data)
-  obtained_grouped <- group_filtered_data(filtered_structure)
+  capture_by_window <- group_data_by_window(filtered_structure)
+  obtained_grouped <- group_filtered_data(capture_by_window)
   obtained_effort <- calculate_effort(obtained_grouped)
   return(obtained_effort)
 }
