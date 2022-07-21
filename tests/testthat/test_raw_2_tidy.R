@@ -26,6 +26,16 @@ describe("Define filtered data structure", {
   })
 })
 
+describe("Group data by window", {
+  it("Expected grouped data structure", {
+    path <- "../data/raw_camera_id_35_and_61.csv"
+    data <- read_csv(path)
+    obtained_grouped <- group_data_by_window(data)
+    expected_grouped <- read_csv("../data/max_captures_grouped_by_window.csv")
+    expect_equal(obtained_grouped, expected_grouped)
+  })
+})
+
 describe("Group data by day", {
   it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
