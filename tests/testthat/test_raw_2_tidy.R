@@ -66,7 +66,7 @@ describe("Calculate effort", {
     path <- "../data/capture_by_window_camera_1.csv"
     data <- read_csv(path)
     obtained_effort <- calculate_effort(data)$e
-    expected_effort <- c(1, 6,7,6,6)
+    expected_effort <- c(1, 6, 7, 6, 6)
     expect_equal(obtained_effort, expected_effort)
   })
 })

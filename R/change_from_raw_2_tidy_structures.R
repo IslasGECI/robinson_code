@@ -17,11 +17,12 @@ filter_raw_data <- function(data) {
 
 #' @export
 group_data_by_window <- function(filtered_structure) {
-    result <- filtered_structure %>% mutate(window = substr(date,start=0, stop=15)) %>% 
-        group_by(window, camera_id, ocassion) %>% 
-        summarize(coati_count = max(coati_count)) %>% 
-        mutate(date = substr(window,start=0,stop=10)) %>% 
-        ungroup()
+  result <- filtered_structure %>%
+    mutate(window = substr(date, start = 0, stop = 15)) %>%
+    group_by(window, camera_id, ocassion) %>%
+    summarize(coati_count = max(coati_count)) %>%
+    mutate(date = substr(window, start = 0, stop = 10)) %>%
+    ungroup()
   return(result)
 }
 
@@ -39,7 +40,7 @@ group_filtered_data <- function(filter_table) {
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
     group_by(camera_id, ocassion, r) %>%
-    summarize(e = max(day)- min(day) + 1) %>%
+    summarize(e = max(day) - min(day) + 1) %>%
     ungroup() %>%
     mutate(method = "Camera-Traps")
   return(group_by_id_ocassion)
