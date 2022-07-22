@@ -2,7 +2,11 @@ library(tidyverse)
 
 describe("Add empty photos",{
     it("Define function",{
-           fill_days(raw_data)
+           path <- "../data/raw_cameras_to_fill_dates.csv"
+           raw_data <- read_csv(path)
+           original_number_rows <- nrow(raw_data)
+           obtained_number_rows <-nrow(fill_days(raw_data))
+           expect_equal(original_number_rows, obtained_number_rows )
     })
 })
 describe("Define filtered data structure", {
