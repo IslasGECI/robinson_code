@@ -12,10 +12,10 @@ describe("Add empty photos",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
            expected_max_day_camera <- c(3, 8, 0) 
-           obtained_max_day_camera <- get_max_and_min_day_by_camera(raw_data)$delta_day
+           obtained_max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)$delta_day
            expect_equal(expected_max_day_camera, obtained_max_day_camera)
            expected_min_day_camera <- lubridate::ymd(c("2022-04-02", "2022-04-04", "2022-04-04"))
-           obtained_min_day_camera <- get_max_and_min_day_by_camera(raw_data)$initial_day
+           obtained_min_day_camera <- get_initial_and_delta_day_by_camera(raw_data)$initial_day
            expect_equal(expected_min_day_camera, obtained_min_day_camera)
     })
 })

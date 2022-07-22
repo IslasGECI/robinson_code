@@ -1,10 +1,10 @@
 library(tidyverse)
 
-get_max_and_min_day_by_camera <- function(raw_data){
+get_initial_and_delta_day_by_camera <- function(raw_data){
   limit_days_by_camera <- raw_data %>% 
     mutate(day = lubridate::as_date(DateTime)) %>% 
     group_by(RelativePath) %>% 
-    summarize(max_day = max(day), initial_day = min(day), delta_day = lubridate::mday(max_day) - lubridate::mday(initial_day))
+    summarize(last_day = max(day), initial_day = min(day), delta_day = lubridate::mday(last_day) - lubridate::mday(initial_day))
   return(limit_days_by_camera)
 }
 
