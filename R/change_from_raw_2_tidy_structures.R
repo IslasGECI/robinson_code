@@ -1,11 +1,11 @@
 library(tidyverse)
 
-get_max_day_by_camera <- function(raw_data){
-  max_days_by_camera <- raw_data %>% 
+get_max_and_min_day_by_camera <- function(raw_data){
+  limit_days_by_camera <- raw_data %>% 
     mutate(day = lubridate::mday(as.character(DateTime))) %>% 
     group_by(RelativePath) %>% 
-    summarize(day = max(day))
-  return(max_days_by_camera$day)
+    summarize(max_day = max(day), min_day = min(day))
+  return(limit_days_by_camera)
 }
 
 fill_days <- function(raw_data){
