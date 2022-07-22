@@ -1,5 +1,10 @@
 library(tidyverse)
 
+describe("Add empty photos",{
+    it("",{
+           fill_days(raw_data)
+    })
+})
 describe("Define filtered data structure", {
   it("Expected filtered data structure", {
     path <- "../data/raw_cameras.csv"
