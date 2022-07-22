@@ -11,7 +11,7 @@ describe("Add empty photos",{
     it("Get max date by camera_id",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
-           expected_max_day_camera <- c(5, 4, 12)
+           expected_max_day_camera <- c(5, 12, 4) 
            obtained_max_day_camera <- get_max_day_by_camera(raw_data)
            expect_equal(expected_max_day_camera, obtained_max_day_camera)
     })
