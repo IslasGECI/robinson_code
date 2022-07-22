@@ -11,12 +11,28 @@ describe("Add empty photos",{
     it("Get interval days by camera_id",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
-           expected_max_day_camera <- c(3, 8, 0) 
+           expected_max_day_camera <- c(3, 8, 0)
            obtained_max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)$delta_day
            expect_equal(expected_max_day_camera, obtained_max_day_camera)
            expected_min_day_camera <- lubridate::ymd(c("2022-04-02", "2022-04-04", "2022-04-04"))
            obtained_min_day_camera <- get_initial_and_delta_day_by_camera(raw_data)$initial_day
            expect_equal(expected_min_day_camera, obtained_min_day_camera)
+    })
+})
+describe("Get dataframe",{
+    it("dates",{
+        first_date_interval <- lubridate::ymd("2022-04-02") + lubridate::days(0:3)
+        second_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:8)
+        third_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:0)
+        first_tibble <- tibble(id_camera = "Cámara N 1", dates = first_date_interval)
+        second_tibble <- tibble(id_camera = "Cámara N 2", dates = second_date_interval)
+        third_tibble <- tibble(id_camera = "Cámara N 3", dates = third_date_interval)
+        expected <- rbind(first_tibble, second_tibble, third_tibble)
+        path <- "../data/raw_cameras_to_fill_dates.csv"
+        raw_data <- read_csv(path)
+        max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)
+        obtained <- fill_dates(max_day_camera)
+        expect_equal(obtained, expected)
     })
 })
 describe("Define filtered data structure", {
