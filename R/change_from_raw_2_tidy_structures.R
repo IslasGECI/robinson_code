@@ -1,5 +1,8 @@
 library(tidyverse)
 
+fill_days <- function(raw_data){
+  return(TRUE)
+}
 
 filter_raw_data <- function(data) {
   dates <- as.character(data$DateTime)

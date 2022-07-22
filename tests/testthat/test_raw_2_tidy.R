@@ -1,7 +1,7 @@
 library(tidyverse)
 
 describe("Add empty photos",{
-    it("",{
+    it("Define function",{
            fill_days(raw_data)
     })
 })
