@@ -9,10 +9,13 @@ get_initial_and_delta_day_by_camera <- function(raw_data){
 }
 
 unamed_function <- function(limit_days_by_camera){
-  renglon <- tibble(RelativePath = limit_days_by_camera$RelativePath, 
-  coati_count = 0, DateTime = limit_days_by_camera$initial_day + days(0:limit_days_by_camera$delta_day))
-  for (i in 0:nrow(limit_days_by_camera)){print(limit_days_by_camera$RelativePath[i])}
-  return(renglon)
+    renglones <- tibble(RelativePath = c(),CoatiCount = c(), DateTime = c())
+  for (i in 1:nrow(limit_days_by_camera)){
+      renglon <- tibble(RelativePath = limit_days_by_camera$RelativePath[i], 
+  CoatiCount = 0, DateTime = limit_days_by_camera$initial_day[i] + days(0:limit_days_by_camera$delta_day[i]))
+      renglones <- bind_rows(renglones, renglon)
+      }
+  return(renglones)
 }
 
 fill_days <- function(raw_data){
