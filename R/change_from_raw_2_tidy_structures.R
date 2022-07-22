@@ -1,5 +1,9 @@
 library(tidyverse)
 
+get_max_day_by_camera <- function(camera_id, raw_data){
+  return(5)
+}
+
 fill_days <- function(raw_data){
   return(raw_data)
 }
