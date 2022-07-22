@@ -26,6 +26,18 @@ describe("Define filtered data structure", {
   })
 })
 
+describe("Group data by window", {
+  it("Expected grouped data structure", {
+    path <- "../data/raw_camera_id_35_and_61.csv"
+    data <- read_csv(path)
+    filtered_structure <- filter_raw_data(data)
+    data_grouped_by_window <- group_data_by_window(filtered_structure)
+    obtained_grouped <- group_filtered_data(data_grouped_by_window)
+    expected_grouped <- read_csv("../data/max_captures_grouped_by_window.csv")
+    expect_equal(obtained_grouped, expected_grouped)
+  })
+})
+
 describe("Group data by day", {
   it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
@@ -50,22 +62,14 @@ describe("Group data by day", {
 })
 
 describe("Calculate effort", {
-  it("Compute effort from grouped data", {
-    path <- "../data/raw_cameras_effort.csv"
-    data <- read_csv(path)
-    filtered_structure <- filter_raw_data(data)
-    obtained_grouped <- group_filtered_data(filtered_structure)
-    obtained_effort <- calculate_effort(obtained_grouped)$e
-    expected_effort <- c(1, 1, 2)
-    expect_equal(obtained_effort, expected_effort)
-  })
   it("Compute effort from grouped data with different ocassion", {
-    path <- "../data/raw_cameras_effort_2.csv"
+    path <- "../data/capture_by_window_camera_1.csv"
     data <- read_csv(path)
-    filtered_structure <- filter_raw_data(data)
-    obtained_grouped <- group_filtered_data(filtered_structure)
-    obtained_effort <- calculate_effort(obtained_grouped)$e
-    expected_effort <- c(1, 1, 2, 1)
+    obtained_effort <- calculate_effort(data)$e
+    expected_effort <- c(1, 6, 7, 6, 6)
     expect_equal(obtained_effort, expected_effort)
+    obtained_captures <- calculate_effort(data)$r
+    expected_captures <- c(0, 0, 5, 0, 0)
+    expect_equal(obtained_captures, expected_captures)
   })
 })

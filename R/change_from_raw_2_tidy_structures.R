@@ -1,5 +1,6 @@
 library(tidyverse)
 
+
 filter_raw_data <- function(data) {
   dates <- as.character(data$DateTime)
   ocassions <- lubridate::isoweek(dates)
@@ -14,6 +15,18 @@ filter_raw_data <- function(data) {
   return(result)
 }
 
+
+group_data_by_window <- function(filtered_structure) {
+  result <- filtered_structure %>%
+    mutate(window = substr(date, start = 0, stop = 15)) %>%
+    group_by(window, camera_id, ocassion) %>%
+    summarize(coati_count = max(coati_count)) %>%
+    mutate(date = substr(window, start = 0, stop = 10)) %>%
+    ungroup()
+  return(result)
+}
+
+
 group_filtered_data <- function(filter_table) {
   filtered_structure <- filter_table %>%
     group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
@@ -23,10 +36,11 @@ group_filtered_data <- function(filter_table) {
   return(filtered_structure)
 }
 
+
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
     group_by(camera_id, ocassion) %>%
-    summarize(e = sum(e), r = sum(r)) %>%
+    summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
     ungroup() %>%
     mutate(method = "Camera-Traps")
   return(group_by_id_ocassion)
@@ -36,7 +50,8 @@ calculate_effort <- function(grouped_data) {
 tidy_from_path <- function(path) {
   data <- readr::read_csv(path)
   filtered_structure <- filter_raw_data(data)
-  obtained_grouped <- group_filtered_data(filtered_structure)
+  capture_by_window <- group_data_by_window(filtered_structure)
+  obtained_grouped <- group_filtered_data(capture_by_window)
   obtained_effort <- calculate_effort(obtained_grouped)
   return(obtained_effort)
 }
