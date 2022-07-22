@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: islasgeci/lambdas_aves_marinas:latest
+    image: islasgeci/robinson_code:latest
     command: bash
     volumes:
       - $PWD:/workdir
