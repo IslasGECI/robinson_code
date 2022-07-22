@@ -8,14 +8,14 @@ describe("Add empty photos",{
            obtained_number_rows <-nrow(fill_days(raw_data))
            expect_equal(original_number_rows, obtained_number_rows )
     })
-    it("Get max date by camera_id",{
+    it("Get interval days by camera_id",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
-           expected_max_day_camera <- c(5, 12, 4) 
-           obtained_max_day_camera <- get_max_and_min_day_by_camera(raw_data)$max_day
+           expected_max_day_camera <- c(3, 8, 0) 
+           obtained_max_day_camera <- get_max_and_min_day_by_camera(raw_data)$delta_day
            expect_equal(expected_max_day_camera, obtained_max_day_camera)
-           expected_min_day_camera <- c(2, 4, 4) 
-           obtained_min_day_camera <- get_max_and_min_day_by_camera(raw_data)$min_day
+           expected_min_day_camera <- lubridate::ymd(c("2022-04-02", "2022-04-04", "2022-04-04"))
+           obtained_min_day_camera <- get_max_and_min_day_by_camera(raw_data)$initial_day
            expect_equal(expected_min_day_camera, obtained_min_day_camera)
     })
 })
