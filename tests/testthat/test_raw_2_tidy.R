@@ -12,8 +12,11 @@ describe("Add empty photos",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
            expected_max_day_camera <- c(5, 12, 4) 
-           obtained_max_day_camera <- get_max_day_by_camera(raw_data)
+           obtained_max_day_camera <- get_max_and_min_day_by_camera(raw_data)$max_day
            expect_equal(expected_max_day_camera, obtained_max_day_camera)
+           expected_min_day_camera <- c(2, 4, 4) 
+           obtained_min_day_camera <- get_max_and_min_day_by_camera(raw_data)$min_day
+           expect_equal(expected_min_day_camera, obtained_min_day_camera)
     })
 })
 describe("Define filtered data structure", {
