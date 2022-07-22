@@ -1,7 +1,7 @@
 library(tidyverse)
 
 fill_days <- function(raw_data){
-  return(TRUE)
+  return(raw_data)
 }
 
 filter_raw_data <- function(data) {
