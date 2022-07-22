@@ -1,27 +1,29 @@
 library(tidyverse)
 
-get_initial_and_delta_day_by_camera <- function(raw_data){
-  limit_days_by_camera <- raw_data %>% 
-    mutate(day = lubridate::as_date(DateTime)) %>% 
-    group_by(RelativePath) %>% 
+get_initial_and_delta_day_by_camera <- function(raw_data) {
+  limit_days_by_camera <- raw_data %>%
+    mutate(day = lubridate::as_date(DateTime)) %>%
+    group_by(RelativePath) %>%
     summarize(last_day = max(day), initial_day = min(day), delta_day = lubridate::mday(last_day) - lubridate::mday(initial_day))
   return(limit_days_by_camera)
 }
 
-get_missing_rows_with_date_by_camera <- function(limit_days_by_camera){
-    missing_rows <- tibble(RelativePath = c(), DateTime = c(), CoatiCount = c())
-  for (i in 1:nrow(limit_days_by_camera)){
-      rows_by_camera <- tibble(RelativePath = limit_days_by_camera$RelativePath[i], 
-   DateTime = limit_days_by_camera$initial_day[i] + lubridate::days(0:limit_days_by_camera$delta_day[i]), CoatiCount = 0)
-      missing_rows <- bind_rows(missing_rows, rows_by_camera)
-      }
+get_missing_rows_with_date_by_camera <- function(limit_days_by_camera) {
+  missing_rows <- tibble(RelativePath = c(), DateTime = c(), CoatiCount = c())
+  for (i in 1:nrow(limit_days_by_camera)) {
+    rows_by_camera <- tibble(
+      RelativePath = limit_days_by_camera$RelativePath[i],
+      DateTime = limit_days_by_camera$initial_day[i] + lubridate::days(0:limit_days_by_camera$delta_day[i]), CoatiCount = 0
+    )
+    missing_rows <- bind_rows(missing_rows, rows_by_camera)
+  }
   return(missing_rows)
 }
 
-fill_dates <- function(raw_data){
+fill_dates <- function(raw_data) {
   limit_days_by_camera <- get_initial_and_delta_day_by_camera(raw_data)
   missing_rows <- get_missing_rows_with_date_by_camera(limit_days_by_camera)
-  return(bind_rows(raw_data,missing_rows))
+  return(bind_rows(raw_data, missing_rows))
 }
 
 filter_raw_data <- function(data) {
