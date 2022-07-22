@@ -67,7 +67,7 @@ calculate_effort <- function(grouped_data) {
     group_by(camera_id, ocassion) %>%
     summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
     ungroup() %>%
-    mutate(method = "Camera-Traps")
+    mutate(method = "Camera-Traps", session = 4)
   return(group_by_id_ocassion)
 }
 
