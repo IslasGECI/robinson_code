@@ -5,8 +5,8 @@ describe("Add empty photos",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
            raw_data <- read_csv(path)
            original_number_rows <- nrow(raw_data)
-           obtained_number_rows <-nrow(fill_days(raw_data))
-           expect_equal(original_number_rows, obtained_number_rows )
+           obtained_number_rows <-nrow(fill_dates(raw_data))
+           expect_true(original_number_rows < obtained_number_rows )
     })
     it("Get interval days by camera_id",{
            path <- "../data/raw_cameras_to_fill_dates.csv"
@@ -24,14 +24,14 @@ describe("Get dataframe",{
         first_date_interval <- lubridate::ymd("2022-04-02") + lubridate::days(0:3)
         second_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:8)
         third_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:0)
-        first_tibble <- tibble(id_camera = "Cámara N 1", dates = first_date_interval)
-        second_tibble <- tibble(id_camera = "Cámara N 2", dates = second_date_interval)
-        third_tibble <- tibble(id_camera = "Cámara N 3", dates = third_date_interval)
+        first_tibble <- tibble(RelativePath = "N Cámara 1", DateTime = first_date_interval, CoatiCount = 0)
+        second_tibble <- tibble(RelativePath = "N Cámara 10", DateTime = second_date_interval, CoatiCount = 0)
+        third_tibble <- tibble(RelativePath = "N Cámara 2", DateTime = third_date_interval, CoatiCount = 0)
         expected <- rbind(first_tibble, second_tibble, third_tibble)
         path <- "../data/raw_cameras_to_fill_dates.csv"
         raw_data <- read_csv(path)
         max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)
-        obtained <- fill_dates(max_day_camera)
+        obtained <- get_missing_rows_with_date_by_camera(max_day_camera)
         expect_equal(obtained, expected)
     })
 })
