@@ -8,6 +8,7 @@ describe("We define the expected data structures", {
     expected_final_structure <- tibble(
       camera_id = c(1, 2, 10),
       method = c("Camera-Traps", "Camera-Traps", "Camera-Traps"),
+      session = c(4, 4, 4),
       r_1 = c(1, NA, NA),
       r_2 = c(NA, 0, 1),
       e_1 = c(1, NA, NA),
