@@ -1,10 +1,15 @@
-init: install tests
+all: data/april_camera_traps.csv
+
+data/april_camera_traps.csv: data/raw/robinson_coati_detection_camera_traps/APRIL2022COATI.csv src/get_final_data_structure.R
+	Rscript src/get_final_data_structure.R
 
 .PHONY: \
+    all \
     check \
     clean \
     coverage \
     format \
+    init \
     install \
     tests
 
@@ -30,6 +35,8 @@ format:
       -e "style_dir('tests')" \
       -e "style_dir('tests/testthat')"
 
+init: install tests
+
 install: clean
 	R -e "devtools::document()" && \
     R CMD build . && \
@@ -38,3 +45,4 @@ install: clean
 
 tests:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
+
