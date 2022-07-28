@@ -1,7 +1,9 @@
 Date,Grid,Sector,Days_on_terrain,Persons_on_terrain,Hunted_Coati,Night-traps,Captured_Coati,Observed_Coati
 2022-03-24,48,Vaqueria,10,3,0,8,0,0
 2022-04-04,24,La Tortuga,6,2,16,0,0,0
+2022-04-05,24,La Tortuga,6,1,4,1,2,3
 2022-04-05,49,Villagra,10,3,0,8,0,0
+2022-04-15,49,Villagra,3,3,0,4,0,0
 2022-04-15,14,Cerro Negro,5,2,14,0,0,0
 2022-04-24,44,Vaqueria,6,3,18,5,2,0
 2022-05-22,9,El Frances,7,3,0,5,0,0
