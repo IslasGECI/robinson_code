@@ -29,6 +29,10 @@ describe("Get tidy structure from trapping and hunting data", {
   })
   it("Group by grid and ocassion", {
     grouped_data <- get_removal_and_effort_trapping(x)
+    obtained_trapping_removed_grouped_data <- grouped_data$r
+    expected_trapping_removed_grouped_data <- c(0, 0, 2, 2, 0, 0, 0)
+    expect_equal(obtained_trapping_removed_grouped_data, expected_trapping_removed_grouped_data)
+
     obtained_trapping_effort_grouped_data <- grouped_data$e
     expected_trapping_effort_grouped_data <- c(5, 0, 1, 5, 8, 8, 4)
     expect_equal(obtained_trapping_effort_grouped_data, expected_trapping_effort_grouped_data)
@@ -37,5 +41,18 @@ describe("Get tidy structure from trapping and hunting data", {
     obtained_hunting_effort_grouped_data <- grouped_data$e
     expected_hunting_effort_grouped_data <- c(21, 10, 18, 18, 30, 30, 9)
     expect_equal(obtained_hunting_effort_grouped_data, expected_hunting_effort_grouped_data)
+
+    obtained_hunting_method_grouped_data <- grouped_data$Method
+    expected_hunting_method_grouped_data <- rep("Hunting", 7)
+    expect_equal(obtained_hunting_method_grouped_data, expected_hunting_method_grouped_data)
+
+    grouped_data <- get_removal_and_effort_by_method(x, `Captured_Coati`, `Night-traps`,"Trapping")
+    obtained_trapping_removed_grouped_data <- grouped_data$r
+    expected_trapping_removed_grouped_data <- c(0, 0, 2, 2, 0, 0, 0)
+    expect_equal(obtained_trapping_removed_grouped_data, expected_trapping_removed_grouped_data)
+
+    obtained_trapping_effort_grouped_data <- grouped_data$e
+    expected_trapping_effort_grouped_data <- c(5, 0, 1, 5, 8, 8, 4)
+    expect_equal(obtained_trapping_effort_grouped_data, expected_trapping_effort_grouped_data)
   })
 })
