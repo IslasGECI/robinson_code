@@ -23,7 +23,18 @@ select_columns <- function(data) {
   return(clean_data)
 }
 
-group_by_grid_and_ocassion <- function(data){
-  grouped_data <- data %>% group_by(Grid, ocassion) %>% summarize(r = sum(Hunted_Coati), e = sum(hunting_effort))
+group_by_grid_and_ocassion_hunting <- function(data){
+  grouped_data <- data %>% group_by(Grid, session, ocassion) %>% 
+      summarize(r = sum(Hunted_Coati), e = sum(hunting_effort)) %>% 
+      ungroup() %>% 
+      mutate(Method = "Hunting")
+  return(grouped_data)
+}
+
+group_by_grid_and_ocassion_trapping <- function(data){
+  grouped_data <- data %>% group_by(Grid, session, ocassion) %>% 
+      summarize(r = sum(Captured_Coati), e = sum(`Night-traps`)) %>% 
+      ungroup() %>% 
+      mutate(Method = "Trapping")
   return(grouped_data)
 }
