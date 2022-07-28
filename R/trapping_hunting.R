@@ -22,3 +22,8 @@ select_columns <- function(data) {
   clean_data <- data %>% select(-c(Sector, Persons_on_terrain))
   return(clean_data)
 }
+
+group_by_grid_and_ocassion <- function(data){
+  grouped_data <- data %>% group_by(Grid, ocassion) %>% summarize(r = sum(Hunted_Coati), e = sum(hunting_effort))
+  return(grouped_data)
+}
