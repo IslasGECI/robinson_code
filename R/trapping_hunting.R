@@ -23,23 +23,24 @@ select_columns <- function(data) {
   return(clean_data)
 }
 
-get_removal_and_effort_hunting <- function(data){
-    get_removal_and_effort_by_method(data, `Hunted_Coati`, `hunting_effort`, "Hunting")
+get_removal_and_effort_hunting <- function(data) {
+  get_removal_and_effort_by_method(data, `Hunted_Coati`, `hunting_effort`, "Hunting")
 }
 
-get_removal_and_effort_trapping <- function(data){
-    get_removal_and_effort_by_method(data, `Captured_Coati`, `Night-traps`, "Trapping")
+get_removal_and_effort_trapping <- function(data) {
+  get_removal_and_effort_by_method(data, `Captured_Coati`, `Night-traps`, "Trapping")
 }
 
-get_removal_and_effort_by_method <- function(data, removed, effort, method){
-  grouped_data <- data %>% group_by_grid_session_and_ocassion() %>% 
-      summarize(r = sum({{removed}}), e = sum({{effort}})) %>% 
-      ungroup() %>% 
-      mutate(Method = method)
+get_removal_and_effort_by_method <- function(data, removed, effort, method) {
+  grouped_data <- data %>%
+    group_by_grid_session_and_ocassion() %>%
+    summarize(r = sum({{ removed }}), e = sum({{ effort }})) %>%
+    ungroup() %>%
+    mutate(Method = method)
   return(grouped_data)
 }
 
-group_by_grid_session_and_ocassion <- function(data){
+group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, session, ocassion)
   return(grouped_data)
 }
