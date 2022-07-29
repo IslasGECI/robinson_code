@@ -27,7 +27,7 @@ describe("Get tidy structure from trapping and hunting data", {
     expected_columns <- c("Date", "Grid", "Days_on_terrain", "Hunted_Coati", "Night-traps", "Captured_Coati", "Observed_Coati", "hunting_effort", "ocassion", "session")
     expect_equal(obtained_columns, expected_columns)
   })
-  expect_equal_column <- function(grouped_data, column_name, expected_column){
+  expect_equal_column <- function(grouped_data, column_name, expected_column) {
     obtained_column <- grouped_data[[column_name]]
     expect_equal(obtained_column, expected_column)
   }
@@ -46,7 +46,7 @@ describe("Get tidy structure from trapping and hunting data", {
     expected_hunting_method_grouped_data <- rep("Hunting", 7)
     expect_equal_column(grouped_data, "Method", expected_hunting_method_grouped_data)
   })
-  expect_equal_tidy_structure <- function(tidy_file_path, tidy_from_path_method){
+  expect_equal_tidy_structure <- function(tidy_file_path, tidy_from_path_method) {
     expected_tidy <- read_csv(tidy_file_path)
     obtained_tidy <- tidy_from_path_method(path)
     expect_equal(obtained_tidy, expected_tidy)
