@@ -35,16 +35,22 @@ describe("Get tidy table from trapping and hunting data", {
     grouped_data <- get_removal_and_effort_trapping(trapping_hunting_data)
     expected_trapping_removed_grouped_data <- c(0, 0, 2, 2, 0, 0, 0)
     expect_equal_column(grouped_data, "r", expected_trapping_removed_grouped_data)
-
     expected_trapping_effort_grouped_data <- c(5, 0, 1, 5, 8, 8, 4)
     expect_equal_column(grouped_data, "e", expected_trapping_effort_grouped_data)
 
     grouped_data <- get_removal_and_effort_hunting(trapping_hunting_data)
     expected_hunting_effort_grouped_data <- c(21, 10, 18, 18, 30, 30, 9)
     expect_equal_column(grouped_data, "e", expected_hunting_effort_grouped_data)
-
     expected_hunting_method_grouped_data <- rep("Hunting", 7)
     expect_equal_column(grouped_data, "Method", expected_hunting_method_grouped_data)
+
+    grouped_data <- get_detection_and_effort_observation(trapping_hunting_data)
+    expected_observation_effort_grouped_data <- c(21, 10, 18, 18, 30, 30, 9)
+    expect_equal_column(grouped_data, "e", expected_observation_effort_grouped_data)
+    expected_observation_detection_grouped_data <- c(0, 0, 3, 0, 0, 0, 0)
+    expect_equal_column(grouped_data, "r", expected_observation_detection_grouped_data)
+    expected_observation_method_grouped_data <- rep("Observation", 7)
+    expect_equal_column(grouped_data, "Method", expected_observation_method_grouped_data)
   })
   expect_equal_tidy_table <- function(tidy_file_path, tidy_from_path_method) {
     expected_tidy <- read_csv(tidy_file_path)
