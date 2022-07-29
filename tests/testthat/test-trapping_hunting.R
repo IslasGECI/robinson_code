@@ -29,7 +29,6 @@ describe("Get tidy structure from trapping and hunting data", {
   })
   it("Group by grid and ocassion", {
     grouped_data <- get_removal_and_effort_trapping(trapping_hunting_data)
-    write_csv(grouped_data, "tidy_trapping.csv")
     obtained_trapping_removed_grouped_data <- grouped_data$r
     expected_trapping_removed_grouped_data <- c(0, 0, 2, 2, 0, 0, 0)
     expect_equal(obtained_trapping_removed_grouped_data, expected_trapping_removed_grouped_data)
@@ -48,9 +47,14 @@ describe("Get tidy structure from trapping and hunting data", {
     expect_equal(obtained_hunting_method_grouped_data, expected_hunting_method_grouped_data)
   })
   it("Test tidy structure for trapping", {
-    expected_tidy <- read_csv("../data/tidy_trapping.csv")
+    tidy_file <- "../data/tidy_trapping.csv"
+    expected_tidy <- read_csv(tidy_file)
+    if (file.exists(tidy_file)){
+      file.remove(tidy_file)
+    }
     path <- "../data/input_trapping_hunting.csv"
     obtained_tidy <- tidy_from_path_trapping(path)
+    write_csv(expected_tidy, tidy_file)
     expect_equal(obtained_tidy, expected_tidy)
   })
 })
