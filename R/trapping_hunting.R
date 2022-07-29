@@ -54,3 +54,13 @@ tidy_from_path_trapping <- function(path){
   tidy_trapping <- get_removal_and_effort_trapping(trapping_hunting_data)
   return(tidy_trapping)
 }
+
+tidy_from_path_hunting <- function(path){
+  raw_data <- read_csv(path)
+  trapping_hunting_data <- get_hunting_effort(raw_data) %>%
+      get_ocassion() %>%
+      get_session() %>%
+      select_columns()
+  tidy_hunting <- get_removal_and_effort_hunting(trapping_hunting_data)
+  return(tidy_hunting)
+}
