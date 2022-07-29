@@ -57,4 +57,15 @@ describe("Get tidy structure from trapping and hunting data", {
     write_csv(expected_tidy, tidy_file)
     expect_equal(obtained_tidy, expected_tidy)
   })
+  it("Test tidy structure for hunting", {
+    tidy_file <- "../data/tidy_hunting.csv"
+    expected_tidy <- read_csv(tidy_file)
+    if (file.exists(tidy_file)){
+      file.remove(tidy_file)
+    }
+    path <- "../data/input_trapping_hunting.csv"
+    obtained_tidy <- tidy_from_path_hunting(path)
+    write_csv(expected_tidy, tidy_file)
+    expect_equal(obtained_tidy, expected_tidy)
+  })
 })
