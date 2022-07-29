@@ -44,3 +44,7 @@ group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, session, ocassion)
   return(grouped_data)
 }
+
+tidy_from_path_trapping <- function(path){
+  return(read_csv("../data/tidy_trapping.csv"))
+}
