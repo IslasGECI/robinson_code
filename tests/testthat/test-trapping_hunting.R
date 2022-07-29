@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Get tidy structure from trapping and hunting data", {
+describe("Get tidy table from trapping and hunting data", {
   path <- "../data/input_trapping_hunting.csv"
   raw_data <- read_csv(path)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
@@ -46,17 +46,17 @@ describe("Get tidy structure from trapping and hunting data", {
     expected_hunting_method_grouped_data <- rep("Hunting", 7)
     expect_equal_column(grouped_data, "Method", expected_hunting_method_grouped_data)
   })
-  expect_equal_tidy_structure <- function(tidy_file_path, tidy_from_path_method) {
+  expect_equal_tidy_table <- function(tidy_file_path, tidy_from_path_method) {
     expected_tidy <- read_csv(tidy_file_path)
     obtained_tidy <- tidy_from_path_method(path)
     expect_equal(obtained_tidy, expected_tidy)
   }
-  it("Test tidy structure for trapping", {
+  it("Test tidy table for trapping", {
     tidy_file_path <- "../data/tidy_trapping.csv"
-    expect_equal_tidy_structure(tidy_file_path, tidy_from_path_trapping)
+    expect_equal_tidy_table(tidy_file_path, tidy_from_path_trapping)
   })
-  it("Test tidy structure for hunting", {
+  it("Test tidy table for hunting", {
     tidy_file_path <- "../data/tidy_hunting.csv"
-    expect_equal_tidy_structure(tidy_file_path, tidy_from_path_hunting)
+    expect_equal_tidy_table(tidy_file_path, tidy_from_path_hunting)
   })
 })
