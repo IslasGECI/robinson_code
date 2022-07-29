@@ -1,20 +1,20 @@
 library(tidyverse)
 
-tidy_from_path_observation <- function(path){
+tidy_from_path_observation <- function(path) {
   tidy_from_path_by_method(path, get_detection_and_effort_observation)
 }
-tidy_from_path_hunting <- function(path){
+tidy_from_path_hunting <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_hunting)
 }
-tidy_from_path_trapping <- function(path){
+tidy_from_path_trapping <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_trapping)
 }
-tidy_from_path_by_method <- function(path, get_removal_and_effort_method){
+tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
   raw_data <- read_csv(path)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
-      get_ocassion() %>%
-      get_session() %>%
-      select_columns()
+    get_ocassion() %>%
+    get_session() %>%
+    select_columns()
   tidy_trapping <- get_removal_and_effort_method(trapping_hunting_data)
   return(tidy_trapping)
 }
@@ -65,9 +65,9 @@ group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, session, ocassion)
   return(grouped_data)
 }
-tidy_from_path_field <- function(path){
+tidy_from_path_field <- function(path) {
   tidy_trapping <- tidy_from_path_trapping(path)
   tidy_hunting <- tidy_from_path_hunting(path)
   tidy_observation <- tidy_from_path_observation(path)
-  return(full_join(tidy_hunting, tidy_trapping)%>% full_join(tidy_observation))
+  return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
