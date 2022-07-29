@@ -1,5 +1,8 @@
 library(tidyverse)
 
+tidy_from_path_observation <- function(path){
+  tidy_from_path_by_method(path, get_detection_and_effort_observation)
+}
 tidy_from_path_hunting <- function(path){
   tidy_from_path_by_method(path, get_removal_and_effort_hunting)
 }
@@ -65,5 +68,6 @@ group_by_grid_session_and_ocassion <- function(data) {
 tidy_from_path_field <- function(path){
   tidy_trapping <- tidy_from_path_trapping(path)
   tidy_hunting <- tidy_from_path_hunting(path)
-  return(full_join(tidy_hunting, tidy_trapping))
+  tidy_observation <- tidy_from_path_observation(path)
+  return(full_join(tidy_hunting, tidy_trapping)%>% full_join(tidy_observation))
 }
