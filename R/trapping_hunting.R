@@ -46,5 +46,11 @@ group_by_grid_session_and_ocassion <- function(data) {
 }
 
 tidy_from_path_trapping <- function(path){
-  return(read_csv("../data/tidy_trapping.csv"))
+  raw_data <- read_csv(path)
+  trapping_hunting_data <- get_hunting_effort(raw_data) %>%
+      get_ocassion() %>%
+      get_session() %>%
+      select_columns()
+  tidy_trapping <- get_removal_and_effort_trapping(trapping_hunting_data)
+  return(tidy_trapping)
 }
