@@ -82,15 +82,11 @@ describe("Group data by day", {
     expected_id <- c(1, 2, 10, 10)
     expected_ocassion <- c(13, 14, 14, 14)
     expected_captures <- c(1, 0, 1, 0)
-    expected_method <- c("Camera-Traps", "Camera-Traps", "Camera-Traps", "Camera-Traps")
-    expected_effort <- c(1, 1, 1, 1)
     expected_grouped <- tibble(
       camera_id = expected_id,
       ocassion = expected_ocassion,
       day = c(2, 4, 4, 5),
-      r = expected_captures,
-      e = expected_effort,
-      method = expected_method
+      r = expected_captures
     )
     expect_equal(obtained_grouped, expected_grouped)
   })
