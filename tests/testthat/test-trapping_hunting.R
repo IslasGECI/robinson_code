@@ -59,4 +59,10 @@ describe("Get tidy table from trapping and hunting data", {
     tidy_file_path <- "../data/tidy_hunting.csv"
     expect_equal_tidy_table(tidy_file_path, tidy_from_path_hunting)
   })
+  it("Concatenate tidy tables", {
+    tidy_field_path <- "../data/tidy_from_field.csv"
+    expected_tidy_table_from_field <- read_csv(tidy_field_path)
+    obtained_tidy_table_from_field <- tidy_from_path_field(path)
+    expect_equal(obtained_tidy_table_from_field, expected_tidy_table_from_field)
+  })
 })
