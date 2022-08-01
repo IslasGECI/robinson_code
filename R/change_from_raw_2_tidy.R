@@ -70,6 +70,13 @@ calculate_effort <- function(grouped_data) {
   return(group_by_id_ocassion)
 }
 
+get_grid_from_camera_id <- function(tidy_camera){
+  camera_coordinates <- read_csv("../data/camera_traps_coordinates.csv")
+  tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>% 
+      select(Grid = `N Cuadricula`, session, ocassion, r, e, Method)
+  return(tidy_grid)
+}
+
 #' @export
 tidy_from_path <- function(path) {
   data <- readr::read_csv(path)
@@ -77,6 +84,6 @@ tidy_from_path <- function(path) {
   filtered_structure <- filter_raw_data(filled_data)
   capture_by_window <- group_data_by_window(filtered_structure)
   obtained_grouped <- group_filtered_data(capture_by_window)
-  obtained_effort <- calculate_effort(obtained_grouped)
+  obtained_effort <- calculate_effort(obtained_grouped) %>% get_grid_from_camera_id()
   return(obtained_effort)
 }

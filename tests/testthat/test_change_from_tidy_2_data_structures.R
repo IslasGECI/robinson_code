@@ -6,11 +6,11 @@ describe("We define the expected data structures", {
     tidy_table <- tidy_from_path(path)
     obtained_final_structure <- tidy_2_final(tidy_table)
     expected_final_structure <- tibble(
-      camera_id = c(1, 2, 10),
+      Grid = c(38, 15, 31),
       session = c(4, 4, 4),
       Method = c("Camera-Traps", "Camera-Traps", "Camera-Traps"),
       r_1 = c(1, NA, NA),
-      r_2 = c(NA, 0, 1),
+      r_2 = c(NA, 1, 0),
       e_1 = c(1, NA, NA),
       e_2 = c(NA, 1, 1)
     )
