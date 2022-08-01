@@ -2,8 +2,11 @@ library(tidyverse)
 
 describe("We define the expected data structures", {
   it("Expected data structure", {
-    path <- "../data/raw_cameras.csv"
-    tidy_table <- tidy_from_path(path)
+    path_cameras <- "../data/raw_cameras.csv"
+    path_field <- "../data/input_trapping_hunting.csv"
+    path_coordinates <- "../data/camera_traps_coordinates.csv"
+    paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
+    tidy_table <- tidy_from_path(paths)
     obtained_final_structure <- tidy_2_final(tidy_table)
     expected_final_structure <- tibble(
       Grid = c(38, 15, 31),

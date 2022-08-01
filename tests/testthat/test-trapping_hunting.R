@@ -74,7 +74,7 @@ describe("Get tidy table from trapping and hunting data", {
   it("Concatenate camera traps and field tidy tables", {
     tidy_four_methods_path <- "../data/tidy_four_methods.csv"
     expected_tidy_four_methods <- read_csv(tidy_four_methods_path)
-    PATHS <- list("field" = "../data/input_trapping_hunting.csv", "cameras" = "../data/raw_cameras_with_detection.csv")
+    PATHS <- list("field" = "../data/input_trapping_hunting.csv", "cameras" = "../data/raw_cameras_with_detection.csv", "coordinates" = "../data/camera_traps_coordinates.csv")
     obtained_tidy_four_methods <- get_tidy_from_field_and_cameras(PATHS)
     expect_equal(obtained_tidy_four_methods, expected_tidy_four_methods)
   })

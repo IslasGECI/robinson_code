@@ -111,8 +111,11 @@ describe("Get camera traps tidy table", {
   it("Get tidy from path", {
     tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
     expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps)
-    path <- "../data/raw_cameras_with_detection.csv"
-    obtained_tidy_camera_traps <- tidy_from_path(path)
+    path_cameras <- "../data/raw_cameras_with_detection.csv"
+    path_field <- "../data/input_trapping_hunting.csv"
+    path_coordinates <- "../data/camera_traps_coordinates.csv"
+    paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
+    obtained_tidy_camera_traps <- tidy_from_path(paths)
     expect_equal(obtained_tidy_camera_traps, expected_tidy_camera_traps)
   })
 })
