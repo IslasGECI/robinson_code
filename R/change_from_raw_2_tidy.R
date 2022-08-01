@@ -70,10 +70,10 @@ calculate_effort <- function(grouped_data) {
   return(group_by_id_ocassion)
 }
 
-get_grid_from_camera_id <- function(tidy_camera,coordinates_path){
+get_grid_from_camera_id <- function(tidy_camera, coordinates_path) {
   camera_coordinates <- read_csv(coordinates_path)
-  tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>% 
-      select(Grid = `N Cuadricula`, session, ocassion, r, e, Method)
+  tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>%
+    select(Grid = `N Cuadricula`, session, ocassion, r, e, Method)
   return(tidy_grid)
 }
 
