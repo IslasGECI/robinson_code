@@ -54,7 +54,7 @@ group_data_by_window <- function(filtered_structure) {
 
 group_filtered_data <- function(filter_table) {
   filtered_structure <- filter_table %>%
-    group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
+    group_by(camera_id, ocassion, day = lubridate::day(date), session = lubridate::month(date)) %>%
     summarize(r = sum(coati_count)) %>%
     ungroup()
   return(filtered_structure)
