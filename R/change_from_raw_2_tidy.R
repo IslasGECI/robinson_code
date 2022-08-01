@@ -63,10 +63,10 @@ group_filtered_data <- function(filter_table) {
 
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
-    group_by(camera_id, ocassion) %>%
+    group_by(camera_id, session, ocassion) %>%
     summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
     ungroup() %>%
-    mutate(Method = "Camera-Traps", session = 4)
+    mutate(Method = "Camera-Traps")
   return(group_by_id_ocassion)
 }
 
