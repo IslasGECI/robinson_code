@@ -71,3 +71,8 @@ tidy_from_path_field <- function(path) {
   tidy_observation <- tidy_from_path_observation(path)
   return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
+get_tidy_from_field_and_cameras <- function(paths) {
+  tidy_field <- tidy_from_path_field(paths[["field"]])
+  tidy_camera <- tidy_from_path(paths[["cameras"]])
+  return(rbind(tidy_field, tidy_camera ))
+}
