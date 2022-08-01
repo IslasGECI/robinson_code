@@ -22,11 +22,11 @@ describe("We define the expected data structures", {
   })
   it("Expected Hunting data structure", {
     method <- "Hunting"
-    obtained_final_structure <- tidy_2_final(tidy_table %>%
-      arrange(ocassion) %>%
-      filter(Method == method, session == 4)) %>%
-      arrange(Grid)
-
+    obtained_final_structure <- new_class(tidy_table)
+    final_structure$select_session(4)
+    final_structure$select_method(method)
+    obtained_final_structure <- final_structure$non_spatial()
+    obtained_final_structure <- final_structure$spatial()
     path_expected <- "../data/hunting_final_structure.csv"
     expected_final_structure <- read_csv(path_expected)
     expect_equal(obtained_final_structure, expected_final_structure)
