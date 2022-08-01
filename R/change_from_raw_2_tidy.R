@@ -54,9 +54,8 @@ group_data_by_window <- function(filtered_structure) {
 
 group_filtered_data <- function(filter_table) {
   filtered_structure <- filter_table %>%
-    group_by(camera_id, ocassion, day = lubridate::day(date)) %>%
+    group_by(camera_id, ocassion, day = lubridate::day(date), session = lubridate::month(date)) %>%
     summarize(r = sum(coati_count)) %>%
-    mutate(e = 1, method = "Camera-Traps") %>%
     ungroup()
   return(filtered_structure)
 }
@@ -64,20 +63,27 @@ group_filtered_data <- function(filter_table) {
 
 calculate_effort <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
-    group_by(camera_id, ocassion) %>%
+    group_by(camera_id, session, ocassion) %>%
     summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
     ungroup() %>%
-    mutate(method = "Camera-Traps", session = 4)
+    mutate(Method = "Camera-Traps")
   return(group_by_id_ocassion)
+}
+
+get_grid_from_camera_id <- function(tidy_camera, coordinates_path) {
+  camera_coordinates <- read_csv(coordinates_path)
+  tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>%
+    select(Grid = `N Cuadricula`, session, ocassion, r, e, Method)
+  return(tidy_grid)
 }
 
 #' @export
 tidy_from_path <- function(path) {
-  data <- readr::read_csv(path)
+  data <- readr::read_csv(path[["cameras"]])
   filled_data <- fill_dates(data)
   filtered_structure <- filter_raw_data(filled_data)
   capture_by_window <- group_data_by_window(filtered_structure)
   obtained_grouped <- group_filtered_data(capture_by_window)
-  obtained_effort <- calculate_effort(obtained_grouped)
+  obtained_effort <- calculate_effort(obtained_grouped) %>% get_grid_from_camera_id(path[["coordinates"]])
   return(obtained_effort)
 }

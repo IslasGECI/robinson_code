@@ -48,7 +48,7 @@ describe("Define filtered data structure", {
       "2022-04-04 02:02:45"
     )
     expected_ocassion <- c(rep(13, 4), 14, 14)
-    expected_id <- c(1, 1, 1, 1, 2, 10)
+    expected_id <- c(1, 1, 1, 1, 22, 10)
     expected_coati_count <- c(0, 0, 0, 1, 0, 1)
     expected_structure <- tibble(
       date = c(expected_dates),
@@ -82,15 +82,12 @@ describe("Group data by day", {
     expected_id <- c(1, 2, 10, 10)
     expected_ocassion <- c(13, 14, 14, 14)
     expected_captures <- c(1, 0, 1, 0)
-    expected_method <- c("Camera-Traps", "Camera-Traps", "Camera-Traps", "Camera-Traps")
-    expected_effort <- c(1, 1, 1, 1)
     expected_grouped <- tibble(
       camera_id = expected_id,
       ocassion = expected_ocassion,
       day = c(2, 4, 4, 5),
-      r = expected_captures,
-      e = expected_effort,
-      method = expected_method
+      session = rep(4, 4),
+      r = expected_captures
     )
     expect_equal(obtained_grouped, expected_grouped)
   })
@@ -100,11 +97,25 @@ describe("Calculate effort", {
   it("Compute effort from grouped data with different ocassion", {
     path <- "../data/capture_by_window_camera_1.csv"
     data <- read_csv(path)
-    obtained_effort <- calculate_effort(data)$e
+    obtained_tidy_camera_traps <- calculate_effort(data)
+    obtained_effort <- obtained_tidy_camera_traps$e
     expected_effort <- c(1, 6, 7, 6, 6)
     expect_equal(obtained_effort, expected_effort)
     obtained_captures <- calculate_effort(data)$r
     expected_captures <- c(0, 0, 5, 0, 0)
     expect_equal(obtained_captures, expected_captures)
+  })
+})
+
+describe("Get camera traps tidy table", {
+  it("Get tidy from path", {
+    tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
+    expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps)
+    path_cameras <- "../data/raw_cameras_with_detection.csv"
+    path_field <- "../data/input_trapping_hunting.csv"
+    path_coordinates <- "../data/camera_traps_coordinates.csv"
+    paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
+    obtained_tidy_camera_traps <- tidy_from_path(paths)
+    expect_equal(obtained_tidy_camera_traps, expected_tidy_camera_traps)
   })
 })
