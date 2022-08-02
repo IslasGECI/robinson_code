@@ -8,7 +8,10 @@ describe("We define the expected data structures", {
   tidy_table <- get_tidy_from_field_and_cameras(paths)
   it("Expected Camera-Traps data structure", {
     method <- "Camera-Traps"
-    obtained_final_structure <- tidy_2_final(tidy_table %>% filter(Method == method))
+    final_structure <- Filter_tidy$new(tidy_table)
+    final_structure$select_session(4)
+    final_structure$select_method(method)
+    obtained_final_structure <- final_structure$spatial()
     expected_final_structure <- tibble(
       Grid = c(38, 15, 31),
       session = c(4, 4, 4),
@@ -22,13 +25,12 @@ describe("We define the expected data structures", {
   })
   it("Expected Hunting data structure", {
     method <- "Hunting"
-    obtained_final_structure <- new_class(tidy_table)
+    final_structure <- Filter_tidy$new(tidy_table)
     final_structure$select_session(4)
     final_structure$select_method(method)
-    obtained_final_structure <- final_structure$non_spatial()
     obtained_final_structure <- final_structure$spatial()
     path_expected <- "../data/hunting_final_structure.csv"
-    expected_final_structure <- read_csv(path_expected)
+    expected_final_structure <- read_csv(path_expected, show_col_types = FALSE)
     expect_equal(obtained_final_structure, expected_final_structure)
   })
 })
