@@ -46,3 +46,28 @@ describe("We define the expected data structures", {
     expect_equal(obtained_weeks, expected_weeks)
   })
 })
+describe("Make join to add missing weeks in a grid", {
+  it("For example for grid 49 and month 4", {
+    filtered_tall_table <- read_csv("../data/input_april_filtered_tall_hunting.csv")
+    expected_missing_weeks <- read_csv("../data/output_april_filtered_tall_hunting.csv")
+    month <- 4
+    obtained_missing_weeks <- fill_missing_weeks_with_empty_rows(filtered_tall_table, month)
+    expect_equal(obtained_missing_weeks, expected_missing_weeks)
+  })
+})
+describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid and ocassion", {
+  it("For the example grid = 49 and session = 4", {
+    grid <- 49
+    month <- 4
+    obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
+    expected_missing_weeks <- tibble(Grid = 49, ocassion = 13:18)
+    expect_equal(obtained_missing_weeks, expected_missing_weeks)
+  })
+  it("For the example grid = 1 and session = 5", {
+    grid <- 1
+    month <- 5
+    obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
+    expected_missing_weeks <- tibble(Grid = grid, ocassion = 18:22)
+    expect_equal(obtained_missing_weeks, expected_missing_weeks)
+  })
+})
