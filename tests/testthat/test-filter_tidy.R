@@ -10,7 +10,7 @@ describe("Test tidy filters", {
     final_structure <- Filter_tidy$new(tidy_table)
     final_structure$select_session(3)
     obtained_session <- final_structure$aux$session
-    expected_session <- rep(3,3)
+    expected_session <- rep(3, 3)
     expect_equal(obtained_session, expected_session)
   })
   it("Filter by method", {
@@ -21,8 +21,8 @@ describe("Test tidy filters", {
     expected_method <- rep("Camera-Traps", 3)
     expect_equal(obtained_method, expected_method)
   })
-  it("Filter both, session first",{
-    method <- "Hunting" 
+  it("Filter both, session first", {
+    method <- "Hunting"
     session <- 5
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_session(session)
@@ -34,8 +34,8 @@ describe("Test tidy filters", {
     obtained_method <- filter_tidy$aux$Method
     expect_equal(obtained_method, rep("Hunting", 1))
   })
-  it("Filter both, method first",{
-    method <- "Hunting" 
+  it("Filter both, method first", {
+    method <- "Hunting"
     session <- 5
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_method(method)

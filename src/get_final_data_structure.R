@@ -7,6 +7,7 @@ path_coordinates <- "data/raw/robinson_coati_detection_camera_traps/camera_trap_
 
 paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates) 
 tidy_table <- get_tidy_from_field_and_cameras(paths)
+
 filter_tidy <-Filter_tidy$new(tidy_table)
 filter_tidy$select_session(4)
 filter_tidy$select_method("Hunting")
