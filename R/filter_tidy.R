@@ -1,4 +1,4 @@
-
+#' @export
 Filter_tidy <- R6::R6Class("Filter_tidy",
   public = list(
     tidy_table = NULL,
