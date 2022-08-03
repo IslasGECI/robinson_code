@@ -1,5 +1,4 @@
 library(tidyverse)
-library(lubridate)
 
 fill_missing_weeks_with_empty_rows <- function(filtered_tall_table, month) {
   grid <- 49
@@ -15,11 +14,11 @@ get_tibble_with_grid_ocassion_columns <- function(grid, month) {
 
 get_first_last_week_from_month <- function(month) {
   first_day_of_month_string <- paste0("2022-", month, "-01")
-  first_day_of_month <- ymd(first_day_of_month_string)
-  first_week_of_month <- week(first_day_of_month)
-  last_of_january <- ymd("2022-01-31")
-  last_day_of_month <- last_of_january %m+% months(month - 1)
-  last_week_of_month <- week(last_day_of_month)
+  first_day_of_month <- lubridate::ymd(first_day_of_month_string)
+  first_week_of_month <- lubridate::isoweek(first_day_of_month)
+  last_of_january <- lubridate::ymd("2022-01-31")
+  last_day_of_month <- lubridate::add_with_rollback(last_of_january, months(month - 1))
+  last_week_of_month <- lubridate::isoweek(last_day_of_month)
   return(c(first_week_of_month, last_week_of_month))
 }
 

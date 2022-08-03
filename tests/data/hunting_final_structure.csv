@@ -1,5 +1,5 @@
-Grid,session,Method,r_1,r_2,r_3,e_1,e_2,e_3
-14,4,Hunting,NA,14,NA,NA,10,NA
-24,4,Hunting,20,NA,NA,18,NA,NA
-44,4,Hunting,NA,NA,18,NA,NA,18
-49,4,Hunting,0,0,NA,30,9,NA
+Grid,session,Method,r_1,r_2,r_3,r_4,r_5,e_1,e_2,e_3,e_4,e_5
+14,4,Hunting,NA,NA,14,NA,NA,NA,NA,10,NA,NA
+24,4,Hunting,NA,20,NA,NA,NA,NA,18,NA,NA,NA
+44,4,Hunting,NA,NA,NA,18,NA,NA,NA,NA,18,NA
+49,4,Hunting,NA,0,0,NA,NA,NA,30,9,NA,NA
