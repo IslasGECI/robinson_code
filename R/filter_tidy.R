@@ -4,8 +4,8 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
     tidy_table = NULL,
     aux = NULL,
     initialize = function(tidy_table) {
-        self$tidy_table <- tidy_table
-        self$aux <- tidy_table
+        self$tidy_table <- tidy_table %>% arrange(ocassion)
+        self$aux <- tidy_table %>% arrange(ocassion)
     },
     select_session = function(month) {
         self$aux <- self$aux %>% filter(session == month)
@@ -14,8 +14,9 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
         self$aux <- self$aux %>% filter(Method == method)
     },
     spatial = function() {
-      path_expected <- "../data/hunting_final_structure.csv"
-      expected_final_structure <- read_csv(path_expected)
+      final_structure <- tidy_2_final(self$aux)
+      final_structure <- final_structure %>% arrange(Grid)
+      return(final_structure)
     }
   )
 )

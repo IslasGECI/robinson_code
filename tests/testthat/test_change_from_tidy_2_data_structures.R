@@ -13,13 +13,13 @@ describe("We define the expected data structures", {
     final_structure$select_method(method)
     obtained_final_structure <- final_structure$spatial()
     expected_final_structure <- tibble(
-      Grid = c(38, 15, 31),
+      Grid = c(15, 31, 38),
       session = c(4, 4, 4),
       Method = c("Camera-Traps", "Camera-Traps", "Camera-Traps"),
-      r_1 = c(1, NA, NA),
-      r_2 = c(NA, 1, 0),
-      e_1 = c(1, NA, NA),
-      e_2 = c(NA, 1, 1)
+      r_1 = c(NA, NA, 1),
+      r_2 = c(1, 0, NA),
+      e_1 = c(NA, NA, 1),
+      e_2 = c(1, 1, NA)
     )
     expect_equal(obtained_final_structure, expected_final_structure)
   })
