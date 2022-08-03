@@ -1,6 +1,10 @@
 library(tidyverse)
 
 
+get_first_last_week_from_month <- function(month){
+  return(c(13,18))
+}
+
 #' @export
 tidy_2_final <- function(tidy_table) {
   first_month_week <- min(tidy_table$ocassion)
