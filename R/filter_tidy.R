@@ -18,7 +18,8 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
       private$fix_missing_months()
       final_structure <- tidy_2_final(self$aux)
       final_structure <- final_structure %>%
-        arrange(Grid) %>% filter(!is.na(session))
+        arrange(Grid) %>%
+        filter(!is.na(session))
       return(final_structure)
     }
   ),

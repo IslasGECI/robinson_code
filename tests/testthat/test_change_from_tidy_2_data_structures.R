@@ -6,7 +6,10 @@ describe("We define the expected data structures", {
   path_coordinates <- "../data/camera_traps_coordinates.csv"
   paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
   tidy_table <- get_tidy_from_field_and_cameras(paths)
-  capturas <- tidy_table %>% filter(session==4) %>% group_by(Method) %>% summarize(capturas = sum(r))
+  capturas <- tidy_table %>%
+    filter(session == 4) %>%
+    group_by(Method) %>%
+    summarize(capturas = sum(r))
   it("Expected Camera-Traps data structure", {
     method <- "Camera-Traps"
     final_structure <- Filter_tidy$new(tidy_table)
@@ -29,8 +32,10 @@ describe("We define the expected data structures", {
       e_5 = as.numeric(NA),
     )
     expect_equal(obtained_final_structure, expected_final_structure)
-    expected_capture <- capturas %>% filter(Method == "Camera-Traps") %>% .$capturas
-    obtained_capture <- sum(sum(obtained_final_structure[,4:8], na.rm= TRUE))
+    expected_capture <- capturas %>%
+      filter(Method == "Camera-Traps") %>%
+      .$capturas
+    obtained_capture <- sum(sum(obtained_final_structure[, 4:8], na.rm = TRUE))
     expect_equal(obtained_capture, expected_capture)
   })
   it("Expected Hunting data structure", {
@@ -42,9 +47,11 @@ describe("We define the expected data structures", {
     path_expected <- "../data/hunting_final_structure.csv"
     expected_final_structure <- read_csv(path_expected, show_col_types = FALSE, col_types = "nncnnnnnnnnnn")
     expect_equal(obtained_final_structure, expected_final_structure)
-    
-    expected_capture <- capturas %>% filter(Method == "Hunting") %>% .$capturas
-    obtained_capture <- sum(sum(obtained_final_structure[,4:8], na.rm= TRUE))
+
+    expected_capture <- capturas %>%
+      filter(Method == "Hunting") %>%
+      .$capturas
+    obtained_capture <- sum(sum(obtained_final_structure[, 4:8], na.rm = TRUE))
     expect_equal(obtained_capture, expected_capture)
   })
 })
@@ -87,4 +94,3 @@ describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid 
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
 })
-
