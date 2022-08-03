@@ -33,4 +33,16 @@ describe("We define the expected data structures", {
     expected_final_structure <- read_csv(path_expected, show_col_types = FALSE)
     expect_equal(obtained_final_structure, expected_final_structure)
   })
+  it("Get first and final week from April",{
+         month <- 4
+         expected_weeks <- c(13,18)
+         obtained_weeks <- get_first_last_week_from_month(month)
+         expect_equal(obtained_weeks, expected_weeks)
+  })
+  it("Get first and final week from May",{
+         month <- 5
+         expected_weeks <- c(18,22)
+         obtained_weeks <- get_first_last_week_from_month(month)
+         expect_equal(obtained_weeks, expected_weeks)
+  })
 })
