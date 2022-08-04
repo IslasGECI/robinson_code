@@ -52,7 +52,7 @@ count_detection_by_window <- function(filtered_structure) {
 }
 
 
-group_filtered_data <- function(filter_table) {
+count_detection_by_day <- function(filter_table) {
   filtered_structure <- filter_table %>%
     group_by(camera_id, Ocassion, day = lubridate::day(date), Session = lubridate::month(date)) %>%
     summarize(r = sum(coati_count)) %>%
@@ -84,7 +84,7 @@ tidy_from_path <- function(path) {
     fill_dates() %>%
     select_date_ocassion_camera_and_detection_columns() %>%
     count_detection_by_window() %>%
-    group_filtered_data() %>%
+    count_detection_by_day() %>%
     add_effort_and_capture_columns_by_camera() %>%
     get_grid_from_camera_id(path[["coordinates"]])
   return(tidy_table)
