@@ -61,7 +61,7 @@ group_filtered_data <- function(filter_table) {
 }
 
 
-calculate_effort <- function(grouped_data) {
+add_effort_and_capture_columns_by_camera <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
     group_by(camera_id, Session, Ocassion) %>%
     summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
@@ -79,12 +79,13 @@ get_grid_from_camera_id <- function(tidy_camera, coordinates_path) {
 
 #' @export
 tidy_from_path <- function(path) {
-  data <- readr::read_csv(path[["cameras"]])
-  tidy_table <- fill_dates(data) %>%
-  filter_raw_data() %>%
-  group_data_by_window() %>%
-  group_filtered_data() %>%
-  calculate_effort() %>% 
-  get_grid_from_camera_id(path[["coordinates"]])
+  data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
+  tidy_table <- data %>%
+    fill_dates() %>%
+    filter_raw_data() %>%
+    group_data_by_window() %>%
+    group_filtered_data() %>%
+    add_effort_and_capture_columns_by_camera() %>%
+    get_grid_from_camera_id(path[["coordinates"]])
   return(tidy_table)
 }

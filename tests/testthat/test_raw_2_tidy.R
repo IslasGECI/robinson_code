@@ -97,11 +97,11 @@ describe("Calculate effort", {
   it("Compute effort from grouped data with different ocassion", {
     path <- "../data/capture_by_window_camera_1.csv"
     data <- read_csv(path)
-    obtained_tidy_camera_traps <- calculate_effort(data)
+    obtained_tidy_camera_traps <- add_effort_and_capture_columns_by_camera(data)
     obtained_effort <- obtained_tidy_camera_traps$e
     expected_effort <- c(1, 6, 7, 6, 6)
     expect_equal(obtained_effort, expected_effort)
-    obtained_captures <- calculate_effort(data)$r
+    obtained_captures <- add_effort_and_capture_columns_by_camera(data)$r
     expected_captures <- c(0, 0, 5, 0, 0)
     expect_equal(obtained_captures, expected_captures)
   })
