@@ -26,7 +26,7 @@ fill_dates <- function(raw_data) {
   return(bind_rows(raw_data, missing_rows))
 }
 
-filter_raw_data <- function(data) {
+select_date_ocassion_camera_detection_columns <- function(data) {
   dates <- as.character(data$DateTime)
   ocassions <- lubridate::isoweek(dates)
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
@@ -82,7 +82,7 @@ tidy_from_path <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
     fill_dates() %>%
-    filter_raw_data() %>%
+    select_date_ocassion_camera_detection_columns() %>%
     group_data_by_window() %>%
     group_filtered_data() %>%
     add_effort_and_capture_columns_by_camera() %>%
