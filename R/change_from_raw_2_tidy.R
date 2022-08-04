@@ -61,7 +61,7 @@ count_detection_by_day <- function(filter_table) {
 }
 
 
-add_effort_and_capture_columns_by_camera <- function(grouped_data) {
+add_effort_and_detection_columns_by_ocassion <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
     group_by(camera_id, Session, Ocassion) %>%
     summarize(r = sum(r), e = max(day) - min(day) + 1) %>%
@@ -85,7 +85,7 @@ tidy_from_path <- function(path) {
     select_date_ocassion_camera_and_detection_columns() %>%
     count_detection_by_window() %>%
     count_detection_by_day() %>%
-    add_effort_and_capture_columns_by_camera() %>%
+    add_effort_and_detection_columns_by_ocassion() %>%
     get_grid_from_camera_id(path[["coordinates"]])
   return(tidy_table)
 }
