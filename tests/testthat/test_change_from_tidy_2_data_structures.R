@@ -55,7 +55,7 @@ describe("We define the expected data structures", {
     expect_equal(obtained_capture, expected_capture)
   })
 })
-describe("kdfkjghjkhkjhdfjk", {
+describe("Get limit weeks", {
   it("Get first and final week from April", {
     month <- 4
     expected_weeks <- c(13, 17)
