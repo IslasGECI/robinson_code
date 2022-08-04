@@ -9,7 +9,7 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
     },
     select_session = function(month) {
       private$month <- month
-      self$aux <- self$aux %>% filter(session == private$month)
+      self$aux <- self$aux %>% filter(Session == private$month)
     },
     select_method = function(method) {
       self$aux <- self$aux %>% filter(Method == method)
@@ -19,7 +19,7 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
       final_structure <- tidy_2_final(self$aux)
       final_structure <- final_structure %>%
         arrange(Grid) %>%
-        filter(!is.na(session))
+        filter(!is.na(Session))
       return(final_structure)
     }
   ),

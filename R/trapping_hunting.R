@@ -52,7 +52,7 @@ get_ocassion <- function(raw_trapping_hunting) {
 
 get_session <- function(data_trapping_hunting) {
   sessions <- data_trapping_hunting %>%
-    mutate(session = lubridate::month(data_trapping_hunting$Date))
+    mutate(Session = lubridate::month(data_trapping_hunting$Date))
   return(sessions)
 }
 
@@ -62,7 +62,7 @@ select_columns <- function(data) {
 }
 
 group_by_grid_session_and_ocassion <- function(data) {
-  grouped_data <- data %>% group_by(Grid, session, Ocassion)
+  grouped_data <- data %>% group_by(Grid, Session, Ocassion)
   return(grouped_data)
 }
 tidy_from_path_field <- function(path) {

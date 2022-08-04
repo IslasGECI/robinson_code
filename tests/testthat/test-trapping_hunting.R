@@ -18,13 +18,13 @@ describe("Get tidy table from trapping and hunting data", {
     expect_equal(obtained_ocassion, expected_ocassion)
   })
   it("Get session", {
-    obtained_session <- trapping_hunting_data$session
+    obtained_session <- trapping_hunting_data$Session
     expected_session <- c(3, 4, 4, 4, 4, 4, 4, 5)
     expect_equal(obtained_session, expected_session)
   })
   it("Get needed columns", {
     obtained_columns <- colnames(trapping_hunting_data)
-    expected_columns <- c("Date", "Grid", "Days_on_terrain", "Hunted_Coati", "Night-traps", "Captured_Coati", "Observed_Coati", "hunting_effort", "Ocassion", "session")
+    expected_columns <- c("Date", "Grid", "Days_on_terrain", "Hunted_Coati", "Night-traps", "Captured_Coati", "Observed_Coati", "hunting_effort", "Ocassion", "Session")
     expect_equal(obtained_columns, expected_columns)
   })
   expect_equal_column <- function(grouped_data, column_name, expected_column) {

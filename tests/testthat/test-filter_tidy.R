@@ -9,7 +9,7 @@ describe("Test tidy filters", {
   it("Session returns same number", {
     final_structure <- Filter_tidy$new(tidy_table)
     final_structure$select_session(3)
-    obtained_session <- final_structure$aux$session
+    obtained_session <- final_structure$aux$Session
     expected_session <- rep(3, 3)
     expect_equal(obtained_session, expected_session)
   })
@@ -26,10 +26,10 @@ describe("Test tidy filters", {
     session <- 5
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_session(session)
-    obtained_session <- filter_tidy$aux$session
+    obtained_session <- filter_tidy$aux$Session
     expect_equal(obtained_session, rep(5, 3))
     filter_tidy$select_method(method)
-    obtained_session <- filter_tidy$aux$session
+    obtained_session <- filter_tidy$aux$Session
     expect_equal(obtained_session, rep(5, 1))
     obtained_method <- filter_tidy$aux$Method
     expect_equal(obtained_method, rep("Hunting", 1))
@@ -42,7 +42,7 @@ describe("Test tidy filters", {
     obtained_method <- filter_tidy$aux$Method
     expect_equal(obtained_method, rep("Hunting", 7))
     filter_tidy$select_session(session)
-    obtained_session <- filter_tidy$aux$session
+    obtained_session <- filter_tidy$aux$Session
     expect_equal(obtained_session, rep(5, 1))
     obtained_method <- filter_tidy$aux$Method
     expect_equal(obtained_method, rep("Hunting", 1))

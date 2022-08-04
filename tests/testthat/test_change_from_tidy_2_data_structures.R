@@ -7,7 +7,7 @@ describe("We define the expected data structures", {
   paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
   tidy_table <- get_tidy_from_field_and_cameras(paths)
   capturas <- tidy_table %>%
-    filter(session == 4) %>%
+    filter(Session == 4) %>%
     group_by(Method) %>%
     summarize(capturas = sum(r))
   it("Expected Camera-Traps data structure", {
@@ -18,7 +18,7 @@ describe("We define the expected data structures", {
     obtained_final_structure <- final_structure$spatial()
     expected_final_structure <- tibble(
       Grid = c(15, 31, 38),
-      session = c(4, 4, 4),
+      Session = c(4, 4, 4),
       Method = c("Camera-Traps", "Camera-Traps", "Camera-Traps"),
       r_1 = c(NA, NA, 1),
       r_2 = c(1, 0, NA),
