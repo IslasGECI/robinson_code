@@ -78,7 +78,7 @@ replace_camera_id_with_grid_id <- function(tidy_camera, coordinates_path) {
 }
 
 #' @export
-tidy_from_path <- function(path) {
+tidy_from_path_camera <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
     fill_dates() %>%

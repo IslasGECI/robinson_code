@@ -75,6 +75,6 @@ tidy_from_path_field <- function(path) {
 #' @export
 get_tidy_from_field_and_cameras <- function(paths) {
   tidy_field <- tidy_from_path_field(paths[["field"]])
-  tidy_camera <- tidy_from_path(paths)
+  tidy_camera <- tidy_from_path_camera(paths)
   return(rbind(tidy_field, tidy_camera))
 }
