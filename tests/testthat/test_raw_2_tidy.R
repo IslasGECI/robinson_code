@@ -56,7 +56,7 @@ describe("Define filtered data structure", {
       camera_id = expected_id,
       coati_count = expected_coati_count
     )
-    obtained_structure <- select_date_ocassion_camera_detection_columns(data)
+    obtained_structure <- select_date_ocassion_camera_and_detection_columns(data)
     expect_equal(expected_structure, obtained_structure)
   })
 })
@@ -65,8 +65,8 @@ describe("Group data by window", {
   it("Expected grouped data structure", {
     path <- "../data/raw_camera_id_35_and_61.csv"
     data <- read_csv(path)
-    filtered_structure <- select_date_ocassion_camera_detection_columns(data)
-    data_grouped_by_window <- group_data_by_window(filtered_structure)
+    filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
+    data_grouped_by_window <- count_detection_by_window(filtered_structure)
     obtained_grouped <- group_filtered_data(data_grouped_by_window)
     expected_grouped <- read_csv("../data/max_captures_grouped_by_window.csv")
     expect_equal(obtained_grouped, expected_grouped)
@@ -77,7 +77,7 @@ describe("Group data by day", {
   it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path)
-    filtered_structure <- select_date_ocassion_camera_detection_columns(data)
+    filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
     obtained_grouped <- group_filtered_data(filtered_structure)
     expected_id <- c(1, 2, 10, 10)
     expected_ocassion <- c(13, 14, 14, 14)

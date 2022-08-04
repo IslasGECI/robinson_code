@@ -26,7 +26,7 @@ fill_dates <- function(raw_data) {
   return(bind_rows(raw_data, missing_rows))
 }
 
-select_date_ocassion_camera_detection_columns <- function(data) {
+select_date_ocassion_camera_and_detection_columns <- function(data) {
   dates <- as.character(data$DateTime)
   ocassions <- lubridate::isoweek(dates)
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
@@ -41,7 +41,7 @@ select_date_ocassion_camera_detection_columns <- function(data) {
 }
 
 
-group_data_by_window <- function(filtered_structure) {
+count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
     mutate(window = substr(date, start = 0, stop = 15)) %>%
     group_by(window, camera_id, Ocassion) %>%
@@ -82,8 +82,8 @@ tidy_from_path <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
     fill_dates() %>%
-    select_date_ocassion_camera_detection_columns() %>%
-    group_data_by_window() %>%
+    select_date_ocassion_camera_and_detection_columns() %>%
+    count_detection_by_window() %>%
     group_filtered_data() %>%
     add_effort_and_capture_columns_by_camera() %>%
     get_grid_from_camera_id(path[["coordinates"]])
