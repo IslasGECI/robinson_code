@@ -80,10 +80,11 @@ get_grid_from_camera_id <- function(tidy_camera, coordinates_path) {
 #' @export
 tidy_from_path <- function(path) {
   data <- readr::read_csv(path[["cameras"]])
-  filled_data <- fill_dates(data)
-  filtered_structure <- filter_raw_data(filled_data)
-  capture_by_window <- group_data_by_window(filtered_structure)
-  obtained_grouped <- group_filtered_data(capture_by_window)
-  obtained_effort <- calculate_effort(obtained_grouped) %>% get_grid_from_camera_id(path[["coordinates"]])
-  return(obtained_effort)
+  tidy_table <- fill_dates(data) %>%
+  filter_raw_data() %>%
+  group_data_by_window() %>%
+  group_filtered_data() %>%
+  calculate_effort() %>% 
+  get_grid_from_camera_id(path[["coordinates"]])
+  return(tidy_table)
 }
