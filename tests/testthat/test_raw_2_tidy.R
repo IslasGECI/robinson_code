@@ -52,7 +52,7 @@ describe("Define filtered data structure", {
     expected_coati_count <- c(0, 0, 0, 1, 0, 1)
     expected_structure <- tibble(
       date = c(expected_dates),
-      ocassion = c(expected_ocassion),
+      Ocassion = c(expected_ocassion),
       camera_id = expected_id,
       coati_count = expected_coati_count
     )
@@ -84,7 +84,7 @@ describe("Group data by day", {
     expected_captures <- c(1, 0, 1, 0)
     expected_grouped <- tibble(
       camera_id = expected_id,
-      ocassion = expected_ocassion,
+      Ocassion = expected_ocassion,
       day = c(2, 4, 4, 5),
       session = rep(4, 4),
       r = expected_captures

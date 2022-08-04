@@ -83,14 +83,14 @@ describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid 
     grid <- 49
     month <- 4
     obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
-    expected_missing_weeks <- tibble(Grid = 49, ocassion = 13:17)
+    expected_missing_weeks <- tibble(Grid = 49, Ocassion = 13:17)
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
   it("For the example grid = 1 and session = 5", {
     grid <- 1
     month <- 5
     obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
-    expected_missing_weeks <- tibble(Grid = grid, ocassion = 17:22)
+    expected_missing_weeks <- tibble(Grid = grid, Ocassion = 17:22)
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
 })

@@ -46,7 +46,7 @@ get_hunting_effort <- function(raw_trapping_hunting) {
 
 get_ocassion <- function(raw_trapping_hunting) {
   ocassions <- raw_trapping_hunting %>%
-    mutate(ocassion = lubridate::isoweek(raw_trapping_hunting$Date))
+    mutate(Ocassion = lubridate::isoweek(raw_trapping_hunting$Date))
   return(ocassions)
 }
 
@@ -62,7 +62,7 @@ select_columns <- function(data) {
 }
 
 group_by_grid_session_and_ocassion <- function(data) {
-  grouped_data <- data %>% group_by(Grid, session, ocassion)
+  grouped_data <- data %>% group_by(Grid, session, Ocassion)
   return(grouped_data)
 }
 tidy_from_path_field <- function(path) {

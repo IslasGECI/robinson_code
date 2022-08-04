@@ -8,7 +8,7 @@ fill_missing_weeks_with_empty_rows <- function(filtered_tall_table, month) {
 
 get_tibble_with_grid_ocassion_columns <- function(grid, month) {
   limit_weeks <- get_first_last_week_from_month(month)
-  missing_rows <- tibble(Grid = grid, ocassion = limit_weeks[1]:limit_weeks[2])
+  missing_rows <- tibble(Grid = grid, Ocassion = limit_weeks[1]:limit_weeks[2])
   return(missing_rows)
 }
 
@@ -24,9 +24,9 @@ get_first_last_week_from_month <- function(month) {
 
 #' @export
 tidy_2_final <- function(tidy_table) {
-  first_month_week <- min(tidy_table$ocassion)
-  tidy_table <- tidy_table %>% mutate(ocassion = ocassion - first_month_week + 1)
+  first_month_week <- min(tidy_table$Ocassion)
+  tidy_table <- tidy_table %>% mutate(Ocassion = Ocassion - first_month_week + 1)
   final <- tidy_table %>%
-    pivot_wider(names_from = ocassion, values_from = c(r, e))
+    pivot_wider(names_from = Ocassion, values_from = c(r, e))
   return(final)
 }
