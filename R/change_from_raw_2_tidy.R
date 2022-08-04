@@ -70,7 +70,7 @@ add_effort_and_detection_columns_by_ocassion <- function(grouped_data) {
   return(group_by_id_ocassion)
 }
 
-get_grid_from_camera_id <- function(tidy_camera, coordinates_path) {
+replace_camera_id_with_grid_id <- function(tidy_camera, coordinates_path) {
   camera_coordinates <- read_csv(coordinates_path)
   tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>%
     select(Grid = `N Cuadricula`, Session, Ocassion, r, e, Method)
@@ -86,6 +86,6 @@ tidy_from_path <- function(path) {
     count_detection_by_window() %>%
     count_detection_by_day() %>%
     add_effort_and_detection_columns_by_ocassion() %>%
-    get_grid_from_camera_id(path[["coordinates"]])
+    replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
 }
