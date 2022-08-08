@@ -57,7 +57,7 @@ add_window_column <- function(filtered_structure) {
   return(result)
 }
 add_difference_column <- function(filtered_structure) {
-  filtered_structure$time_difference <- c(as.numeric(ceiling(diff(filtered_structure$date)/60)), 0)
+  filtered_structure$time_difference <- c(as.numeric(ceiling(diff(filtered_structure$date) / 60)), 0)
   return(filtered_structure)
 }
 
