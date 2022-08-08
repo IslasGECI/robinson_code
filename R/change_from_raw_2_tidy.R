@@ -56,6 +56,10 @@ add_window_column <- function(filtered_structure) {
     mutate(window = substr(date, start = 0, stop = 15))
   return(result)
 }
+add_difference_column <- function(fitered_structure){
+    return(TRUE)
+}
+
 
 count_detection_by_day <- function(filter_table) {
   filtered_structure <- filter_table %>%
