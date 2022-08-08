@@ -51,11 +51,16 @@ count_detection_by_window <- function(filtered_structure) {
   return(result)
 }
 
-add_window_column <- function(filtered_structure){
+add_window_column <- function(filtered_structure) {
   result <- filtered_structure %>%
     mutate(window = substr(date, start = 0, stop = 15))
   return(result)
 }
+add_difference_column <- function(filtered_structure) {
+  filtered_structure$time_difference <- c(as.numeric(ceiling(diff(filtered_structure$date) / 60)), 0)
+  return(filtered_structure)
+}
+
 
 count_detection_by_day <- function(filter_table) {
   filtered_structure <- filter_table %>%
