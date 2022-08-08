@@ -56,8 +56,9 @@ add_window_column <- function(filtered_structure) {
     mutate(window = substr(date, start = 0, stop = 15))
   return(result)
 }
-add_difference_column <- function(fitered_structure) {
-  return(TRUE)
+add_difference_column <- function(filtered_structure) {
+  result <- filtered_structure %>% mutate(time_difference = 0)
+  return(result)
 }
 
 
