@@ -51,7 +51,7 @@ count_detection_by_window <- function(filtered_structure) {
   return(result)
 }
 
-add_window_column <- function(filtered_structure){
+add_window_column <- function(filtered_structure) {
   result <- filtered_structure %>%
     mutate(window = substr(date, start = 0, stop = 15))
   return(result)

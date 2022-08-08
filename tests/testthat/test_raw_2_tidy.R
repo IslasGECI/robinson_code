@@ -73,6 +73,15 @@ describe("Group data by window", {
   })
 })
 
+describe("Add column for the 10-minute window ID", {
+  it("Add date difference column", {
+    path <- "../data/raw_camera_id_35_and_61.csv"
+    data <- read_csv(path)
+    filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
+    data_grouped_by_window <- add_difference_column(filtered_structure)
+  })
+})
+
 describe("Group data by day", {
   it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
