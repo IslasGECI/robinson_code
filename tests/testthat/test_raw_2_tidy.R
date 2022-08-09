@@ -93,8 +93,14 @@ describe("Add column for the 10-minute window ID", {
     expect_rows <- 10
     expect_equal(nrow(obtained), expect_rows)
     obtained <- add_column_is_new_window(obtained)
-    n_new_windows <- 10
+    n_new_windows <- 5
     expect_equal(sum(obtained$is_new_window), n_new_windows)
+    expect_columns <- 6
+    expect_equal(ncol(obtained), expect_columns)
+    obtained <- add_window_column_from_is_new_window(obtained)
+    expect_columns <- 7
+    expect_equal(ncol(obtained), expect_columns)
+    print(obtained[,c(1,5,6,7)])
   })
 })
 
