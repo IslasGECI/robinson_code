@@ -42,7 +42,7 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
 
 count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
-    add_window_column( method = "static") %>%
+    add_window_column(method = "static") %>%
     group_by(window, camera_id, Ocassion) %>%
     summarize(coati_count = max(coati_count)) %>%
     mutate(date = substr(window, start = 0, stop = 10)) %>%
@@ -51,10 +51,10 @@ count_detection_by_window <- function(filtered_structure) {
 }
 
 add_window_column <- function(filtered_structure, method = "rolling") {
-    if (method == "static") {
-     return(add_static_window(filtered_structure))
-    }
-     return(assign_window_number_to_detections(filtered_structure))
+  if (method == "static") {
+    return(add_static_window(filtered_structure))
+  }
+  return(assign_window_number_to_detections(filtered_structure))
 }
 
 add_static_window <- function(filtered_structure) {
