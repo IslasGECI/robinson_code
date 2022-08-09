@@ -40,7 +40,10 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
   return(result)
 }
 
+selected_with_coati <- function(selected_columns){
+  return(selected_columns %>% filter(coati_count > 0))
 
+}
 count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
     add_window_column() %>%

@@ -81,6 +81,13 @@ describe("Add column for the 10-minute window ID", {
     expected <- read_csv("../data/output_add_difference_column.csv", show_col_types = FALSE)
     expect_equal(obtained, expected)
   })
+  it("Select coati", {
+    path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
+    selected_columns <- read_csv(path, show_col_types = FALSE)
+    obtained <- selected_with_coati(selected_columns)
+    are_all_coati <- all(obtained$coati_count > 0)
+    expect_true(are_all_coati)
+  })
 })
 
 describe("Group data by day", {
