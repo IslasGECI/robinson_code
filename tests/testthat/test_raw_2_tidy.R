@@ -120,7 +120,7 @@ describe("Calculate effort", {
 describe("Get camera traps tidy table", {
   it("Get tidy from path", {
     tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
-    expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps)
+    expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
     path_cameras <- "../data/raw_cameras_with_detection.csv"
     path_field <- "../data/input_trapping_hunting.csv"
     path_coordinates <- "../data/camera_traps_coordinates.csv"

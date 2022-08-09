@@ -71,8 +71,8 @@ describe("Get limit weeks", {
 })
 describe("Make join to add missing weeks in a grid", {
   it("For example for grid 49 and month 4", {
-    filtered_tall_table <- read_csv("../data/input_april_filtered_tall_hunting.csv")
-    expected_missing_weeks <- read_csv("../data/output_april_filtered_tall_hunting.csv")
+    filtered_tall_table <- read_csv("../data/input_april_filtered_tall_hunting.csv", show_col_types = FALSE)
+    expected_missing_weeks <- read_csv("../data/output_april_filtered_tall_hunting.csv", show_col_types = FALSE)
     month <- 4
     obtained_missing_weeks <- fill_missing_weeks_with_empty_rows(filtered_tall_table, month)
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
