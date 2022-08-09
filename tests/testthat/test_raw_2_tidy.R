@@ -87,6 +87,11 @@ describe("Add column for the 10-minute window ID", {
     obtained <- filter_with_coati(selected_columns)
     are_all_coati <- all(obtained$coati_count > 0)
     expect_true(are_all_coati)
+    obtained <- add_difference_column(obtained)
+    expect_columns <- 5
+    expect_equal(ncol(obtained), expect_columns)
+    expect_rows <- 10
+    expect_equal(nrow(obtained), expect_rows)
   })
 })
 
