@@ -39,7 +39,17 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
   )
   return(result)
 }
+add_window_column_from_is_new_window <- function(output_is_new_window){
+    return(output_is_new_window %>% mutate(window = cumsum(is_new_window)))
 
+}
+
+add_column_is_new_window <- function(output_with_differences){
+    new_window <- output_with_differences %>% 
+      mutate( is_new_window = time_difference > 10)
+  return(new_window)
+
+}
 filter_with_coati <- function(selected_columns){
   return(selected_columns %>% filter(coati_count > 0))
 
@@ -60,7 +70,7 @@ add_window_column <- function(filtered_structure) {
   return(result)
 }
 add_difference_column <- function(filtered_structure) {
-  filtered_structure$time_difference <- c(as.numeric(ceiling(diff(filtered_structure$date) / 60)), 0)
+  filtered_structure$time_difference <- c(0, as.numeric(ceiling(diff(filtered_structure$date) / 60)))
   return(filtered_structure)
 }
 
