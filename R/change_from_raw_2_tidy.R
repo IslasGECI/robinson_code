@@ -39,6 +39,14 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
   )
   return(result)
 }
+
+join_original_with_new_window <- function(original, with_window){
+  columns <- c("date", "camera_id", "window")
+  good_table <- with_window %>% select(columns) 
+  joined <- original %>% left_join(good_table, by = c("date", "camera_id"))
+  return(joined)
+}
+
 add_window_column_from_is_new_window <- function(output_is_new_window){
     return(output_is_new_window %>% mutate(window = cumsum(is_new_window)))
 
