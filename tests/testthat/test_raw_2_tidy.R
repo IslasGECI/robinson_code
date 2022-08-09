@@ -77,7 +77,7 @@ describe("Add column for the 10-minute window ID", {
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
-    obtained <- add_10_min_window_column_for_detection(selected_columns)
+    obtained <- assign_window_number_to_detections(selected_columns)
     expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
     expect_equal(obtained, expect_join)
   })

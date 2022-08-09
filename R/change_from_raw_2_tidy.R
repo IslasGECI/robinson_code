@@ -55,32 +55,32 @@ add_window_column <- function(filtered_structure) {
     mutate(window = substr(date, start = 0, stop = 15))
   return(result)
 }
-add_10_min_window_column_for_detection <- function(selected_columns){
-  with_windows <-  selected_columns %>%
-      filter_with_coati() %>%
-      add_difference_column() %>%
-      add_column_is_new_window() %>%
-      add_window_column_from_is_new_window() 
-  return(join_original_with_new_window(selected_columns, with_windows))
-
+assign_window_number_to_detections <- function(selected_columns) {
+  with_window_numbers <- selected_columns %>%
+    filter_with_coati() %>%
+    add_time_difference() %>%
+    is_new_window() %>%
+    add_window_number()
+  return(join_original_with_window_numbers(selected_columns, with_window_numbers))
 }
 filter_with_coati <- function(selected_columns) {
   return(selected_columns %>% filter(coati_count > 0))
 }
-add_difference_column <- function(filtered_structure) {
-  filtered_structure$time_difference <- c(0, as.numeric(ceiling(diff(filtered_structure$date) / 60)))
+add_time_difference <- function(filtered_structure) {
+  minute_difference <- as.numeric(ceiling(diff(filtered_structure$date) / 60))
+  filtered_structure$time_difference <- c(0, minute_difference)
   return(filtered_structure)
 }
 
-add_column_is_new_window <- function(output_with_differences) {
+is_new_window <- function(output_with_differences) {
   new_window <- output_with_differences %>%
     mutate(is_new_window = time_difference > 10)
   return(new_window)
 }
-add_window_column_from_is_new_window <- function(output_is_new_window) {
+add_window_number <- function(output_is_new_window) {
   return(output_is_new_window %>% mutate(window = cumsum(is_new_window)))
 }
-join_original_with_new_window <- function(original, with_window) {
+join_original_with_window_numbers <- function(original, with_window) {
   columns <- c("date", "camera_id", "window")
   good_table <- with_window %>% select(columns)
   joined <- original %>% left_join(good_table, by = c("date", "camera_id"))
