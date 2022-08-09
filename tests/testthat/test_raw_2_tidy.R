@@ -84,31 +84,7 @@ describe("Add column for the 10-minute window ID", {
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
-    obtained <- filter_with_coati(selected_columns)
-    are_all_coati <- all(obtained$coati_count > 0)
-    expect_true(are_all_coati)
-    obtained <- add_difference_column(obtained)
-    expect_columns <- 5
-    expect_equal(ncol(obtained), expect_columns)
-    expect_rows <- 10
-    expect_equal(nrow(obtained), expect_rows)
-    obtained <- add_column_is_new_window(obtained)
-    n_new_windows <- 5
-    expect_equal(sum(obtained$is_new_window), n_new_windows)
-    expect_columns <- 6
-    expect_equal(ncol(obtained), expect_columns)
-    obtained <- add_window_column_from_is_new_window(obtained)
-    expect_columns <- 7
-    expect_equal(ncol(obtained), expect_columns)
-    expect_new_windows <- read_csv("../data/output_add_window_column_from_is_new_window.csv", show_col_types = FALSE)
-    expect_equal(obtained, expect_new_windows)
-    obtained <- join_original_with_new_window(selected_columns, obtained)
-    expect_columns <- 5
-    expect_equal(ncol(obtained), expect_columns)
-    expect_rows <- 30
-    expect_equal(nrow(obtained), expect_rows)
-    expect_windows <- c(0, NA, 1, 2, 3, 4, 5)
-    expect_equal(unique(obtained$window), expect_windows)
+    obtained <- add_10_min_window_column_for_detection(selected_columns)
     expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
     expect_equal(obtained, expect_join)
   })
