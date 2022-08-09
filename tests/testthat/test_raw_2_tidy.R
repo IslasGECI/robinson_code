@@ -100,7 +100,17 @@ describe("Add column for the 10-minute window ID", {
     obtained <- add_window_column_from_is_new_window(obtained)
     expect_columns <- 7
     expect_equal(ncol(obtained), expect_columns)
-    print(obtained[,c(1,5,6,7)])
+    expect_new_windows <- read_csv("../data/output_add_window_column_from_is_new_window.csv", show_col_types = FALSE)
+    expect_equal(obtained, expect_new_windows)
+    obtained <- join_original_with_new_window(selected_columns, obtained)
+    expect_columns <- 5
+    expect_equal(ncol(obtained), expect_columns)
+    expect_rows <- 30
+    expect_equal(nrow(obtained), expect_rows)
+    expect_windows <- c(0, NA, 1, 2, 3, 4, 5)
+    expect_equal(unique(obtained$window), expect_windows)
+    expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
+    expect_equal(obtained, expect_join)
   })
 })
 
