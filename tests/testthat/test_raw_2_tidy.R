@@ -74,13 +74,6 @@ describe("Group data by window", {
 })
 
 describe("Add column for the 10-minute window ID", {
-  it("Add date difference column", {
-    path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
-    selected_columns <- read_csv(path, show_col_types = FALSE)
-    obtained <- add_difference_column(selected_columns)
-    expected <- read_csv("../data/output_add_difference_column.csv", show_col_types = FALSE)
-    expect_equal(obtained, expected)
-  })
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
