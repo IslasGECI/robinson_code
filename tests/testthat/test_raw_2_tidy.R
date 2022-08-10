@@ -68,7 +68,7 @@ describe("Group data by window", {
     filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
     data_grouped_by_window <- count_detection_by_window(filtered_structure)
     obtained_grouped <- count_detection_by_day(data_grouped_by_window)
-    expected_grouped <- read_csv("../data/max_captures_grouped_by_window.csv", show_col_types = FALSE)
+    expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
     expect_equal(obtained_grouped, expected_grouped)
   })
 })
