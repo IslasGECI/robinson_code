@@ -43,9 +43,9 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
 count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
     add_window_column(method = "static") %>%
-    group_by(window, camera_id, Ocassion) %>%
+    mutate(date = substr(date, start = 0, stop = 10)) %>%
+    group_by(date, window, camera_id, Ocassion) %>%
     summarize(coati_count = max(coati_count)) %>%
-    mutate(date = substr(window, start = 0, stop = 10)) %>%
     ungroup()
   return(result)
 }
