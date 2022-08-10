@@ -27,7 +27,7 @@ fill_dates <- function(raw_data) {
 }
 
 select_date_ocassion_camera_and_detection_columns <- function(data) {
-  dates <- as.character(data$DateTime)
+  dates <- data$DateTime
   ocassions <- lubridate::isoweek(dates)
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
   coati_count <- data$CoatiCount
@@ -40,26 +40,53 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
   return(result)
 }
 
-
 count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
-    add_window_column() %>%
-    group_by(window, camera_id, Ocassion) %>%
+    assign_window_number_to_detections() %>%
+    mutate(date = substr(date, start = 0, stop = 10)) %>%
+    group_by(date, window, camera_id, Ocassion) %>%
     summarize(coati_count = max(coati_count)) %>%
-    mutate(date = substr(window, start = 0, stop = 10)) %>%
     ungroup()
   return(result)
 }
 
-add_window_column <- function(filtered_structure) {
-  result <- filtered_structure %>%
-    mutate(window = substr(date, start = 0, stop = 15))
-  return(result)
+assign_window_number_to_detections <- function(selected_columns) {
+  with_window_numbers <- selected_columns %>%
+    filter_with_coati() %>%
+    add_time_difference() %>%
+    is_new_window() %>%
+    add_window_number()
+  return(join_original_with_window_numbers(selected_columns, with_window_numbers))
 }
-add_difference_column <- function(filtered_structure) {
-  filtered_structure$time_difference <- c(as.numeric(ceiling(diff(filtered_structure$date) / 60)), 0)
+filter_with_coati <- function(selected_columns) {
+  return(selected_columns %>% filter(coati_count > 0))
+}
+add_time_difference <- function(filtered_structure) {
+  seconds <- get_seconds(filtered_structure)
+  minute_difference <- as.numeric(ceiling(diff(seconds) / 60))
+  filtered_structure$time_difference <- c(0, minute_difference)
   return(filtered_structure)
 }
+
+get_seconds <- function(filtered_structure) {
+  return(filtered_structure$date)
+}
+
+is_new_window <- function(output_with_differences) {
+  new_window <- output_with_differences %>%
+    mutate(is_new_window = time_difference > 10)
+  return(new_window)
+}
+add_window_number <- function(output_is_new_window) {
+  return(output_is_new_window %>% mutate(window = cumsum(is_new_window)))
+}
+join_original_with_window_numbers <- function(original, with_window) {
+  columns <- c("date", "camera_id", "window")
+  good_table <- with_window %>% select(columns)
+  joined <- original %>% left_join(good_table, by = c("date", "camera_id"))
+  return(joined)
+}
+
 
 
 count_detection_by_day <- function(filter_table) {
@@ -81,7 +108,7 @@ add_effort_and_detection_columns_by_ocassion <- function(grouped_data) {
 }
 
 replace_camera_id_with_grid_id <- function(tidy_camera, coordinates_path) {
-  camera_coordinates <- read_csv(coordinates_path)
+  camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
   tidy_grid <- left_join(tidy_camera, camera_coordinates, by = c("camera_id" = "N camara")) %>%
     select(Grid = `N Cuadricula`, Session, Ocassion, r, e, Method)
   return(tidy_grid)

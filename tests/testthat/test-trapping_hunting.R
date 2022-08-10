@@ -2,7 +2,7 @@ library(tidyverse)
 
 describe("Get tidy table from trapping and hunting data", {
   path <- "../data/input_trapping_hunting.csv"
-  raw_data <- read_csv(path)
+  raw_data <- read_csv(path, show_col_types = FALSE)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
     get_ocassion() %>%
     get_session() %>%
@@ -53,7 +53,7 @@ describe("Get tidy table from trapping and hunting data", {
     expect_equal_column(grouped_data, "Method", expected_observation_method_grouped_data)
   })
   expect_equal_tidy_table <- function(tidy_file_path, tidy_from_path_method) {
-    expected_tidy <- read_csv(tidy_file_path)
+    expected_tidy <- read_csv(tidy_file_path, show_col_types = FALSE)
     obtained_tidy <- tidy_from_path_method(path)
     expect_equal(obtained_tidy, expected_tidy)
   }
@@ -67,13 +67,13 @@ describe("Get tidy table from trapping and hunting data", {
   })
   it("Concatenate tidy tables", {
     tidy_field_path <- "../data/tidy_from_field.csv"
-    expected_tidy_table_from_field <- read_csv(tidy_field_path)
+    expected_tidy_table_from_field <- read_csv(tidy_field_path, show_col_types = FALSE)
     obtained_tidy_table_from_field <- tidy_from_path_field(path)
     expect_equal(obtained_tidy_table_from_field, expected_tidy_table_from_field)
   })
   it("Concatenate camera traps and field tidy tables", {
     tidy_four_methods_path <- "../data/tidy_four_methods.csv"
-    expected_tidy_four_methods <- read_csv(tidy_four_methods_path)
+    expected_tidy_four_methods <- read_csv(tidy_four_methods_path, show_col_types = FALSE)
     PATHS <- list("field" = "../data/input_trapping_hunting.csv", "cameras" = "../data/raw_cameras_with_detection.csv", "coordinates" = "../data/camera_traps_coordinates.csv")
     obtained_tidy_four_methods <- get_tidy_from_field_and_cameras(PATHS)
     expect_equal(obtained_tidy_four_methods, expected_tidy_four_methods)

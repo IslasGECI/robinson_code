@@ -10,7 +10,7 @@ tidy_from_path_trapping <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_trapping)
 }
 tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
-  raw_data <- read_csv(path)
+  raw_data <- read_csv(path, show_col_types = FALSE)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
     get_ocassion() %>%
     get_session() %>%
