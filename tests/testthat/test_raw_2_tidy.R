@@ -46,7 +46,7 @@ describe("Define filtered data structure", {
       "2022-04-02 07:25:32",
       "2022-04-04 02:02:42",
       "2022-04-04 02:02:45"
-    ), tz="UTC")
+    ), tz = "UTC")
     expected_ocassion <- c(rep(13, 4), 14, 14)
     expected_id <- c(1, 1, 1, 1, 22, 10)
     expected_coati_count <- c(0, 0, 0, 1, 0, 1)
