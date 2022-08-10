@@ -82,11 +82,12 @@ describe("Add column for the 10-minute window ID", {
     expect_equal(obtained, expect_join)
   })
   it("Returns seconds in POSIXct", {
-    path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
-    selected_columns <- read_csv(path, show_col_types = FALSE)
+    path <- "../data/raw_cameras_effort.csv"
+    data <- read_csv(path, show_col_types = FALSE)
+    selected_columns <- select_date_ocassion_camera_and_detection_columns(data)
     obtained_seconds <- get_seconds(selected_columns)
     obtained_type <- typeof(obtained_seconds)
-    expected_type <- "POSIXct"
+    expected_type <- "double"
     expect_equal(obtained_type, expected_type)
   })
 })
