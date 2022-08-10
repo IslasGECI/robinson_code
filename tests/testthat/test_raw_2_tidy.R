@@ -81,7 +81,7 @@ describe("Add column for the 10-minute window ID", {
     expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
     expect_equal(obtained, expect_join)
   })
-  it("Returns seconds in POSIXct", {
+  it("Returns seconds as double double-precision numbers", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path, show_col_types = FALSE)
     selected_columns <- select_date_ocassion_camera_and_detection_columns(data)
