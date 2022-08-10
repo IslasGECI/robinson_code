@@ -75,9 +75,14 @@ filter_with_coati <- function(selected_columns) {
   return(selected_columns %>% filter(coati_count > 0))
 }
 add_time_difference <- function(filtered_structure) {
-  minute_difference <- as.numeric(ceiling(diff(filtered_structure$date) / 60))
+  seconds <- get_seconds(filtered_structure)
+  minute_difference <- as.numeric(ceiling(diff(seconds) / 60))
   filtered_structure$time_difference <- c(0, minute_difference)
   return(filtered_structure)
+}
+
+get_seconds <- function(filtered_structure) {
+  return(filtered_structure$date)
 }
 
 is_new_window <- function(output_with_differences) {
