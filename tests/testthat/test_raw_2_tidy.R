@@ -39,14 +39,14 @@ describe("Define filtered data structure", {
   it("Expected filtered data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path, show_col_types = FALSE)
-    expected_dates <- c(
+    expected_dates <- as.POSIXct(c(
       "2022-04-02 07:25:23",
       "2022-04-02 07:25:26",
       "2022-04-02 07:25:29",
       "2022-04-02 07:25:32",
       "2022-04-04 02:02:42",
       "2022-04-04 02:02:45"
-    )
+    ), tz="UTC")
     expected_ocassion <- c(rep(13, 4), 14, 14)
     expected_id <- c(1, 1, 1, 1, 22, 10)
     expected_coati_count <- c(0, 0, 0, 1, 0, 1)
