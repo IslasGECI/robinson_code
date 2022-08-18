@@ -8,6 +8,7 @@ library(tidyverse)
 library(sf)
 library(terra)
 library(ggspatial)
+library(eradicate)
 
 
 crusoe<- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
@@ -16,7 +17,7 @@ gridc<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames
 hab1<- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
 cam_coords<- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
-cam_obs<- read_csv("data/april_camera_traps.csv")
+cam_obs<- read_csv("data/april_camera_traps.csv", show_col_types = FALSE)
 
 # remove camera coords with ID == NA
 cam_coords<- cam_coords %>%
@@ -32,10 +33,11 @@ cobs_l<- cam_coords %>% filter(ID %in% cobs_n$ID) %>% select(ID, X=Easting, Y=No
 cobs_l<- st_as_sf(cobs_l, coords=c("X","Y"), crs=32717)
 
 # Quick plot of grid cells and camera locations
-win.graph(10,10)
+png(file="plot_crusoe.png", width=600, height=350)
 plot(st_geometry(crusoe))
 plot(st_geometry(grid), add=TRUE)
 plot(st_geometry(cobs_l), add=TRUE, pch=16, col="red")
+dev.off()
 
 # Extract habitat information from raster using a buffer around the camera
 # locations (size set below).  In this case habitat appears to be categorical
