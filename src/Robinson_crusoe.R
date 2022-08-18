@@ -10,7 +10,7 @@ library(terra)
 library(ggspatial)
 
 # install the latest version of the 'eradicate' package
-remotes::install_github("eradicate-dev/eradicate", build_vignettes=FALSE) # for speed
+remotes::install_github("eradicate-dev/eradicate", build_vignettes=FALSE, upgrade = "always") # for speed
 
 
 crusoe<- read_sf("Data/Robinson_Coati.shp")
