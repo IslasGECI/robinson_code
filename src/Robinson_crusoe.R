@@ -10,22 +10,24 @@ library(terra)
 library(ggspatial)
 
 
-crusoe<- read_sf("data/spatial/Robinson_Coati.shp")
+crusoe<- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
 grid<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
 gridc<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
-hab1<- rast("data/spatial/Vegetation2014_50mHabitat.tif")
+hab1<- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
 cam_coords<- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
 cam_obs<- read_csv("data/april_camera_traps.csv")
 
 # remove camera coords with ID == NA
-cam_coords<- cam_coords %>% filter(!is.na(ID))
+cam_coords<- cam_coords %>%
+  mutate(ID = `N Cuadricula`) %>%
+  filter(!is.na(ID))
 
 # process camera obs
 cam_obs<- cam_obs %>% filter(Grid %in% cam_coords$ID)
 
-cobs_n<- cam_obs %>% select(ID=Grid, session, starts_with("r"))
-cobs_e<- cam_obs %>% select(ID=Grid, session, starts_with("e"))
+cobs_n<- cam_obs %>% select(ID=Grid, Session, starts_with("r"))
+cobs_e<- cam_obs %>% select(ID=Grid, Session, starts_with("e"))
 cobs_l<- cam_coords %>% filter(ID %in% cobs_n$ID) %>% select(ID, X=Easting, Y=Norting)
 cobs_l<- st_as_sf(cobs_l, coords=c("X","Y"), crs=32717)
 
