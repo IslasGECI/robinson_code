@@ -13,13 +13,13 @@ library(ggspatial)
 remotes::install_github("eradicate-dev/eradicate", build_vignettes=FALSE, upgrade = "always") # for speed
 
 
-crusoe<- read_sf("Data/Robinson_Coati.shp")
-grid<- read_sf("Data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
-gridc<- read_sf("Data/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
-hab1<- rast("Data/Vegetation2014_50mHabitat.tif")
+crusoe<- read_sf("data/spatial/Robinson_Coati.shp")
+grid<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
+gridc<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
+hab1<- rast("data/spatial/Vegetation2014_50mHabitat.tif")
 
-cam_coords<- read_csv("Data/camera_trap_coordinates.csv")
-cam_obs<- read_csv("Data/april_camera_traps.csv")
+cam_coords<- read_csv("data/raw/camera_trap_coordinates.csv")
+cam_obs<- read_csv("data/april_camera_traps.csv")
 
 # remove camera coords with ID == NA
 cam_coords<- cam_coords %>% filter(!is.na(ID))
