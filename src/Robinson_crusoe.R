@@ -9,9 +9,6 @@ library(sf)
 library(terra)
 library(ggspatial)
 
-# install the latest version of the 'eradicate' package
-remotes::install_github("eradicate-dev/eradicate", build_vignettes=FALSE, upgrade = "always") # for speed
-
 
 crusoe<- read_sf("data/spatial/Robinson_Coati.shp")
 grid<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
