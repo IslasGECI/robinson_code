@@ -82,9 +82,9 @@ allhab<- allhab %>% select(-ID, habitat = starts_with("Veg"))
 # first clip the grid to the island boundary
 grid_clip<- st_intersection(grid, crusoe)
 
-cell_size<- as.numeric(st_area(grid_clip))/1e6 #km2
+cell_size<- as.numeric(st_area(grid))/1e6 #km2
 rcell_size<- cell_size/max(cell_size)
-
+print("Estamos en la línea 87")
 allhab<- allhab %>% mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>% relocate(ID, .before = habitat)
 
 # Need to drop level '10' as this was not included in the model so
@@ -102,12 +102,11 @@ preds$Nhat
 allhab<- allhab %>% mutate(N = preds$cellpreds$N)
 pred_grid<- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
 
-win.graph(10,10)
 pred_grid %>% ggplot() +
   geom_sf(aes(fill = N)) +
   scale_fill_distiller(palette = "OrRd", direction=1, limits=c(0,13)) +
   geom_sf(fill=NA, data=crusoe)
-
+ggsave("plot_pred_grid.png")
 #-------------------------------------------------------
 #  example using smaller grid of 500 m
 #  Note that predictions are sensitive to grid cell size
@@ -132,11 +131,12 @@ buffer_radius = 250
 grid<- make_grid(crusoe, cell_diameter = 2*buffer_radius, what="polygons", clip=TRUE, square=FALSE)
 gridc<- st_centroid(grid)
 
-win.graph(10,10)
+png(file="plot_crusoe_2.png", width=600, height=350)
 plot(st_geometry(crusoe))
 plot(st_geometry(grid), add=TRUE)
 plot(st_geometry(gridc), add=TRUE)
 plot(st_geometry(cobs_l), add=TRUE, pch=16, col="red")
+dev.off()
 
 
 cobs_l_buff<- st_buffer(cobs_l, dist=buffer_radius)
@@ -163,6 +163,7 @@ allhab<- allhab %>% select(-ID, habitat = starts_with("Veg"))
 # need to account for fractional cells
 cell_size<- as.numeric(st_area(grid))/1e6 #km2
 rcell_size<- cell_size/max(cell_size)
+print("Estamos en la línea 166")
 
 allhab<- allhab %>% mutate(ID = grid$ID, rcell = round(rcell_size, 3)) %>% relocate(ID, .before = habitat)
 
@@ -178,10 +179,10 @@ preds$Nhat
 allhab<- allhab %>% mutate(N = preds$cellpreds$N)
 pred_grid<- inner_join(grid, allhab, by = c("ID" = "ID"))
 
-win.graph(10,10)
 pred_grid %>% ggplot() +
   geom_sf(aes(fill = N)) +
   scale_fill_distiller(palette = "OrRd", direction=1, limits=c(0,13)) +
   geom_sf(fill=NA, data=crusoe)
+ggsave("plot_pred_grid_2.png")
 
 
