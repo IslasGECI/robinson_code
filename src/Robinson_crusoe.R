@@ -33,7 +33,7 @@ cobs_l<- cam_coords %>% filter(ID %in% cobs_n$ID) %>% select(ID, X=Easting, Y=No
 cobs_l<- st_as_sf(cobs_l, coords=c("X","Y"), crs=32717)
 
 # Quick plot of grid cells and camera locations
-png(file="plot_crusoe.png", width=600, height=350)
+png(file="data/plot_crusoe.png", width=600, height=350)
 plot(st_geometry(crusoe))
 plot(st_geometry(grid), add=TRUE)
 plot(st_geometry(cobs_l), add=TRUE, pch=16, col="red")
@@ -106,7 +106,7 @@ pred_grid %>% ggplot() +
   geom_sf(aes(fill = N)) +
   scale_fill_distiller(palette = "OrRd", direction=1, limits=c(0,13)) +
   geom_sf(fill=NA, data=crusoe)
-ggsave("plot_pred_grid.png")
+ggsave("data/plot_pred_grid.png")
 #-------------------------------------------------------
 #  example using smaller grid of 500 m
 #  Note that predictions are sensitive to grid cell size
@@ -131,7 +131,7 @@ buffer_radius = 250
 grid<- make_grid(crusoe, cell_diameter = 2*buffer_radius, what="polygons", clip=TRUE, square=FALSE)
 gridc<- st_centroid(grid)
 
-png(file="plot_crusoe_2.png", width=600, height=350)
+png(file="data/plot_crusoe_2.png", width=600, height=350)
 plot(st_geometry(crusoe))
 plot(st_geometry(grid), add=TRUE)
 plot(st_geometry(gridc), add=TRUE)
@@ -183,6 +183,6 @@ pred_grid %>% ggplot() +
   geom_sf(aes(fill = N)) +
   scale_fill_distiller(palette = "OrRd", direction=1, limits=c(0,13)) +
   geom_sf(fill=NA, data=crusoe)
-ggsave("plot_pred_grid_2.png")
+ggsave("data/plot_pred_grid_2.png")
 
 
