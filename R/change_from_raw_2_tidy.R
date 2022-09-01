@@ -29,7 +29,7 @@ fill_dates <- function(raw_data) {
 select_date_ocassion_camera_and_detection_columns <- function(data) {
   dates <- data$DateTime
   ocassions <- lubridate::isoweek(dates)
-  camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", data$RelativePath))
+  camera_IDs <- get_id_camera_from_relative_path(data$RelativePath)
   coati_count <- data$CoatiCount
   result <- tibble(
     date = dates,
