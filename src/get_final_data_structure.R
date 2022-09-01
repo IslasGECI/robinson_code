@@ -26,9 +26,9 @@ filter_tidy$select_method("Observation")
 observations_structure <- filter_tidy$spatial()
 
 write_csv(observations_structure, file = "data/april_observations.csv", na = "0")
-
+number_month <- 7
 filter_tidy <-Filter_tidy$new(tidy_table)
-filter_tidy$select_session(4)
+filter_tidy$select_session(number_month)
 filter_tidy$select_method("Camera-Traps")
 camera_traps_structure <- filter_tidy$spatial()
-write_csv(camera_traps_structure, file = "data/april_camera_traps.csv", na = "0")
+write_csv(camera_traps_structure, file = path_for_cameras(number_month), na = "0")
