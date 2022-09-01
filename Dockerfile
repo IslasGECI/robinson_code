@@ -6,6 +6,7 @@ RUN apt update && apt install --yes \
     libproj-dev \
     libudunits2-dev \
     netcdf-bin
+RUN R -e "install.packages('glue')"
 RUN R -e "install.packages('sf')"
 RUN R -e "install.packages('ggspatial')"
 RUN R -e "install.packages('terra', repos='https://rspatial.r-universe.dev')"
