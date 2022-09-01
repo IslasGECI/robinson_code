@@ -1,7 +1,7 @@
 library(tidyverse)
 library(robinson)
 
-path_cameras <- "data/raw/robinson_coati_detection_camera_traps/APRIL2022COATI.csv"
+path_cameras <- "data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv"
 path_field <- "data/raw/robinson_coati_detection_camera_traps/trapping_hunting.csv"
 path_coordinates <- "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv"
 
