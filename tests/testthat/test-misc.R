@@ -9,4 +9,9 @@ describe("return path of output file", {
   obtained_path <- path_for_cameras(month_number = 3)
   expect_equal(obtained_path, expected_path)
   })
+  it("writes december", {
+  expected_path <- "data/december_camera_traps.csv"
+  obtained_path <- path_for_cameras(month_number = 12)
+  expect_equal(obtained_path, expected_path)
+  })
 })
