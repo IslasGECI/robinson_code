@@ -39,7 +39,10 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
   )
   return(result)
 }
-
+get_id_camera_from_relative_path <- function(RelativePath_column){
+  camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", RelativePath_column))
+  return(camera_IDs)
+}
 count_detection_by_window <- function(filtered_structure) {
   result <- filtered_structure %>%
     assign_window_number_to_detections() %>%
