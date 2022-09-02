@@ -110,6 +110,13 @@ describe("Group data by day", {
     )
     expect_equal(obtained_grouped, expected_grouped)
   })
+  it("Get id camera from relative path", {
+    path <- "../data/raw_cameras_effort_dirty_relative_path.csv"
+    data <- read_csv(path, show_col_types = FALSE)
+    obtained_id <- get_id_camera_from_relative_path(data$RelativePath)
+    expected_id <- c(1, 1, 1, 1, 2, 10, 10, 57, 32, 22, 59, 32, 64, 32)
+    expect_equal(obtained_id, expected_id)
+  })
 })
 
 describe("Calculate effort", {
