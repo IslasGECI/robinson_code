@@ -38,11 +38,6 @@ get_removal_and_effort_by_method <- function(data, removed, effort, method) {
   return(grouped_data)
 }
 
-get_hunting_effort <- function(raw_trapping_hunting) {
-  hunting_effort <- raw_trapping_hunting %>%
-    mutate(hunting_effort = Days_on_terrain * Persons_on_terrain)
-  return(hunting_effort)
-}
 
 get_ocassion <- function(raw_trapping_hunting) {
   ocassions <- raw_trapping_hunting %>%
@@ -50,6 +45,13 @@ get_ocassion <- function(raw_trapping_hunting) {
   return(ocassions)
 }
 
+get_session_and_year <- function(data_trapping_hunting) {
+  months <- lubridate::month(data_trapping_hunting$Date)
+  years <- lubridate::year(data_trapping_hunting$Date)
+  sessions <- data_trapping_hunting %>%
+    mutate(Session = paste(years,months, sep="-"))
+  return(sessions)
+}
 get_session <- function(data_trapping_hunting) {
   sessions <- data_trapping_hunting %>%
     mutate(Session = lubridate::month(data_trapping_hunting$Date))
