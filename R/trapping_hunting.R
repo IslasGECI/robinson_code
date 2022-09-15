@@ -49,7 +49,7 @@ get_session_and_year <- function(data_trapping_hunting) {
   months <- lubridate::month(data_trapping_hunting$Date)
   years <- lubridate::year(data_trapping_hunting$Date)
   sessions <- data_trapping_hunting %>%
-    mutate(Session = paste(years,months, sep="-"))
+    mutate(Session = paste(years, months, sep = "-"))
   return(sessions)
 }
 get_session <- function(data_trapping_hunting) {

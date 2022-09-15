@@ -96,7 +96,7 @@ count_detection_by_day <- function(filter_table) {
   months <- lubridate::month(filter_table$date)
   years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
-    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years,months,sep="-")) %>%
+    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years, months, sep = "-")) %>%
     summarize(r = sum(coati_count)) %>%
     ungroup()
   return(filtered_structure)
