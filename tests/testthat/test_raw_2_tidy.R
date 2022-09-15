@@ -105,7 +105,7 @@ describe("Group data by day", {
       camera_id = expected_id,
       Ocassion = expected_ocassion,
       day = c(2, 4, 4, 5),
-      Session = rep(4, 4),
+      Session = rep("2022-4", 4),
       r = expected_captures
     )
     expect_equal(obtained_grouped, expected_grouped)

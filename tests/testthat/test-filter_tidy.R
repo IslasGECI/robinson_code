@@ -8,9 +8,10 @@ describe("Test tidy filters", {
   tidy_table <- get_tidy_from_field_and_cameras(paths)
   it("Session returns same number", {
     final_structure <- Filter_tidy$new(tidy_table)
-    final_structure$select_session(3)
+    session <- "2022-3"
+    final_structure$select_session(session)
     obtained_session <- final_structure$aux$Session
-    expected_session <- rep(3, 3)
+    expected_session <- rep(session, 3)
     expect_equal(obtained_session, expected_session)
   })
   it("Filter by method", {
@@ -23,28 +24,28 @@ describe("Test tidy filters", {
   })
   it("Filter both, session first", {
     method <- "Hunting"
-    session <- 5
+    session <- "2022-5"
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_session(session)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 3))
+    expect_equal(obtained_session, rep(session, 3))
     filter_tidy$select_method(method)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 1))
+    expect_equal(obtained_session, rep(session, 1))
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 1))
+    expect_equal(obtained_method, rep(method, 1))
   })
   it("Filter both, method first", {
     method <- "Hunting"
-    session <- 5
+    session <- "2022-5"
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_method(method)
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 7))
+    expect_equal(obtained_method, rep(method, 7))
     filter_tidy$select_session(session)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 1))
+    expect_equal(obtained_session, rep(session, 1))
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 1))
+    expect_equal(obtained_method, rep(method, 1))
   })
 })

@@ -12,8 +12,9 @@ get_tibble_with_grid_ocassion_columns <- function(grid, month) {
   return(missing_rows)
 }
 
-get_first_last_week_from_month <- function(month) {
-  first_day_of_month_string <- paste0("2022-", month, "-01")
+get_first_last_week_from_month <- function(session) {
+  first_day_of_month_string <- paste0(session, "-01")
+  month <- lubridate::month(first_day_of_month_string)
   first_day_of_month <- lubridate::ymd(first_day_of_month_string)
   first_week_of_month <- lubridate::isoweek(first_day_of_month)
   last_of_january <- lubridate::ymd("2022-01-31")

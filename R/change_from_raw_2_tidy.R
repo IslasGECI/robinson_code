@@ -93,8 +93,10 @@ join_original_with_window_numbers <- function(original, with_window) {
 
 
 count_detection_by_day <- function(filter_table) {
+  months <- lubridate::month(filter_table$date)
+  years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
-    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = lubridate::month(date)) %>%
+    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years,months,sep="-")) %>%
     summarize(r = sum(coati_count)) %>%
     ungroup()
   return(filtered_structure)

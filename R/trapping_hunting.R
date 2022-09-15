@@ -9,16 +9,16 @@ tidy_from_path_hunting <- function(path) {
 tidy_from_path_trapping <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_trapping)
 }
+
 tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
   raw_data <- read_csv(path, show_col_types = FALSE)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
     get_ocassion() %>%
-    get_session() %>%
+    get_session_and_year() %>%
     select_columns()
   tidy_trapping <- get_removal_and_effort_method(trapping_hunting_data)
   return(tidy_trapping)
 }
-
 
 get_detection_and_effort_observation <- function(data) {
   get_removal_and_effort_by_method(data, `Observed_Coati`, `hunting_effort`, "Observation")

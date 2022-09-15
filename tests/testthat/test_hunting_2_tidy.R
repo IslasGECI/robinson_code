@@ -18,4 +18,15 @@ describe("Get removals and effort from hunting", {
         expected_session <- c("2021-8", "2021-8", "2021-10", "2022-1", "2022-3", "2022-4", "2022-5") 
         expect_equal(obtained_session$Session, expected_session)
     })
+    it("test select_columns with new tables", {
+        selected_columns <- select_columns(hunting_data)
+        obtained_number_of_columns <- ncol(selected_columns)
+        expected_number_of_columns <-  ncol(hunting_data) - 2
+        expect_equal(obtained_number_of_columns, expected_number_of_columns)
+    })
+    it("test tidy hunting", {
+        obtained_hunting_tidy <- tidy_from_path_by_method(hunting_path, get_removal_and_effort_hunting)
+        expected_hunting_tidy <- read_csv("../data/test_tidy_for_hunting.csv")
+        expect_equal(obtained_hunting_tidy, expected_hunting_tidy)
+    })
 })
