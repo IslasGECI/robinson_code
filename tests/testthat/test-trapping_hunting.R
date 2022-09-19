@@ -19,7 +19,7 @@ describe("Get tidy table from trapping and hunting data", {
   })
   it("Get session", {
     obtained_session <- trapping_hunting_data$Session
-    expected_session <- c(3, 4, 4, 4, 4, 4, 4, 5)
+    expected_session <- c("2022-3", "2022-4", "2022-4", "2022-4", "2022-4", "2022-4", "2022-4", "2022-5")
     expect_equal(obtained_session, expected_session)
   })
   it("Get needed columns", {

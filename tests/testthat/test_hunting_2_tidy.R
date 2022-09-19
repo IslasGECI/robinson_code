@@ -13,8 +13,8 @@ describe("Get removals and effort from hunting", {
     expected_ocassion <- c(31, 35, 42, 1, 11, 14, 20)
     expect_equal(obtained_ocassion$Ocassion, expected_ocassion)
   })
-  it("test get_session_and_year with new tables", {
-    obtained_session <- get_session_and_year(hunting_data)
+  it("test get_session with new tables", {
+    obtained_session <- get_session(hunting_data)
     expected_session <- c("2021-8", "2021-8", "2021-10", "2022-1", "2022-3", "2022-4", "2022-5")
     expect_equal(obtained_session$Session, expected_session)
   })

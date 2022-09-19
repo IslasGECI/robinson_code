@@ -14,7 +14,7 @@ tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
   raw_data <- read_csv(path, show_col_types = FALSE)
   trapping_hunting_data <- get_hunting_effort(raw_data) %>%
     get_ocassion() %>%
-    get_session_and_year() %>%
+    get_session() %>%
     select_columns()
   tidy_trapping <- get_removal_and_effort_method(trapping_hunting_data)
   return(tidy_trapping)
@@ -45,16 +45,11 @@ get_ocassion <- function(raw_trapping_hunting) {
   return(ocassions)
 }
 
-get_session_and_year <- function(data_trapping_hunting) {
+get_session <- function(data_trapping_hunting) {
   months <- lubridate::month(data_trapping_hunting$Date)
   years <- lubridate::year(data_trapping_hunting$Date)
   sessions <- data_trapping_hunting %>%
     mutate(Session = paste(years, months, sep = "-"))
-  return(sessions)
-}
-get_session <- function(data_trapping_hunting) {
-  sessions <- data_trapping_hunting %>%
-    mutate(Session = lubridate::month(data_trapping_hunting$Date))
   return(sessions)
 }
 
