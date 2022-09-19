@@ -21,10 +21,10 @@ tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
 }
 
 get_detection_and_effort_observation <- function(data) {
-  get_removal_and_effort_by_method(data, `Observed_Coati`, `hunting_effort`, "Observation")
+  get_removal_and_effort_by_method(data, `Observed_Coati`, `Person_day_effort`, "Observation")
 }
 get_removal_and_effort_hunting <- function(data) {
-  get_removal_and_effort_by_method(data, `Hunted_Coati`, `hunting_effort`, "Hunting")
+  get_removal_and_effort_by_method(data, `Hunted_Coati`, `Person_day_effort`, "Hunting")
 }
 get_removal_and_effort_trapping <- function(data) {
   get_removal_and_effort_by_method(data, `Captured_Coati`, `Night-traps`, "Trapping")

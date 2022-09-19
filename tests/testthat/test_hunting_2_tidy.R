@@ -6,7 +6,7 @@ describe("Get removals and effort from hunting", {
   it("test get_hunting_effort", {
     obtained_effort <- get_hunting_effort(hunting_data)
     expected_effort <- c(2, 2, 2, 5, 36, 12, 21)
-    expect_equal(obtained_effort$hunting_effort, expected_effort)
+    expect_equal(obtained_effort$Person_day_effort, expected_effort)
   })
   it("test get_ocassion with new tables", {
     obtained_ocassion <- get_ocassion(hunting_data)
