@@ -3,7 +3,7 @@ library(tidyverse)
 describe("Get tidy table from trapping and hunting data", {
   path <- "../data/input_trapping_hunting.csv"
   raw_data <- read_csv(path, show_col_types = FALSE)
-  trapping_hunting_data <- get_hunting_effort(raw_data) %>%
+  trapping_hunting_data <- get_person_day_effort(raw_data) %>%
     get_ocassion() %>%
     get_session() %>%
     select_columns()

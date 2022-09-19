@@ -3,8 +3,8 @@ library(tidyverse)
 describe("Get removals and effort from hunting", {
   hunting_path <- "../data/hunting_database_for_tests.csv"
   hunting_data <- read_csv(hunting_path, show_col_types = FALSE)
-  it("test get_hunting_effort", {
-    obtained_effort <- get_hunting_effort(hunting_data)
+  it("test get_person_day_effort", {
+    obtained_effort <- get_person_day_effort(hunting_data)
     expected_effort <- c(2, 2, 2, 5, 36, 12, 21)
     expect_equal(obtained_effort$Person_day_effort, expected_effort)
   })
