@@ -2,8 +2,8 @@ library(tidyverse)
 
 tidy_from_path_observation <- function(path_list) {
   workdir_path <- getwd()
-  sighting_path <- paste0(workdir_path,"/sighting.csv")
-  write_csv(concatenate_observations_from_trapping_and_hunting(path_list),sighting_path)
+  sighting_path <- paste0(workdir_path, "/sighting.csv")
+  write_csv(concatenate_observations_from_trapping_and_hunting(path_list), sighting_path)
   tidy_from_path_by_method(sighting_path, get_detection_and_effort_observation)
 }
 tidy_from_path_hunting <- function(path) {
@@ -35,7 +35,7 @@ get_removal_and_effort_trapping <- function(data) {
 get_removal_and_effort_by_method <- function(data, removed, effort, method) {
   grouped_data <- data %>%
     group_by_grid_session_and_ocassion() %>%
-    summarize(r = sum({{ removed }}, na.rm=TRUE), e = sum({{ effort }}, na.rm=TRUE)) %>%
+    summarize(r = sum({{ removed }}, na.rm = TRUE), e = sum({{ effort }}, na.rm = TRUE)) %>%
     ungroup() %>%
     mutate(Method = method)
   return(grouped_data)
