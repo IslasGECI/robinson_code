@@ -8,5 +8,4 @@ describe("Get removals and effort from trapping", {
     expected_trapping_tidy <- read_csv("../data/test_tidy_for_trapping.csv")
     expect_equal(obtained_trapping_tidy, expected_trapping_tidy)
   })
-  }
-)
+})
