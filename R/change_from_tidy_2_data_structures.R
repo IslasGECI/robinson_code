@@ -18,17 +18,17 @@ get_first_last_week_from_month <- function(session) {
   first_day_of_month <- lubridate::ymd(first_day_of_month_string)
   first_week_of_month <- lubridate::isoweek(first_day_of_month)
   first_session_of_year <- "2022-01"
-  last_of_january_string <- paste0(first_session_of_year,"-31")
+  last_of_january_string <- paste0(first_session_of_year, "-31")
   last_of_january <- lubridate::ymd(last_of_january_string)
   last_day_of_month <- lubridate::add_with_rollback(last_of_january, months(month - 1))
   last_week_of_month <- lubridate::isoweek(last_day_of_month)
-  first_day_of_year_string <- paste0(first_session_of_year,"-01")
+  first_day_of_year_string <- paste0(first_session_of_year, "-01")
   first_week_of_year <- lubridate::isoweek(first_day_of_year_string)
-  if (first_week_of_year >= 52){
+  if (first_week_of_year >= 52) {
     first_week_of_month <- first_week_of_month + 1
     last_week_of_month <- last_week_of_month + 1
   }
-  if (first_week_of_month >= 52){
+  if (first_week_of_month >= 52) {
     first_week_of_month <- 1
   }
   return(c(first_week_of_month, last_week_of_month))
