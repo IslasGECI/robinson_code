@@ -84,6 +84,20 @@ describe("Make join to add missing weeks in a grid", {
   })
 })
 describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid and ocassion", {
+  it("For the example grid = 49 and session = 1", {
+    grid <- 49
+    session <- "2022-1"
+    obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, session)
+    expected_missing_weeks <- tibble(Grid = 49, Ocassion = 1:6)
+    expect_equal(obtained_missing_weeks, expected_missing_weeks)
+  })
+  it("For the example grid = 49 and session = 2", {
+    grid <- 49
+    session <- "2022-2"
+    obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, session)
+    expected_missing_weeks <- tibble(Grid = 49, Ocassion = 6:10)
+    expect_equal(obtained_missing_weeks, expected_missing_weeks)
+  })
   it("For the example grid = 49 and session = 4", {
     grid <- 49
     month <- "2022-4"
