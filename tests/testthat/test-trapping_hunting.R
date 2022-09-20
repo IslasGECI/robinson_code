@@ -17,7 +17,7 @@ describe("Get tidy table from trapping and hunting data", {
     expected_trapping_effort_grouped_data <- c(5, 1, 2, 4, 5, 8, 8)
     expect_equal_column(grouped_data, "e", expected_trapping_effort_grouped_data)
   })
-  it("test get_removal_and_effort_hunting",{
+  it("test get_removal_and_effort_hunting", {
     hunting_data <- read_csv("../data/input_get_removal_and_effort_hunting.csv", show_col_types = FALSE)
     grouped_data <- get_removal_and_effort_hunting(hunting_data)
     expected_hunting_effort_grouped_data <- c(21, 12, 2, 2, 5, 36, 2)
@@ -25,7 +25,7 @@ describe("Get tidy table from trapping and hunting data", {
     expected_hunting_method_grouped_data <- rep("Hunting", 7)
     expect_equal_column(grouped_data, "Method", expected_hunting_method_grouped_data)
   })
-  it("test get_removal_and_effort_observation",{
+  it("test get_removal_and_effort_observation", {
     sighting_data <- read_csv("../data/input_get_removal_and_effort_sighting.csv", show_col_types = FALSE)
     grouped_data <- get_detection_and_effort_observation(sighting_data)
     expected_observation_effort_grouped_data <- c(2, 2, 2, 2, 4, 2, 2, 2, 2)
