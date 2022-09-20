@@ -65,16 +65,17 @@ group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, Session, Ocassion)
   return(grouped_data)
 }
-tidy_from_path_field <- function(path) {
-  tidy_trapping <- tidy_from_path_trapping(path)
-  tidy_hunting <- tidy_from_path_hunting(path)
-  tidy_observation <- tidy_from_path_observation(path)
+tidy_from_path_field <- function(path_list) {
+  tidy_trapping <- tidy_from_path_trapping(path_list[["trapping"]])
+  tidy_hunting <- tidy_from_path_hunting(path_list[["hunting"]])
+  tidy_observation <- tidy_from_path_observation(path_list)
   return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
 
 #' @export
-get_tidy_from_field_and_cameras <- function(paths) {
-  tidy_field <- tidy_from_path_field(paths[["field"]])
-  tidy_camera <- tidy_from_path_camera(paths)
+get_tidy_from_field_and_cameras <- function(path_config) {
+  path_list <- path_config[["field"]]
+  tidy_field <- tidy_from_path_field(path_list)
+  tidy_camera <- tidy_from_path_camera(path_config)
   return(rbind(tidy_field, tidy_camera))
 }

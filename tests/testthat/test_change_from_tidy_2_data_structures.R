@@ -2,10 +2,13 @@ library(tidyverse)
 
 describe("We define the expected data structures", {
   path_cameras <- "../data/raw_cameras.csv"
-  path_field <- "../data/input_trapping_hunting.csv"
+  sigthing_path <- "../data/observations_database_for_tests.csv"
+  hunting_path <- "../data/hunting_database_for_tests.csv"
+  trapping_path <- "../data/trapping_database_for_tests.csv"
   path_coordinates <- "../data/camera_traps_coordinates.csv"
-  paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
-  tidy_table <- get_tidy_from_field_and_cameras(paths)
+  path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
+  path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
+  tidy_table <- get_tidy_from_field_and_cameras(path_config)
   session <- "2022-4"
   capturas <- tidy_table %>%
     filter(Session == session) %>%
