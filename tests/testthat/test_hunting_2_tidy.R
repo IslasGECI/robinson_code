@@ -10,7 +10,7 @@ describe("Get removals and effort from hunting", {
   })
   it("test get_ocassion with new tables", {
     obtained_ocassion <- get_ocassion(hunting_data)
-    expected_ocassion <- c(31, 35, 42, 1, 11, 14, 20)
+    expected_ocassion <- c(32, 36, 43, 2, 12, 15, 21)
     expect_equal(obtained_ocassion$Ocassion, expected_ocassion)
   })
   it("test get_session with new tables", {
