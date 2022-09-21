@@ -9,7 +9,6 @@ describe("We define the expected data structures", {
   path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
   path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
-  write_csv(tidy_table, "../data/tidy_table.csv")
   session <- "2022-4"
   capturas <- tidy_table %>%
     filter(Session == session) %>%
