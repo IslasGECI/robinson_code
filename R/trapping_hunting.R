@@ -43,9 +43,10 @@ get_removal_and_effort_by_method <- function(data, removed, effort, method) {
 
 
 get_ocassion <- function(raw_trapping_hunting) {
-  ocassions <- raw_trapping_hunting %>%
-    mutate(Ocassion = lubridate::isoweek(raw_trapping_hunting$Date))
-  return(ocassions)
+  ocassions <- sapply(raw_trapping_hunting$Date, get_week_of_year_from_date)
+  trapping_hunting_with_ocassions <- raw_trapping_hunting %>%
+    mutate(Ocassion = ocassions)
+  return(trapping_hunting_with_ocassions)
 }
 
 get_session <- function(data_trapping_hunting) {
