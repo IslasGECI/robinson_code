@@ -132,6 +132,9 @@ describe("get_week_of_year_from_date", {
     date <- "2011-01-01"
     obtained_week <- get_week_of_year_from_date(date)
     expect_equal(obtained_week, expected_week)
+    date <- "2012-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
   })
   it("Testing December", {
     expected_week <- 53
@@ -148,6 +151,10 @@ describe("get_week_of_year_from_date", {
     obtained_week <- get_week_of_year_from_date(date)
     expect_equal(obtained_week, expected_week)
     date <- "2011-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2012-12-31"
+    expected_week <- 54
     obtained_week <- get_week_of_year_from_date(date)
     expect_equal(obtained_week, expected_week)
   })
