@@ -113,3 +113,42 @@ describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid 
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
 })
+
+describe("get_week_of_year_from_date", {
+  it("Testing January", {
+    expected_week <- 1
+    date <- "2007-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2008-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2009-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2010-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2011-01-01"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+  })
+  it("Testing December", {
+    expected_week <- 53
+    date <- "2007-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2008-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2009-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2010-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+    date <- "2011-12-31"
+    obtained_week <- get_week_of_year_from_date(date)
+    expect_equal(obtained_week, expected_week)
+  })
+})
