@@ -21,6 +21,28 @@ get_tibble_with_grid_ocassion_columns <- function(grid, month) {
   return(missing_rows)
 }
 
+get_first_last_week_from_month <- function(session) {
+  first_and_last_days <- get_first_and_last_day_of_month(session)
+  return(c(get_first_week_of_month(first_and_last_days[["first"]]), get_last_week_of_month(first_and_last_days[["last"]])))
+}
+get_first_week_of_month <- function(first_day_of_month) {
+  first_week_of_month <- get_week_of_year_from_date(first_day_of_month)
+  return(first_week_of_month)
+}
+get_last_week_of_month <- function(last_day_of_month) {
+  last_week_of_month <- get_week_of_year_from_date(last_day_of_month)
+  return(last_week_of_month)
+}
+get_first_and_last_day_of_month <- function(session) {
+  first_day_of_month <- paste0(session, "-01")
+  year <- lubridate::year(first_day_of_month)
+  last_of_january_string <- paste0(year, "-01-31")
+  last_of_january <- lubridate::ymd(last_of_january_string)
+  month <- lubridate::month(first_day_of_month)
+  last_day_of_month <- lubridate::add_with_rollback(last_of_january, months(month - 1))
+  return(list("first" = first_day_of_month, "last" = last_day_of_month))
+}
+
 get_week_of_year_from_date <- function(date) {
   year <- lubridate::year(date)
   first_day_of_year_string <- paste0(year, "-01-01")
@@ -41,26 +63,4 @@ get_week_of_year_from_date <- function(date) {
     }
   }
   return(week_of_year)
-}
-
-get_first_last_week_from_month <- function(session) {
-  first_and_last_days <- get_first_and_last_day_of_month(session)
-  return(c(get_first_week_of_month(first_and_last_days[["first"]]), get_last_week_of_month(first_and_last_days[["last"]])))
-}
-get_first_week_of_month <- function(first_day_of_month){
-  first_week_of_month <- get_week_of_year_from_date(first_day_of_month)
-  return(first_week_of_month)
-}
-get_last_week_of_month <- function(last_day_of_month){
-  last_week_of_month <- get_week_of_year_from_date(last_day_of_month)
-  return(last_week_of_month)
-}
-get_first_and_last_day_of_month <- function(session){
-  first_day_of_month <- paste0(session, "-01")
-  year <- lubridate::year(first_day_of_month)
-  last_of_january_string <- paste0(year, "-01-31")
-  last_of_january <- lubridate::ymd(last_of_january_string)
-  month <- lubridate::month(first_day_of_month)
-  last_day_of_month <- lubridate::add_with_rollback(last_of_january, months(month - 1))
-  return(list("first" = first_day_of_month, "last" = last_day_of_month))
 }
