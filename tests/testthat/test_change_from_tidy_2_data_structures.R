@@ -9,6 +9,7 @@ describe("We define the expected data structures", {
   path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
   path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
+  write_csv(tidy_table, "../data/tidy_table.csv")
   session <- "2022-4"
   capturas <- tidy_table %>%
     filter(Session == session) %>%
@@ -63,13 +64,13 @@ describe("We define the expected data structures", {
 describe("Get limit weeks", {
   it("Get first and final week from April", {
     month <- "2022-4"
-    expected_weeks <- c(13, 17)
+    expected_weeks <- c(14, 18)
     obtained_weeks <- get_first_last_week_from_month(month)
     expect_equal(obtained_weeks, expected_weeks)
   })
   it("Get first and final week from May", {
     month <- "2022-5"
-    expected_weeks <- c(17, 22)
+    expected_weeks <- c(18, 23)
     obtained_weeks <- get_first_last_week_from_month(month)
     expect_equal(obtained_weeks, expected_weeks)
   })
@@ -102,14 +103,14 @@ describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid 
     grid <- 49
     month <- "2022-4"
     obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
-    expected_missing_weeks <- tibble(Grid = 49, Ocassion = 13:17)
+    expected_missing_weeks <- tibble(Grid = 49, Ocassion = 14:18)
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
   it("For the example grid = 1 and session = 5", {
     grid <- 1
     month <- "2022-5"
     obtained_missing_weeks <- get_tibble_with_grid_ocassion_columns(grid, month)
-    expected_missing_weeks <- tibble(Grid = grid, Ocassion = 17:22)
+    expected_missing_weeks <- tibble(Grid = grid, Ocassion = 18:23)
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
 })
