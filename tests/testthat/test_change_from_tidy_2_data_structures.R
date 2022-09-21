@@ -159,18 +159,3 @@ describe("get_week_of_year_from_date", {
     expect_equal(obtained_week, expected_week)
   })
 })
-
-describe("test extremes weeks of month", {
-  it("test get_first_week_of_month", {
-    first_day_of_month <- "2022-4-1"
-    obtained_first_week <- get_first_week_of_month(first_day_of_month)
-    expected_first_week <- 14
-    expect_equal(obtained_first_week, expected_first_week)
-  })
-  it("test get_last_week_of_month", {
-    last_day_of_month <- "2022-4-30"
-    obtained_last_week <- get_last_week_of_month(last_day_of_month)
-    expected_last_week <- 18
-    expect_equal(obtained_last_week, expected_last_week)
-  })
-})
