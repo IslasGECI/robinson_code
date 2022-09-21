@@ -12,12 +12,13 @@ get_tibble_with_grid_ocassion_columns <- function(grid, month) {
   return(missing_rows)
 }
 
-get_week_of_year_from_date <- function(date) {
+get_week_of_year_from_date <- function(date){
   year <- lubridate::year(date)
   first_day_of_year_string <- paste0(year, "-01-01")
   first_week_of_year <- lubridate::isoweek(first_day_of_year_string)
+  week_of_year <- lubridate::isoweek(date)
   if (first_week_of_year >= 52) {
-    week_of_year <- lubridate::isoweek(date) + 1
+    week_of_year <- week_of_year + 1
   }
   month_of_year <- lubridate::month(date)
   if ((month_of_year == 1) & (week_of_year >= 52)) {
