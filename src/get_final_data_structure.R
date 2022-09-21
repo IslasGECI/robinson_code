@@ -9,17 +9,20 @@ path_hunting <- "data/raw/robinson_coati_detection_camera_traps/hunting.csv"
 path_list <- list("hunting" = path_hunting, "trapping" = path_trapping, "sighting" = path_sighting)
 path_config <- list("field" = path_list, "cameras" = path_cameras, "coordinates" = path_coordinates)
 tidy_table <- get_tidy_from_field_and_cameras(path_config)
-year <- "2022-"
+year <- "2021-"
 methods <- c("Hunting", "Trapping", "Observation", "Camera-Traps")
-for (i in 1:5){
-  for (method in methods){
+
+for (method in methods){
+  multisession_by_method <- tibble(Grid = as.numeric(), Session = "", Method = "", r_1 = as.numeric(), r_2 = as.numeric(), r_3 = as.numeric(), r_4 = as.numeric(), r_5 = as.numeric(), r_6 = as.numeric(),e_1 = as.numeric(), e_2 = as.numeric(), e_3 = as.numeric(), e_4 = as.numeric(), e_5 = as.numeric(), e_6 = as.numeric())
+  for (i in 1:12){
     session <- paste0(year,i) 
     filter_tidy <-Filter_tidy$new(tidy_table)
-    print(session)
     filter_tidy$select_session(session)
     filter_tidy$select_method(method)
     final_structure <- filter_tidy$spatial()
-    output_path <- glue::glue("data/{session}_{method}.csv")
-    write_csv(final_structure, file = output_path, na = "0")
+    multisession_by_method <- plyr::rbind.fill(multisession_by_method, final_structure)
   }
+  output_path <- glue::glue("data/{year}{method}.csv")
+  multisession_by_method <- subset(multisession_by_method, select=-c(Method))
+  write_csv(multisession_by_method, file = output_path, na = "0")
 }
