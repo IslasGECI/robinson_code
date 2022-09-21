@@ -24,8 +24,12 @@ get_week_of_year_from_date <- function(date) {
   if ((month_of_year == 1) & (week_of_year >= 52)) {
     week_of_year <- 1
   }
-  if ((month_of_year == 12) & (week_of_year <= 2)) {
-    week_of_year <- 53
+  if ((month_of_year == 12)) {
+    if (week_of_year == 1) {
+      week_of_year <- 53
+    } else if (week_of_year == 2) {
+      week_of_year <- 54
+    }
   }
   return(week_of_year)
 }
