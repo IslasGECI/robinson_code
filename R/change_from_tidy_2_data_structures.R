@@ -9,15 +9,8 @@ tidy_2_final <- function(tidy_table) {
   return(final)
 }
 
-path_cameras <- "data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv"
-path_coordinates <- "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv"
-path_trapping <- "data/raw/robinson_coati_detection_camera_traps/trapping.csv"
-path_sighting <- "data/raw/robinson_coati_detection_camera_traps/observations.csv"
-path_hunting <- "data/raw/robinson_coati_detection_camera_traps/hunting.csv"
-path_list <- list("hunting" = path_hunting, "trapping" = path_trapping, "sighting" = path_sighting)
-path_config <- list("field" = path_list, "cameras" = path_cameras, "coordinates" = path_coordinates)
 #' @export
-get_multisession_structures_by_method <- function(path_config = path_config) {
+get_multisession_structures_by_method <- function(path_config) {
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
   methods <- c("Hunting", "Trapping", "Observation", "Camera-Traps")
 
@@ -33,8 +26,7 @@ get_multisession_structures_by_method <- function(path_config = path_config) {
         multisession_by_method <- plyr::rbind.fill(multisession_by_method, final_structure)
       }
     }
-    workdir <- getwd()
-    output_path <- glue::glue(workdir, "/../data/{method}.csv")
+    output_path <- glue::glue("data/{method}.csv")
     multisession_by_method <- subset(multisession_by_method, select = -c(Method))
     write_csv(multisession_by_method, file = output_path, na = "0")
   }
