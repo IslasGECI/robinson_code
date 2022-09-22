@@ -8,6 +8,15 @@ describe("We define the expected data structures", {
   path_coordinates <- "../data/camera_traps_coordinates.csv"
   path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
   path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
+  
+  
+  it("Test hunting multisession structure",{
+    expected_hunting_multisession <- read_csv("../data/output_get_multisession_structure_hunting.csv", show_col_types = FALSE)
+    get_multisession_structures_by_method(path_config=path_config)
+    obtained_hunting_multisession <- read_csv("../data/Hunting.csv", show_col_types = FALSE)
+    expect_equal(obtained_hunting_multisession, expected_hunting_multisession)
+  })
+  
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
   session <- "2022-4"
   capturas <- tidy_table %>%
@@ -49,8 +58,8 @@ describe("We define the expected data structures", {
     final_structure$select_session(session)
     final_structure$select_method(method)
     obtained_final_structure <- final_structure$spatial()
-    path_expected <- "../data/hunting_final_structure.csv"
-    expected_final_structure <- read_csv(path_expected, show_col_types = FALSE, col_types = "nccnnnnnnnnnn")
+    path_expected_hunting <- "../data/hunting_final_structure.csv"
+    expected_final_structure <- read_csv(path_expected_hunting, show_col_types = FALSE, col_types = "nccnnnnnnnnnn")
     expect_equal(obtained_final_structure, expected_final_structure)
 
     expected_capture <- capturas %>%
