@@ -1,34 +1,35 @@
 library(tidyverse)
 
-tidy_2_final <- function(tidy_table) {
-  first_month_week <- min(tidy_table$Ocassion)
-  tidy_table <- tidy_table %>% mutate(Ocassion = Ocassion - first_month_week + 1)
-  final <- tidy_table %>%
-    pivot_wider(names_from = Ocassion, values_from = c(r, e))
-  return(final)
-}
-
 #' @export
 get_multisession_structures_by_method <- function(path_config) {
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
   methods <- c("Hunting", "Trapping", "Observation", "Camera-Traps")
-
+  years <- 2020:2022
   for (method in methods) {
-    multisession_by_method <- tibble(Grid = as.numeric(), Session = "", Method = "", r_1 = as.numeric(), r_2 = as.numeric(), r_3 = as.numeric(), r_4 = as.numeric(), r_5 = as.numeric(), r_6 = as.numeric(), e_1 = as.numeric(), e_2 = as.numeric(), e_3 = as.numeric(), e_4 = as.numeric(), e_5 = as.numeric(), e_6 = as.numeric())
-    for (year in 2020:2022) {
-      for (month in 1:12) {
-        session <- paste(year, month, sep = "-")
-        filter_tidy <- Filter_tidy$new(tidy_table)
-        filter_tidy$select_session(session)
-        filter_tidy$select_method(method)
-        final_structure <- filter_tidy$spatial()
-        multisession_by_method <- plyr::rbind.fill(multisession_by_method, final_structure)
-      }
-    }
-    output_path <- paste0(path_config[["output_path"]], "/", method, ".csv")
-    multisession_by_method <- subset(multisession_by_method, select = -c(Method))
+    multisession_by_method <- get_multiyear_structure_by_method(tidy_table, years, method)
+    output_dir <- path_config[["output_path"]]
+    output_path <- glue::glue("{output_dir}/{method}.csv")
     write_csv(multisession_by_method, file = output_path, na = "0")
   }
+}
+get_multiyear_structure_by_method <- function(tidy_table, years, method) {
+  multisession_by_method <- tibble(Grid = as.numeric(), Session = "", Method = "", r_1 = as.numeric(), r_2 = as.numeric(), r_3 = as.numeric(), r_4 = as.numeric(), r_5 = as.numeric(), r_6 = as.numeric(), e_1 = as.numeric(), e_2 = as.numeric(), e_3 = as.numeric(), e_4 = as.numeric(), e_5 = as.numeric(), e_6 = as.numeric())
+  for (year in years) {
+    for (month in 1:12) {
+      session <- paste(year, month, sep = "-")
+      final_structure <- get_structure_by_session_and_method(tidy_table, session, method)
+      multisession_by_method <- plyr::rbind.fill(multisession_by_method, final_structure)
+    }
+  }
+  multisession_by_method <- subset(multisession_by_method, select = -c(Method))
+  return(multisession_by_method)
+}
+get_structure_by_session_and_method <- function(tidy_table, session, method) {
+  filter_tidy <- Filter_tidy$new(tidy_table)
+  filter_tidy$select_session(session)
+  filter_tidy$select_method(method)
+  final_structure <- filter_tidy$spatial()
+  return(final_structure)
 }
 fill_missing_weeks_with_empty_rows <- function(filtered_tall_table, month) {
   grid <- 49
