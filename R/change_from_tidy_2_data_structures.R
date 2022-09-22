@@ -32,9 +32,9 @@ get_structure_by_session_and_method <- function(tidy_table, session, method) {
   return(final_structure)
 }
 fill_missing_weeks_with_empty_rows <- function(filtered_tall_table, month) {
-  grid <- 49
+  grid <- as.numeric(NA)
   missing_rows <- get_tibble_with_grid_ocassion_columns(grid, month)
-  return(full_join(filtered_tall_table, missing_rows))
+  return(tibble(plyr::rbind.fill(filtered_tall_table, missing_rows)))
 }
 
 get_tibble_with_grid_ocassion_columns <- function(grid, month) {
