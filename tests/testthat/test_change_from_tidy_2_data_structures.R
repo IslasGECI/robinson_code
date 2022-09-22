@@ -12,12 +12,12 @@ describe("We define the expected data structures", {
   get_multisession_structures_by_method(path_config = path_config)
   it("Test hunting multisession structure", {
     expected_hunting_multisession <- read_csv("../data/output_get_multisession_structure_hunting.csv", show_col_types = FALSE)
-    obtained_hunting_multisession <- read_csv(paste0(output_path,"/Hunting.csv"), show_col_types = FALSE)
+    obtained_hunting_multisession <- read_csv(paste0(output_path, "/Hunting.csv"), show_col_types = FALSE)
     expect_equal(obtained_hunting_multisession, expected_hunting_multisession)
   })
   it("Test camera-traps multisession structure", {
     expected_camera_traps_multisession <- read_csv("../data/output_get_multisession_structure_camera_traps.csv", show_col_types = FALSE)
-    obtained_camera_traps_multisession <- read_csv(paste0(output_path,"/Camera-Traps.csv"), show_col_types = FALSE)
+    obtained_camera_traps_multisession <- read_csv(paste0(output_path, "/Camera-Traps.csv"), show_col_types = FALSE)
     expect_equal(obtained_camera_traps_multisession, expected_camera_traps_multisession)
   })
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
