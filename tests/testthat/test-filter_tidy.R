@@ -6,8 +6,7 @@ describe("Test tidy filters", {
   hunting_path <- "../data/hunting_database_for_tests.csv"
   trapping_path <- "../data/trapping_database_for_tests.csv"
   path_coordinates <- "../data/camera_traps_coordinates.csv"
-  path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
-  path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
+  path_config <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path, "cameras" = path_cameras, "coordinates" = path_coordinates)
   tidy_table <- get_tidy_from_field_and_cameras(path_config)
   it("Session returns same number", {
     final_structure <- Filter_tidy$new(tidy_table)

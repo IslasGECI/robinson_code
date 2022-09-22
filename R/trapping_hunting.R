@@ -1,9 +1,9 @@
 library(tidyverse)
 
-tidy_from_path_observation <- function(path_list) {
+tidy_from_path_observation <- function(path_config) {
   workdir_path <- getwd()
   sighting_path <- paste0(workdir_path, "/sighting.csv")
-  write_csv(concatenate_observations_from_trapping_and_hunting(path_list), sighting_path)
+  write_csv(concatenate_observations_from_trapping_and_hunting(path_config), sighting_path)
   tidy_from_path_by_method(sighting_path, get_detection_and_effort_observation)
 }
 tidy_from_path_hunting <- function(path) {
@@ -66,17 +66,16 @@ group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, Session, Ocassion)
   return(grouped_data)
 }
-tidy_from_path_field <- function(path_list) {
-  tidy_trapping <- tidy_from_path_trapping(path_list[["trapping"]])
-  tidy_hunting <- tidy_from_path_hunting(path_list[["hunting"]])
-  tidy_observation <- tidy_from_path_observation(path_list)
+tidy_from_path_field <- function(path_config) {
+  tidy_trapping <- tidy_from_path_trapping(path_config[["trapping"]])
+  tidy_hunting <- tidy_from_path_hunting(path_config[["hunting"]])
+  tidy_observation <- tidy_from_path_observation(path_config)
   return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
 
 #' @export
 get_tidy_from_field_and_cameras <- function(path_config) {
-  path_list <- path_config[["field"]]
-  tidy_field <- tidy_from_path_field(path_list)
+  tidy_field <- tidy_from_path_field(path_config)
   tidy_camera <- tidy_from_path_camera(path_config)
   return(rbind(tidy_field, tidy_camera))
 }

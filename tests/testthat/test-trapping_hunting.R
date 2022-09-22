@@ -4,7 +4,7 @@ describe("Get tidy table from trapping and hunting data", {
   sigthing_path <- "../data/observations_database_for_tests.csv"
   hunting_path <- "../data/hunting_database_for_tests.csv"
   trapping_path <- "../data/trapping_database_for_tests.csv"
-  path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
+  path_config <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path, "cameras" = "../data/raw_cameras_with_detection.csv", "coordinates" = "../data/camera_traps_coordinates.csv")
   expect_equal_column <- function(grouped_data, column_name, expected_column) {
     obtained_column <- grouped_data[[column_name]]
     expect_equal(obtained_column, expected_column)
@@ -51,12 +51,11 @@ describe("Get tidy table from trapping and hunting data", {
   it("Concatenate tidy tables", {
     tidy_field_path <- "../data/tidy_from_field.csv"
     expected_tidy_table_from_field <- read_csv(tidy_field_path, show_col_types = FALSE)
-    obtained_tidy_table_from_field <- tidy_from_path_field(path_list)
+    obtained_tidy_table_from_field <- tidy_from_path_field(path_config)
     expect_equal(obtained_tidy_table_from_field, expected_tidy_table_from_field)
   })
   it("Concatenate camera traps and field tidy tables", {
-    PATHS <- list("field" = path_list, "cameras" = "../data/raw_cameras_with_detection.csv", "coordinates" = "../data/camera_traps_coordinates.csv")
-    obtained_tidy_four_methods <- get_tidy_from_field_and_cameras(PATHS)
+    obtained_tidy_four_methods <- get_tidy_from_field_and_cameras(path_config)
     tidy_four_methods_path <- "../data/tidy_four_methods.csv"
     expected_tidy_four_methods <- read_csv(tidy_four_methods_path, show_col_types = FALSE)
     expect_equal(obtained_tidy_four_methods, expected_tidy_four_methods)

@@ -7,8 +7,7 @@ describe("We define the expected data structures", {
   trapping_path <- "../data/trapping_database_for_tests.csv"
   path_coordinates <- "../data/camera_traps_coordinates.csv"
   output_path <- "/workdir/tests/testthat/data"
-  path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
-  path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates, "output_path" = output_path)
+  path_config <- list("cameras" = path_cameras, "hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path, "coordinates" = path_coordinates, "output_path" = output_path)
   get_multisession_structures_by_method(path_config = path_config)
   it("Test hunting multisession structure", {
     expected_hunting_multisession <- read_csv("../data/output_get_multisession_structure_hunting.csv", show_col_types = FALSE)
