@@ -2,15 +2,19 @@ library(tidyverse)
 
 describe("Test tidy filters", {
   path_cameras <- "../data/raw_cameras.csv"
-  path_field <- "../data/input_trapping_hunting.csv"
+  sigthing_path <- "../data/observations_database_for_tests.csv"
+  hunting_path <- "../data/hunting_database_for_tests.csv"
+  trapping_path <- "../data/trapping_database_for_tests.csv"
   path_coordinates <- "../data/camera_traps_coordinates.csv"
-  paths <- list("cameras" = path_cameras, "field" = path_field, "coordinates" = path_coordinates)
-  tidy_table <- get_tidy_from_field_and_cameras(paths)
+  path_list <- list("hunting" = hunting_path, "trapping" = trapping_path, "sighting" = sigthing_path)
+  path_config <- list("cameras" = path_cameras, "field" = path_list, "coordinates" = path_coordinates)
+  tidy_table <- get_tidy_from_field_and_cameras(path_config)
   it("Session returns same number", {
     final_structure <- Filter_tidy$new(tidy_table)
-    final_structure$select_session(3)
+    session <- "2022-3"
+    final_structure$select_session(session)
     obtained_session <- final_structure$aux$Session
-    expected_session <- rep(3, 3)
+    expected_session <- rep(session, 3)
     expect_equal(obtained_session, expected_session)
   })
   it("Filter by method", {
@@ -23,28 +27,28 @@ describe("Test tidy filters", {
   })
   it("Filter both, session first", {
     method <- "Hunting"
-    session <- 5
+    session <- "2022-5"
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_session(session)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 3))
+    expect_equal(obtained_session, rep(session, 8))
     filter_tidy$select_method(method)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 1))
+    expect_equal(obtained_session, rep(session, 1))
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 1))
+    expect_equal(obtained_method, rep(method, 1))
   })
   it("Filter both, method first", {
     method <- "Hunting"
-    session <- 5
+    session <- "2022-5"
     filter_tidy <- Filter_tidy$new(tidy_table)
     filter_tidy$select_method(method)
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 7))
+    expect_equal(obtained_method, rep(method, 7))
     filter_tidy$select_session(session)
     obtained_session <- filter_tidy$aux$Session
-    expect_equal(obtained_session, rep(5, 1))
+    expect_equal(obtained_session, rep(session, 1))
     obtained_method <- filter_tidy$aux$Method
-    expect_equal(obtained_method, rep("Hunting", 1))
+    expect_equal(obtained_method, rep(method, 1))
   })
 })

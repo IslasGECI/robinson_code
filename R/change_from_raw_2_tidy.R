@@ -28,7 +28,7 @@ fill_dates <- function(raw_data) {
 
 select_date_ocassion_camera_and_detection_columns <- function(data) {
   dates <- data$DateTime
-  ocassions <- lubridate::isoweek(dates)
+  ocassions <- sapply(dates, get_week_of_year_from_date)
   camera_IDs <- get_id_camera_from_relative_path(data$RelativePath)
   coati_count <- data$CoatiCount
   result <- tibble(
@@ -93,8 +93,10 @@ join_original_with_window_numbers <- function(original, with_window) {
 
 
 count_detection_by_day <- function(filter_table) {
+  months <- lubridate::month(filter_table$date)
+  years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
-    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = lubridate::month(date)) %>%
+    group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years, months, sep = "-")) %>%
     summarize(r = sum(coati_count)) %>%
     ungroup()
   return(filtered_structure)

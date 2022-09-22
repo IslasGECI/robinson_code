@@ -27,6 +27,7 @@ check:
 clean:
 	rm --force *.tar.gz
 	rm --force --recursive tests/testthat/_snaps
+	rm --force --recursive tests/testthat/data
 	rm --force NAMESPACE
 
 coverage: install
@@ -38,13 +39,16 @@ format:
       -e "style_dir('tests')" \
       -e "style_dir('tests/testthat')"
 
-init: install tests
+init: setup tests
 
-install: clean
+install: clean setup
 	R -e "devtools::document()" && \
     R CMD build . && \
     R CMD check robinson_0.1.0.tar.gz && \
     R CMD INSTALL robinson_0.1.0.tar.gz
+
+setup:
+	mkdir --parents tests/testthat/data
 
 tests:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"

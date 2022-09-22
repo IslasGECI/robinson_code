@@ -1,7 +1,10 @@
 library(tidyverse)
 
-tidy_from_path_observation <- function(path) {
-  tidy_from_path_by_method(path, get_detection_and_effort_observation)
+tidy_from_path_observation <- function(path_list) {
+  workdir_path <- getwd()
+  sighting_path <- paste0(workdir_path, "/sighting.csv")
+  write_csv(concatenate_observations_from_trapping_and_hunting(path_list), sighting_path)
+  tidy_from_path_by_method(sighting_path, get_detection_and_effort_observation)
 }
 tidy_from_path_hunting <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_hunting)
@@ -9,9 +12,10 @@ tidy_from_path_hunting <- function(path) {
 tidy_from_path_trapping <- function(path) {
   tidy_from_path_by_method(path, get_removal_and_effort_trapping)
 }
+
 tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
   raw_data <- read_csv(path, show_col_types = FALSE)
-  trapping_hunting_data <- get_hunting_effort(raw_data) %>%
+  trapping_hunting_data <- get_person_day_effort(raw_data) %>%
     get_ocassion() %>%
     get_session() %>%
     select_columns()
@@ -19,12 +23,11 @@ tidy_from_path_by_method <- function(path, get_removal_and_effort_method) {
   return(tidy_trapping)
 }
 
-
 get_detection_and_effort_observation <- function(data) {
-  get_removal_and_effort_by_method(data, `Observed_Coati`, `hunting_effort`, "Observation")
+  get_removal_and_effort_by_method(data, `Observed_Coati`, `Person_day_effort`, "Observation")
 }
 get_removal_and_effort_hunting <- function(data) {
-  get_removal_and_effort_by_method(data, `Hunted_Coati`, `hunting_effort`, "Hunting")
+  get_removal_and_effort_by_method(data, `Hunted_Coati`, `Person_day_effort`, "Hunting")
 }
 get_removal_and_effort_trapping <- function(data) {
   get_removal_and_effort_by_method(data, `Captured_Coati`, `Night-traps`, "Trapping")
@@ -32,27 +35,25 @@ get_removal_and_effort_trapping <- function(data) {
 get_removal_and_effort_by_method <- function(data, removed, effort, method) {
   grouped_data <- data %>%
     group_by_grid_session_and_ocassion() %>%
-    summarize(r = sum({{ removed }}), e = sum({{ effort }})) %>%
+    summarize(r = sum({{ removed }}, na.rm = TRUE), e = sum({{ effort }}, na.rm = TRUE)) %>%
     ungroup() %>%
     mutate(Method = method)
   return(grouped_data)
 }
 
-get_hunting_effort <- function(raw_trapping_hunting) {
-  hunting_effort <- raw_trapping_hunting %>%
-    mutate(hunting_effort = Days_on_terrain * Persons_on_terrain)
-  return(hunting_effort)
-}
 
 get_ocassion <- function(raw_trapping_hunting) {
-  ocassions <- raw_trapping_hunting %>%
-    mutate(Ocassion = lubridate::isoweek(raw_trapping_hunting$Date))
-  return(ocassions)
+  ocassions <- sapply(raw_trapping_hunting$Date, get_week_of_year_from_date)
+  trapping_hunting_with_ocassions <- raw_trapping_hunting %>%
+    mutate(Ocassion = ocassions)
+  return(trapping_hunting_with_ocassions)
 }
 
 get_session <- function(data_trapping_hunting) {
+  months <- lubridate::month(data_trapping_hunting$Date)
+  years <- lubridate::year(data_trapping_hunting$Date)
   sessions <- data_trapping_hunting %>%
-    mutate(Session = lubridate::month(data_trapping_hunting$Date))
+    mutate(Session = paste(years, months, sep = "-"))
   return(sessions)
 }
 
@@ -65,16 +66,17 @@ group_by_grid_session_and_ocassion <- function(data) {
   grouped_data <- data %>% group_by(Grid, Session, Ocassion)
   return(grouped_data)
 }
-tidy_from_path_field <- function(path) {
-  tidy_trapping <- tidy_from_path_trapping(path)
-  tidy_hunting <- tidy_from_path_hunting(path)
-  tidy_observation <- tidy_from_path_observation(path)
+tidy_from_path_field <- function(path_list) {
+  tidy_trapping <- tidy_from_path_trapping(path_list[["trapping"]])
+  tidy_hunting <- tidy_from_path_hunting(path_list[["hunting"]])
+  tidy_observation <- tidy_from_path_observation(path_list)
   return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
 
 #' @export
-get_tidy_from_field_and_cameras <- function(paths) {
-  tidy_field <- tidy_from_path_field(paths[["field"]])
-  tidy_camera <- tidy_from_path_camera(paths)
+get_tidy_from_field_and_cameras <- function(path_config) {
+  path_list <- path_config[["field"]]
+  tidy_field <- tidy_from_path_field(path_list)
+  tidy_camera <- tidy_from_path_camera(path_config)
   return(rbind(tidy_field, tidy_camera))
 }
