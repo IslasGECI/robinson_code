@@ -40,7 +40,7 @@ format:
 
 init: setup tests
 
-install: clean
+install: clean setup
 	R -e "devtools::document()" && \
     R CMD build . && \
     R CMD check robinson_0.1.0.tar.gz && \
