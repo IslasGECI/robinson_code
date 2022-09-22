@@ -32,3 +32,11 @@ Filter_tidy <- R6::R6Class("Filter_tidy",
     }
   )
 )
+
+tidy_2_final <- function(tidy_table) {
+  first_month_week <- min(tidy_table$Ocassion)
+  tidy_table <- tidy_table %>% mutate(Ocassion = Ocassion - first_month_week + 1)
+  final <- tidy_table %>%
+    pivot_wider(names_from = Ocassion, values_from = c(r, e))
+  return(final)
+}
