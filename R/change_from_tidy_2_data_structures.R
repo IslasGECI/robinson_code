@@ -26,7 +26,7 @@ get_multisession_structures_by_method <- function(path_config) {
         multisession_by_method <- plyr::rbind.fill(multisession_by_method, final_structure)
       }
     }
-    output_path <- glue::glue("data/{method}.csv")
+    output_path <- paste0(path_config[["output_path"]], "/", method, ".csv")
     multisession_by_method <- subset(multisession_by_method, select = -c(Method))
     write_csv(multisession_by_method, file = output_path, na = "0")
   }
