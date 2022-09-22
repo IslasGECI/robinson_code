@@ -27,6 +27,7 @@ check:
 clean:
 	rm --force *.tar.gz
 	rm --force --recursive tests/testthat/_snaps
+	rm --force --recursive tests/testthat/data
 	rm --force NAMESPACE
 
 coverage: install
