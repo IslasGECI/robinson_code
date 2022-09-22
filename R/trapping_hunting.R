@@ -73,7 +73,6 @@ tidy_from_path_field <- function(path_config) {
   return(full_join(tidy_hunting, tidy_trapping) %>% full_join(tidy_observation))
 }
 
-#' @export
 get_tidy_from_field_and_cameras <- function(path_config) {
   tidy_field <- tidy_from_path_field(path_config)
   tidy_camera <- tidy_from_path_camera(path_config)
