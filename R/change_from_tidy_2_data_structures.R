@@ -1,6 +1,5 @@
 library(tidyverse)
 
-#' @export
 tidy_2_final <- function(tidy_table) {
   first_month_week <- min(tidy_table$Ocassion)
   tidy_table <- tidy_table %>% mutate(Ocassion = Ocassion - first_month_week + 1)
@@ -17,8 +16,8 @@ get_multisession_structures_by_method <- function(path_config) {
   for (method in methods) {
     multisession_by_method <- tibble(Grid = as.numeric(), Session = "", Method = "", r_1 = as.numeric(), r_2 = as.numeric(), r_3 = as.numeric(), r_4 = as.numeric(), r_5 = as.numeric(), r_6 = as.numeric(), e_1 = as.numeric(), e_2 = as.numeric(), e_3 = as.numeric(), e_4 = as.numeric(), e_5 = as.numeric(), e_6 = as.numeric())
     for (year in 2020:2022) {
-      for (i in 1:12) {
-        session <- paste(year, i, sep = "-")
+      for (month in 1:12) {
+        session <- paste(year, month, sep = "-")
         filter_tidy <- Filter_tidy$new(tidy_table)
         filter_tidy$select_session(session)
         filter_tidy$select_method(method)
