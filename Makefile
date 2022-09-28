@@ -1,9 +1,9 @@
 all: plot_pred_grid_2.png
 
-plot_pred_grid_2.png: data/july_camera_traps.csv src/Robinson_crusoe.R
+plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
 
-data/july_camera_traps.csv: data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv src/get_final_data_structure.R
+data/Camera-Traps.csv: data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv src/get_final_data_structure.R
 	Rscript src/get_final_data_structure.R
 
 .PHONY: \
