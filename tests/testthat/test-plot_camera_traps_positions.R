@@ -1,6 +1,6 @@
 describe("Get camera traps positions", {
   it("Hash test for plot_crusoe", {
-    crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp" 
+    crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
     square_grid_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp"
     camera_sightings_path <- "../data/april_camera_traps_2022.csv"
     coordinates_path <- "../data/camera_traps_coordinates_april_2022.csv"
