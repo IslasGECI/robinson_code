@@ -17,7 +17,7 @@ gridc<- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames
 hab1<- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
 cam_coords<- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
-cam_obs<- read_csv("data/april_camera_traps.csv", show_col_types = FALSE)
+cam_obs<- read_csv("data/Camera-Traps.csv", show_col_types = FALSE)
 
 # remove camera coords with ID == NA
 cam_coords<- cam_coords %>%
