@@ -96,7 +96,10 @@ allhab<- allhab %>% filter(habitat != 10) %>% mutate(habitat=factor(habitat))
 preds<- calcN(m, newdata = allhab, off.set = allhab$rcell)
 
 # Total population size
-preds$Nhat
+print(preds$Nhat)
+predictions <- array(list(), 2)
+
+predictions[[1]] <- list("buffer_radius"= buffer_radius, "prediction"=preds)
 
 # Plot cell predictions
 allhab<- allhab %>% mutate(N = preds$cellpreds$N)
@@ -173,7 +176,9 @@ allhab<- allhab %>% filter(!(habitat %in% c(3,7,10))) %>% mutate(habitat=factor(
 preds<- calcN(m, newdata = allhab, off.set = allhab$rcell)
 
 # Total population size
-preds$Nhat
+print(preds$Nhat)
+predictions[[2]] <- list("buffer_radius"= buffer_radius, "prediction"=preds)
+
 
 # Plot cell predictions
 allhab<- allhab %>% mutate(N = preds$cellpreds$N)
