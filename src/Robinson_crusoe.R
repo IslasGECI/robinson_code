@@ -23,9 +23,9 @@ camera_sightings_path <- "data/Camera-Traps.csv"
 
 camera_observations <- get_camera_observations(camera_sightings_path = camera_sightings_path)
 
-cobs_n <- camera_observations[["detections"]]
-cobs_e <- camera_observations[["effort"]]
-cobs_l <- camera_observations[["locations"]]
+camera_detections <- camera_observations[["detections"]]
+camera_effort <- camera_observations[["effort"]]
+camera_locations <- camera_observations[["locations"]]
 
 # Quick plot of grid cells and camera locations
 plot_output_path <- "data/plot_crusoe.png"
@@ -36,27 +36,14 @@ plot_camera_positions_in_square_grid(camera_sightings = camera_observations, plo
 
 buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
 
-calc_mode <- function(v) {
-  # find most common element in vector
-  # excluding NA
-  if (all(is.na(v))) {
-    return(NA)
-  }
-  uniqv <- unique(v)
-  uniqv <- na.omit(uniqv)
-  tabs <- tabulate(match(v, uniqv))
-  m <- uniqv[which.max(tabs)]
-  m
-}
-
-cobs_l_buff <- st_buffer(cobs_l, dist = buffer_radius)
+cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
 habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
 habvals <- habvals %>%
   select(-ID, habitat = starts_with("Veg")) %>%
   mutate(habitat = factor(habitat))
 
-y <- cobs_n %>% select(starts_with("r"))
-e <- cobs_e %>% select(starts_with("e"))
+y <- camera_detections %>% select(starts_with("r"))
+e <- camera_effort %>% select(starts_with("e"))
 
 y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
@@ -137,18 +124,18 @@ png(file = "data/plot_crusoe_2.png", width = 600, height = 350)
 plot(st_geometry(crusoe))
 plot(st_geometry(grid), add = TRUE)
 plot(st_geometry(gridc), add = TRUE)
-plot(st_geometry(cobs_l), add = TRUE, pch = 16, col = "red")
+plot(st_geometry(camera_locations), add = TRUE, pch = 16, col = "red")
 dev.off()
 
 
-cobs_l_buff <- st_buffer(cobs_l, dist = buffer_radius)
+cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
 habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
 habvals <- habvals %>%
   select(-ID, habitat = starts_with("Veg")) %>%
   mutate(habitat = factor(habitat))
 
-y <- cobs_n %>% select(starts_with("r"))
-e <- cobs_e %>% select(starts_with("e"))
+y <- camera_detections %>% select(starts_with("r"))
+e <- camera_effort %>% select(starts_with("e"))
 
 y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 

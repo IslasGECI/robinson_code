@@ -23,6 +23,7 @@ get_camera_observations <- function(camera_sightings_path = "data/Camera-Traps.c
 
 buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
 
+#' @export
 calc_mode <- function(v) {
   # find most common element in vector
   # excluding NA
