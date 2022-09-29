@@ -9,6 +9,7 @@ library(sf)
 library(terra)
 library(ggspatial)
 library(eradicate)
+library(robinson)
 
 
 crusoe <- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
@@ -35,12 +36,8 @@ cobs_l <- cam_coords %>%
 cobs_l <- st_as_sf(cobs_l, coords = c("X", "Y"), crs = 32717)
 
 # Quick plot of grid cells and camera locations
-png(file = "data/plot_crusoe.png", width = 600, height = 350)
-plot(st_geometry(crusoe))
-plot(st_geometry(grid), add = TRUE)
-plot(st_geometry(cobs_l), add = TRUE, pch = 16, col = "red")
-dev.off()
-
+plot_output_path <- "data/plot_crusoe.png"
+plot_camera_positions_in_square_grid(plot_output_path = plot_output_path)
 # Extract habitat information from raster using a buffer around the camera
 # locations (size set below).  In this case habitat appears to be categorical
 # so we extract the most common habitat type from the buffer area using the mode
