@@ -34,20 +34,20 @@ calc_mode <- function(v) {
   uniqv <- na.omit(uniqv)
   tabs <- tabulate(match(v, uniqv))
   m <- uniqv[which.max(tabs)]
-  m
+  return(m)
 }
 
 
-get_predictions <- function(buffer_radius, camera_locations) {
-  hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
-  cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
+get_predictions <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path) {
+  hab1 <- rast(vegetation_tiff_path)
+  cobs_l_buff <- st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
     select(-ID, habitat = starts_with("Veg")) %>%
     mutate(habitat = factor(habitat))
 
-  y <- camera_detections %>% select(starts_with("r"))
-  e <- camera_effort %>% select(starts_with("e"))
+  y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
+  e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
 
   y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
@@ -60,12 +60,16 @@ get_predictions <- function(buffer_radius, camera_locations) {
 
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
+
+  gridc <- read_sf(grid_cell_path)
   gridc_buff <- st_buffer(gridc, dist = buffer_radius)
   allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
   allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
 
   # need to account for grid cells with fractional coverage of the island
   # first clip the grid to the island boundary
+
+  grid <- read_sf(square_grid_path)
   grid_clip <- st_intersection(grid, crusoe)
 
   cell_size <- as.numeric(st_area(grid)) / 1e6 # km2
@@ -99,5 +103,5 @@ get_predictions <- function(buffer_radius, camera_locations) {
     geom_sf(aes(fill = N)) +
     scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
     geom_sf(fill = NA, data = crusoe)
-  ggsave("data/plot_pred_grid.png")
+  ggsave(plot_output_path)
 }
