@@ -21,7 +21,7 @@ cam_coords <- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_tr
 
 camera_sightings_path <- "data/Camera-Traps_april_2022.csv"
 
-camera_observations <- get_camera_observations(camera_sightings_path=camera_sightings_path)
+camera_observations <- get_camera_observations(camera_sightings_path = camera_sightings_path)
 
 cobs_n <- camera_observations[["detections"]]
 cobs_e <- camera_observations[["effort"]]
