@@ -19,7 +19,7 @@ hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
 cam_coords <- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
 
-camera_sightings_path <- "data/Camera-Traps_april_2022.csv"
+camera_sightings_path <- "data/Camera-Traps.csv"
 
 camera_observations <- get_camera_observations(camera_sightings_path = camera_sightings_path)
 
