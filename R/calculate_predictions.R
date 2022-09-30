@@ -57,7 +57,6 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   m <- nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
 
   summary(m)
-
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
 
@@ -75,7 +74,6 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
 
   cell_size <- as.numeric(sf::st_area(grid)) / 1e6 # km2
   rcell_size <- cell_size / max(cell_size)
-  print("Estamos en la línea 87")
   allhab <- allhab %>%
     mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>%
     relocate(ID, .before = habitat)
@@ -87,11 +85,9 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   allhab <- allhab %>%
     filter(habitat != 10) %>%
     mutate(habitat = factor(habitat))
-
   preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
 
   # Total population size
-  print(preds$Nhat)
   predictions <- array(list(), 2)
 
   predictions[[1]] <- list("buffer_radius" = buffer_radius, "prediction" = preds)
@@ -107,7 +103,13 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   ggsave(plot_output_path)
 }
 
-get_population_estimate <- function(camera_sightings, hab1, habvals, grid_cell_path, buffer_radius, square_grid) {
+get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buffer_radius, square_grid) {
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
+  habvals <- habvals %>%
+    select(-ID, habitat = starts_with("Veg")) %>%
+    mutate(habitat = factor(habitat))
+
   y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
   e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
 
@@ -131,7 +133,6 @@ get_population_estimate <- function(camera_sightings, hab1, habvals, grid_cell_p
 
   cell_size <- as.numeric(sf::st_area(square_grid)) / 1e6 # km2
   rcell_size <- cell_size / max(cell_size)
-  print("Estamos en la línea 87")
   allhab <- allhab %>%
     mutate(ID = square_grid$Id, rcell = round(rcell_size, 3)) %>%
     relocate(ID, .before = habitat)
@@ -147,6 +148,5 @@ get_population_estimate <- function(camera_sightings, hab1, habvals, grid_cell_p
   preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
 
   # Total population size
-  print(preds$Nhat)
   return(preds)
 }

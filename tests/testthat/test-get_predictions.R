@@ -10,10 +10,9 @@ describe("Get camera traps positions", {
   it("Test get_population_estimates", {
     hab1 <- rast(vegetation_tiff_path)
     square_grid <- sf::read_sf(square_grid_path)
-    habvals <- read_csv("../data/input_get_population_estimate_habvals.csv", show_col_types = FALSE)
-    obtained_preds <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, habvals = habvals, grid_cell_path = grid_cell_path, buffer_radius = buffer_radius, square_grid = square_grid)
-    expected_peds <- 12
-    expect_equal(obtained_preds, expected_peds)
+    obtained_preds <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, buffer_radius = buffer_radius, square_grid = square_grid)
+    expected_preds_n_hat <- read_csv("../data/output_get_population_estimate_n_hat.csv", show_col_types = FALSE)
+    expect_equal(obtained_preds$Nhat$N, expected_preds_n_hat$N)
   })
   it("Hash test for plot_crusoe", {
     crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
