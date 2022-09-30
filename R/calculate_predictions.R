@@ -95,7 +95,7 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   # Plot cell predictions
   allhab <- allhab %>% mutate(N = preds$cellpreds$N)
   pred_grid <- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
-
+  
   pred_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
     scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
@@ -103,7 +103,7 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   ggsave(plot_output_path)
 }
 
-get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buffer_radius, square_grid) {
+get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, crusoe_shp, buffer_radius, square_grid) {
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
@@ -147,6 +147,10 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buff
 
   preds <- eradicate::calcN(m, newdata = allhab, off.set = allhab$rcell)
 
-  # Total population size
-  return(preds)
+  allhab <- allhab %>% mutate(N = preds$cellpreds$N)
+
+
+  grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
+  pred_grid <- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
+  return(pred_grid)
 }

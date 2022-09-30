@@ -6,16 +6,17 @@ describe("Get camera traps positions", {
   grid_cell_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp"
   square_grid_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp"
   vegetation_tiff_path <- "../data/VegetationCONAF2014_50mHabitat.tif"
+  crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
   buffer_radius <- 500
   it("Test get_population_estimates", {
+    crusoe_shp <- sf::read_sf(crusoe_shp_path)
     hab1 <- terra::rast(vegetation_tiff_path)
     square_grid <- sf::read_sf(square_grid_path)
-    obtained_preds <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, buffer_radius = buffer_radius, square_grid = square_grid)
-    expected_preds_n_hat <- read_csv("../data/output_get_population_estimate_n_hat.csv", show_col_types = FALSE)
-    expect_equal(obtained_preds$Nhat$N, expected_preds_n_hat$N)
+    obtained_pred_grid <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid)
+    expected_pred_grid <- read_csv("../data/output_get_population_estimate_pred_grid.csv", show_col_types = FALSE)
+    expect_equal(obtained_pred_grid$N, expected_pred_grid$N)
   })
   it("Hash test for plot_crusoe", {
-    crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
     plot_output_path <- "../data/plot_pred_grid.png"
     plot_population_prediction_in_square_grid(buffer_radius, camera_sightings, grid_cell_path = grid_cell_path, square_grid_path = square_grid_path, vegetation_tiff_path = vegetation_tiff_path, crusoe_shp_path = crusoe_shp_path, plot_output_path = plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
