@@ -40,66 +40,14 @@ calc_mode <- function(v) {
 
 plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
   hab1 <- terra::rast(vegetation_tiff_path)
-  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
-  habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
-  habvals <- habvals %>%
-    select(-ID, habitat = starts_with("Veg")) %>%
-    mutate(habitat = factor(habitat))
+  square_grid <- sf::read_sf(square_grid_path)
+  crusoe_shp <- sf::read_sf(crusoe_shp_path)
+  pred_grid <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid)
 
-  y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
-  e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
-
-  y[e == 0] <- NA # e==0 implies no camera data available so set to NA
-
-  # Fit model
-  emf <- eradicate::eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
-  # Fit the Nmixture model
-  m <- eradicate::nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
-
-  summary(m)
-  # To extrapolate across the island need to extract habitat values for each 1km grid cell
-  # However, we need to account for partial grid cells
-
-  gridc <- sf::read_sf(grid_cell_path)
-  gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
-  allhab <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
-  allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
-
-  # need to account for grid cells with fractional coverage of the island
-  # first clip the grid to the island boundary
-
-  grid <- sf::read_sf(square_grid_path)
-  crusoe <- sf::read_sf(crusoe_shp_path)
-  grid_clip <- sf::st_intersection(grid, crusoe)
-
-  cell_size <- as.numeric(sf::st_area(grid)) / 1e6 # km2
-  rcell_size <- cell_size / max(cell_size)
-  allhab <- allhab %>%
-    mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>%
-    relocate(ID, .before = habitat)
-
-  # Need to drop level '10' as this was not included in the model so
-  # we can not get predictions for it.
-  # This means we only get predictions for 49 of the 50 grid cells
-
-  allhab <- allhab %>%
-    filter(habitat != 10) %>%
-    mutate(habitat = factor(habitat))
-  preds <- eradicate::calcN(m, newdata = allhab, off.set = allhab$rcell)
-
-  # Total population size
-  predictions <- array(list(), 2)
-
-  predictions[[1]] <- list("buffer_radius" = buffer_radius, "prediction" = preds)
-
-  # Plot cell predictions
-  allhab <- allhab %>% mutate(N = preds$cellpreds$N)
-  pred_grid <- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
-  
   pred_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
     scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
-    geom_sf(fill = NA, data = crusoe)
+    geom_sf(fill = NA, data = crusoe_shp)
   ggsave(plot_output_path)
 }
 
