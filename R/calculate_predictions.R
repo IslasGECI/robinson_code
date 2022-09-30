@@ -42,9 +42,9 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   hab1 <- terra::rast(vegetation_tiff_path)
   square_grid <- sf::read_sf(square_grid_path)
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
-  pred_grid <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid)
+  propulation_prediction_per_grid <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid)
 
-  pred_grid %>% ggplot() +
+  propulation_prediction_per_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
     scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
     geom_sf(fill = NA, data = crusoe_shp)
@@ -75,13 +75,13 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, crus
 
   gridc <- sf::read_sf(grid_cell_path)
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
-  allhab <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
-  allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
+  all_habitats <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
+  all_habitats <- all_habitats %>% select(-ID, habitat = starts_with("Veg"))
 
 
   cell_size <- as.numeric(sf::st_area(square_grid)) / 1e6 # km2
   rcell_size <- cell_size / max(cell_size)
-  allhab <- allhab %>%
+  all_habitats <- all_habitats %>%
     mutate(ID = square_grid$Id, rcell = round(rcell_size, 3)) %>%
     relocate(ID, .before = habitat)
 
@@ -89,16 +89,16 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, crus
   # we can not get predictions for it.
   # This means we only get predictions for 49 of the 50 grid cells
 
-  allhab <- allhab %>%
+  all_habitats <- all_habitats %>%
     filter(habitat != 10) %>%
     mutate(habitat = factor(habitat))
 
-  preds <- eradicate::calcN(m, newdata = allhab, off.set = allhab$rcell)
+  preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
 
-  allhab <- allhab %>% mutate(N = preds$cellpreds$N)
+  all_habitats <- all_habitats %>% mutate(N = preds$cellpreds$N)
 
 
   grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
-  pred_grid <- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
-  return(pred_grid)
+  propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
+  return(propulation_prediction_per_grid)
 }
