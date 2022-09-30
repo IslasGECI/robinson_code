@@ -38,9 +38,9 @@ calc_mode <- function(v) {
 }
 
 
-get_predictions <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path) {
+plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
   hab1 <- rast(vegetation_tiff_path)
-  cobs_l_buff <- st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
     select(-ID, habitat = starts_with("Veg")) %>%
@@ -61,18 +61,19 @@ get_predictions <- function(buffer_radius, camera_sightings, grid_cell_path = "d
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
 
-  gridc <- read_sf(grid_cell_path)
-  gridc_buff <- st_buffer(gridc, dist = buffer_radius)
+  gridc <- sf::read_sf(grid_cell_path)
+  gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
   allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
   allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
 
   # need to account for grid cells with fractional coverage of the island
   # first clip the grid to the island boundary
 
-  grid <- read_sf(square_grid_path)
-  grid_clip <- st_intersection(grid, crusoe)
+  grid <- sf::read_sf(square_grid_path)
+  crusoe <- sf::read_sf(crusoe_shp_path)
+  grid_clip <- sf::st_intersection(grid, crusoe)
 
-  cell_size <- as.numeric(st_area(grid)) / 1e6 # km2
+  cell_size <- as.numeric(sf::st_area(grid)) / 1e6 # km2
   rcell_size <- cell_size / max(cell_size)
   print("Estamos en la línea 87")
   allhab <- allhab %>%
@@ -104,4 +105,48 @@ get_predictions <- function(buffer_radius, camera_sightings, grid_cell_path = "d
     scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
     geom_sf(fill = NA, data = crusoe)
   ggsave(plot_output_path)
+}
+
+get_population_estimate <- function(camera_sightings, hab1, habvals, grid_cell_path, buffer_radius, square_grid) {
+  y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
+  e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
+
+  y[e == 0] <- NA # e==0 implies no camera data available so set to NA
+
+  # Fit model
+  emf <- eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
+  # Fit the Nmixture model
+  m <- nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
+
+  summary(m)
+
+  # To extrapolate across the island need to extract habitat values for each 1km grid cell
+  # However, we need to account for partial grid cells
+
+  gridc <- sf::read_sf(grid_cell_path)
+  gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
+  allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
+  allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
+
+
+  cell_size <- as.numeric(sf::st_area(square_grid)) / 1e6 # km2
+  rcell_size <- cell_size / max(cell_size)
+  print("Estamos en la línea 87")
+  allhab <- allhab %>%
+    mutate(ID = square_grid$Id, rcell = round(rcell_size, 3)) %>%
+    relocate(ID, .before = habitat)
+
+  # Need to drop level '10' as this was not included in the model so
+  # we can not get predictions for it.
+  # This means we only get predictions for 49 of the 50 grid cells
+
+  allhab <- allhab %>%
+    filter(habitat != 10) %>%
+    mutate(habitat = factor(habitat))
+
+  preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
+
+  # Total population size
+  print(preds$Nhat)
+  return(preds)
 }
