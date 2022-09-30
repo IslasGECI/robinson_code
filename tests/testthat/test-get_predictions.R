@@ -8,7 +8,7 @@ describe("Get camera traps positions", {
   vegetation_tiff_path <- "../data/VegetationCONAF2014_50mHabitat.tif"
   buffer_radius <- 500
   it("Test get_population_estimates", {
-    hab1 <- rast(vegetation_tiff_path)
+    hab1 <- terra::rast(vegetation_tiff_path)
     square_grid <- sf::read_sf(square_grid_path)
     obtained_preds <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, buffer_radius = buffer_radius, square_grid = square_grid)
     expected_preds_n_hat <- read_csv("../data/output_get_population_estimate_n_hat.csv", show_col_types = FALSE)

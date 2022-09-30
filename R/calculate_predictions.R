@@ -39,9 +39,9 @@ calc_mode <- function(v) {
 
 
 plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
-  hab1 <- rast(vegetation_tiff_path)
+  hab1 <- terra::rast(vegetation_tiff_path)
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
-  habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
+  habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
     select(-ID, habitat = starts_with("Veg")) %>%
     mutate(habitat = factor(habitat))
@@ -52,9 +52,9 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
   # Fit model
-  emf <- eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
+  emf <- eradicate::eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
   # Fit the Nmixture model
-  m <- nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
+  m <- eradicate::nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
 
   summary(m)
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
@@ -62,7 +62,7 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
 
   gridc <- sf::read_sf(grid_cell_path)
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
-  allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
+  allhab <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
   allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
 
   # need to account for grid cells with fractional coverage of the island
@@ -85,7 +85,7 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   allhab <- allhab %>%
     filter(habitat != 10) %>%
     mutate(habitat = factor(habitat))
-  preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
+  preds <- eradicate::calcN(m, newdata = allhab, off.set = allhab$rcell)
 
   # Total population size
   predictions <- array(list(), 2)
@@ -105,7 +105,7 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
 
 get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buffer_radius, square_grid) {
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
-  habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
+  habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
     select(-ID, habitat = starts_with("Veg")) %>%
     mutate(habitat = factor(habitat))
@@ -116,9 +116,9 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buff
   y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
   # Fit model
-  emf <- eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
+  emf <- eradicate::eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
   # Fit the Nmixture model
-  m <- nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
+  m <- eradicate::nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
 
   summary(m)
 
@@ -127,7 +127,7 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buff
 
   gridc <- sf::read_sf(grid_cell_path)
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
-  allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
+  allhab <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
   allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
 
 
@@ -145,7 +145,7 @@ get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, buff
     filter(habitat != 10) %>%
     mutate(habitat = factor(habitat))
 
-  preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
+  preds <- eradicate::calcN(m, newdata = allhab, off.set = allhab$rcell)
 
   # Total population size
   return(preds)
