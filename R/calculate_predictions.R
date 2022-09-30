@@ -38,11 +38,8 @@ calc_mode <- function(v) {
 }
 
 
-plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sightings, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp", vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
-  hab1 <- terra::rast(vegetation_tiff_path)
-  square_grid <- sf::read_sf(square_grid_path)
+plot_population_prediction_in_square_grid <- function(propulation_prediction_per_grid, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp", plot_output_path) {
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
-  propulation_prediction_per_grid <- get_population_estimate(camera_sightings = camera_sightings, hab1 = hab1, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid)
 
   propulation_prediction_per_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
@@ -51,7 +48,9 @@ plot_population_prediction_in_square_grid <- function(buffer_radius, camera_sigh
   ggsave(plot_output_path)
 }
 
-get_population_estimate <- function(camera_sightings, hab1, grid_cell_path, crusoe_shp, buffer_radius, square_grid) {
+get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", grid_cell_path, crusoe_shp, buffer_radius, square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp") {
+  hab1 <- terra::rast(vegetation_tiff_path)
+  square_grid <- sf::read_sf(square_grid_path)
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
