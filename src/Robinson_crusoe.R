@@ -41,12 +41,9 @@ buffer_radius <- 500 # m  This should depend on grid size, which should depend o
 # Plot cell predictions
 pred_grid <- get_population_estimate(camera_observations, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", crusoe_shp = crusoe, buffer_radius = buffer_radius)
 
+plot_output_path <- "data/plot_pred_grid.png"
+plot_population_prediction_in_square_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
 
-pred_grid %>% ggplot() +
-  geom_sf(aes(fill = N)) +
-  scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
-  geom_sf(fill = NA, data = crusoe)
-ggsave("data/plot_pred_grid.png")
 #-------------------------------------------------------
 #  example using smaller grid of 500 m
 #  Note that predictions are sensitive to grid cell size

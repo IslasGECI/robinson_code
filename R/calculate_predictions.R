@@ -39,7 +39,7 @@ calc_mode <- function(v) {
 
 
 #' @export
-plot_population_prediction_in_square_grid <- function(propulation_prediction_per_grid, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp", plot_output_path) {
+plot_population_prediction_in_square_grid <- function(propulation_prediction_per_grid, plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
 
   propulation_prediction_per_grid %>% ggplot() +
