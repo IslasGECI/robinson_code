@@ -104,6 +104,7 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   return(propulation_prediction_per_grid)
 }
 
+#' @export
 make_grid <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
   # generate array of polygon centers
   what <- match.arg(what, c("centers", "polygons"))
