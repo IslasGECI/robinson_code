@@ -49,16 +49,7 @@ plot_population_prediction_in_square_grid <- function(propulation_prediction_per
   ggsave(plot_output_path)
 }
 
-#' @export
-get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", grid_cell_path, crusoe_shp, buffer_radius, square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp") {
-  hab1 <- terra::rast(vegetation_tiff_path)
-  square_grid <- sf::read_sf(square_grid_path)
-  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
-  habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
-  habvals <- habvals %>%
-    select(-ID, habitat = starts_with("Veg")) %>%
-    mutate(habitat = factor(habitat))
-
+get_m <- function(habvals, camera_sightings) {
   y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
   e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
 
@@ -68,6 +59,19 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   emf <- eradicate::eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
   # Fit the Nmixture model
   m <- eradicate::nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do not depend on it
+  return(m)
+}
+
+#' @export
+get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", grid_cell_path, crusoe_shp, buffer_radius, square_grid) {
+  hab1 <- terra::rast(vegetation_tiff_path)
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
+  habvals <- habvals %>%
+    select(-ID, habitat = starts_with("Veg")) %>%
+    mutate(habitat = factor(habitat))
+
+  m <- get_m(habvals, camera_sightings) 
 
   summary(m)
 
