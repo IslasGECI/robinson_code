@@ -1,5 +1,5 @@
 describe("Get camera traps positions", {
-  camera_locations <- read_csv("../data/input_plot_camera_positions_square_locations.csv")
+  camera_locations <- read_csv("../data/input_plot_camera_positions_square_locations.csv", show_col_types = FALSE)
   camera_sightings <- list("locations" = sf::st_as_sf(camera_locations, wkt = "geometry"))
   crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
   it("Hash test for plot_crusoe", {
@@ -12,7 +12,7 @@ describe("Get camera traps positions", {
     expected_hash <- c("042316766181beb35f055208ce4b5f1f")
     expect_equal(obtanied_hash, expected_hash)
   })
-    it("Hash test for plot_crusoe_2", {
+  it("Hash test for plot_crusoe_2", {
     buffer_radius <- 250
     crusoe_shp <- sf::read_sf(crusoe_shp_path)
     grid <- make_grid(crusoe_shp, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
