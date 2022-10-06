@@ -71,7 +71,7 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
     select(-ID, habitat = starts_with("Veg")) %>%
     mutate(habitat = factor(habitat))
 
-  m <- get_m(habvals, camera_sightings) 
+  m <- get_m(habvals, camera_sightings)
 
   summary(m)
 
