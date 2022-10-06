@@ -18,10 +18,10 @@ plot_camera_positions_in_square_grid <- function(camera_sightings, crusoe_shp_pa
 
 
 #' @export
-plot_camera_positions_in_polygons_grid <- function(camera_sightings, grid, plot_output_path,crusoe_shp ){
+plot_camera_positions_in_polygons_grid <- function(camera_sightings, grid, plot_output_path, crusoe_shp) {
   gridc <- sf::st_centroid(grid)
   camera_locations <- camera_sightings[["locations"]]
-  png(file =plot_output_path, width = 600, height = 350)
+  png(file = plot_output_path, width = 600, height = 350)
   plot(sf::st_geometry(crusoe_shp))
   plot(sf::st_geometry(grid), add = TRUE)
   plot(sf::st_geometry(gridc), add = TRUE)
