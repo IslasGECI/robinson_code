@@ -14,11 +14,6 @@ library(robinson)
 
 crusoe <- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
 square_grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
-gridc <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
-hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
-
-cam_coords <- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
-
 camera_sightings_path <- "data/Camera-Traps.csv"
 
 camera_observations <- get_camera_observations(camera_sightings_path = camera_sightings_path)
@@ -34,11 +29,8 @@ plot_camera_positions_in_square_grid(crusoe, square_grid, camera_observations, p
 # locations (size set below).  In this case habitat appears to be categorical
 # so we extract the most common habitat type from the buffer area using the mode
 
-
-buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
-
-
 # Plot cell predictions
+buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
 pred_grid <- get_population_estimate(camera_observations, grid_cell_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp", crusoe_shp = crusoe, buffer_radius = buffer_radius)
 
 plot_output_path <- "data/plot_pred_grid.png"
@@ -59,6 +51,7 @@ polygons_plot_output_path <- "data/plot_crusoe_2.png"
 plot_camera_positions_in_polygons_grid(crusoe, grid, camera_observations, polygons_plot_output_path)
 
 cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
+hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
 habvals <- habvals %>%
   select(-ID, habitat = starts_with("Veg")) %>%
