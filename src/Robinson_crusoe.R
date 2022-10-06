@@ -69,7 +69,7 @@ grid <- make_grid(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", 
 gridc <- st_centroid(grid)
 
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
-plot_camera_positions_in_polygons_grid(camera_observations, grid, polygons_plot_output_path,crusoe_shp = crusoe)
+plot_camera_positions_in_polygons_grid(camera_observations, grid, polygons_plot_output_path, crusoe_shp = crusoe)
 
 cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
 habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
