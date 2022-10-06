@@ -13,7 +13,7 @@ library(robinson)
 
 
 crusoe <- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
-grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
+square_grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
 gridc <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
 hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
@@ -29,7 +29,7 @@ camera_locations <- camera_observations[["locations"]]
 
 # Quick plot of grid cells and camera locations
 plot_output_path <- "data/plot_crusoe.png"
-plot_camera_positions_in_square_grid(camera_observations, plot_output_path = plot_output_path, crusoe_shp = crusoe)
+plot_camera_positions_in_square_grid(crusoe, square_grid, camera_observations, plot_output_path)
 # Extract habitat information from raster using a buffer around the camera
 # locations (size set below).  In this case habitat appears to be categorical
 # so we extract the most common habitat type from the buffer area using the mode
@@ -56,7 +56,7 @@ grid <- make_grid(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", 
 gridc <- st_centroid(grid)
 
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
-plot_camera_positions_in_polygons_grid(camera_observations, grid, polygons_plot_output_path, crusoe_shp = crusoe)
+plot_camera_positions_in_polygons_grid(crusoe, grid, camera_observations, polygons_plot_output_path)
 
 cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
 habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
