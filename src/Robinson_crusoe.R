@@ -123,8 +123,5 @@ print(preds$Nhat)
 allhab <- allhab %>% mutate(N = preds$cellpreds$N)
 pred_grid <- inner_join(grid, allhab, by = c("ID" = "ID"))
 
-pred_grid %>% ggplot() +
-  geom_sf(aes(fill = N)) +
-  scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
-  geom_sf(fill = NA, data = crusoe)
-ggsave("data/plot_pred_grid_2.png")
+plot_output_path <- "data/plot_pred_grid_2.png"
+plot_population_prediction_in_square_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
