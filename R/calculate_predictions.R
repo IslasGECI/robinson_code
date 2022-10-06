@@ -38,6 +38,7 @@ calc_mode <- function(v) {
 }
 
 
+#' @export
 plot_population_prediction_in_square_grid <- function(propulation_prediction_per_grid, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp", plot_output_path) {
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
 
@@ -48,6 +49,7 @@ plot_population_prediction_in_square_grid <- function(propulation_prediction_per
   ggsave(plot_output_path)
 }
 
+#' @export
 get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", grid_cell_path, crusoe_shp, buffer_radius, square_grid_path = "data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp") {
   hab1 <- terra::rast(vegetation_tiff_path)
   square_grid <- sf::read_sf(square_grid_path)
