@@ -50,19 +50,6 @@ plot_population_prediction_in_square_grid(propulation_prediction_per_grid = pred
 #  so it needs to be set with some care
 #-------------------------------------------------------
 
-make_grid <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
-  # generate array of polygon centers
-  what <- match.arg(what, c("centers", "polygons"))
-  g <- st_make_grid(x, cellsize = cell_diameter, what = what, square = square)
-  # clip to boundary of study area
-  if (clip) {
-    g <- st_intersection(g, x)
-  }
-  g <- st_sf(ID = 1:length(g), geometry = g)
-  return(g)
-}
-
-
 buffer_radius <- 250
 
 grid <- make_grid(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
