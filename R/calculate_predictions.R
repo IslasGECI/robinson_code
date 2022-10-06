@@ -3,7 +3,7 @@
 get_camera_observations <- function(camera_sightings_path = "data/Camera-Traps.csv", coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
   # remove camera coords with ID == NA
-  camera_coordinates <- read_csv(coordinates_path)
+  camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
   camera_coordinates <- camera_coordinates %>%
     mutate(ID = `N Cuadricula`) %>%
     filter(!is.na(ID))
@@ -102,4 +102,16 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
   propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
+}
+
+make_grid <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
+  # generate array of polygon centers
+  what <- match.arg(what, c("centers", "polygons"))
+  g <- sf::st_make_grid(x, cellsize = cell_diameter, what = what, square = square)
+  # clip to boundary of study area
+  if (clip) {
+    g <- sf::st_intersection(g, x)
+  }
+  g <- sf::st_sf(ID = 1:length(g), geometry = g)
+  return(g)
 }
