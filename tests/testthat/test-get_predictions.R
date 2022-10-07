@@ -4,13 +4,14 @@ describe("Get camera traps positions", {
   camera_locations <- read_csv("../data/input_plot_camera_positions_square_locations.csv", show_col_types = FALSE)
   camera_sightings <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = sf::st_as_sf(camera_locations, wkt = "geometry"))
   grid_cell_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp"
+  grid_cell <- sf::read_sf(grid_cell_path)
   square_grid_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp"
   square_grid <- sf::read_sf(square_grid_path)
   vegetation_tiff_path <- "../data/VegetationCONAF2014_50mHabitat.tif"
   crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
   buffer_radius <- 500
-  obtained_pred_grid <- get_population_estimate(camera_sightings = camera_sightings, grid_cell_path = grid_cell_path, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid, vegetation_tiff_path = vegetation_tiff_path)
+  obtained_pred_grid <- get_population_estimate(camera_sightings = camera_sightings, gridc = grid_cell, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid, vegetation_tiff_path = vegetation_tiff_path)
   it("Test get_population_estimates", {
     expected_pred_grid <- read_csv("../data/output_get_population_estimate_pred_grid.csv", show_col_types = FALSE)
     expect_equal(obtained_pred_grid$N, expected_pred_grid$N)
