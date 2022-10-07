@@ -68,14 +68,19 @@ add_prediction_to_all_habitats <- function(m, all_habitats) {
   return(all_habitats_with_N)
 }
 
-#' @export
-get_population_estimate <- function(camera_sightings, grid_cell_path, crusoe_shp, buffer_radius, square_grid, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif") {
-  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
-  hab1 <- terra::rast(vegetation_tiff_path)
+get_habitat_values <- function(hab1,cobs_l_buff){
   habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
     select(-ID, habitat = starts_with("Veg")) %>%
     mutate(habitat = factor(habitat))
+  return(habvals)
+}
+
+#' @export
+get_population_estimate <- function(camera_sightings, grid_cell_path, crusoe_shp, buffer_radius, square_grid, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif") {
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  hab1 <- terra::rast(vegetation_tiff_path)
+  habvals <- get_habitat_values(hab1,cobs_l_buff)
 
   m <- get_m(habvals, camera_sightings)
 
