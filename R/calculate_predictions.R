@@ -76,14 +76,17 @@ get_habitat_values <- function(hab1, cobs_l_buff) {
   return(habvals)
 }
 
+get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_radius) {
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  habvals <- get_habitat_values(hab1, cobs_l_buff)
+  m <- get_m(habvals, camera_sightings)
+  return(m)
+}
+
 #' @export
 get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_radius, square_grid, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif") {
-  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   hab1 <- terra::rast(vegetation_tiff_path)
-  habvals <- get_habitat_values(hab1, cobs_l_buff)
-
-  m <- get_m(habvals, camera_sightings)
-
+  m <- get_m_from_hab1_and_camera_sightings(camera_sightings, hab1, buffer_radius)
   summary(m)
 
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
