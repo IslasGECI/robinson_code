@@ -16,7 +16,7 @@ describe("Get camera traps positions", {
   })
   it("Hash test for plot_crusoe_2", {
     buffer_radius <- 250
-    grid <- make_grid(crusoe_shp, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
+    grid <- make_grid_polygons(crusoe_shp, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
     plot_output_path <- "../data/plot_crusoe_poligon.png"
     plot_camera_positions_in_polygons_grid(crusoe_shp, grid, camera_sightings, plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))

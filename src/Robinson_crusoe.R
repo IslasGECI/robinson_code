@@ -46,7 +46,7 @@ plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid,
 
 buffer_radius <- 250
 
-grid <- make_grid(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
+grid <- make_grid_polygons(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
 gridc <- st_centroid(grid)
 
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
