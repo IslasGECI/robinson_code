@@ -79,7 +79,7 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   # However, we need to account for partial grid cells
 
   gridc <- sf::read_sf(grid_cell_path)
-  all_habitats <- calculate_all_habitats(gridc,buffer_radius,hab1,square_grid)
+  all_habitats <- calculate_all_habitats(gridc, buffer_radius, hab1, square_grid)
   preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
 
   all_habitats <- all_habitats %>% mutate(N = preds$cellpreds$N)
@@ -89,7 +89,7 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
 }
-calculate_all_habitats <- function(gridc,buffer_radius,hab1,square_grid){
+calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
   all_habitats <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
   all_habitats <- all_habitats %>% select(-ID, habitat = starts_with("Veg"))
