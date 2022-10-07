@@ -79,6 +79,17 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   # However, we need to account for partial grid cells
 
   gridc <- sf::read_sf(grid_cell_path)
+  all_habitats <- calculate_all_habitats(gridc,buffer_radius,hab1,square_grid)
+  preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
+
+  all_habitats <- all_habitats %>% mutate(N = preds$cellpreds$N)
+
+
+  grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
+  propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
+  return(propulation_prediction_per_grid)
+}
+calculate_all_habitats <- function(gridc,buffer_radius,hab1,square_grid){
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
   all_habitats <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
   all_habitats <- all_habitats %>% select(-ID, habitat = starts_with("Veg"))
@@ -95,17 +106,9 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
   # This means we only get predictions for 49 of the 50 grid cells
 
   all_habitats <- all_habitats %>%
-    filter(habitat != 10) %>%
+    filter(!(habitat %in% c(3, 7, 10))) %>%
     mutate(habitat = factor(habitat))
-
-  preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
-
-  all_habitats <- all_habitats %>% mutate(N = preds$cellpreds$N)
-
-
-  grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
-  propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
-  return(propulation_prediction_per_grid)
+  return(all_habitats)
 }
 
 #' @export
@@ -117,6 +120,6 @@ make_grid <- function(x, cell_diameter, what = c("centers", "polygons"), square 
   if (clip) {
     g <- sf::st_intersection(g, x)
   }
-  g <- sf::st_sf(ID = 1:length(g), geometry = g)
+  g <- sf::st_sf(Id = 1:length(g), geometry = g)
   return(g)
 }
