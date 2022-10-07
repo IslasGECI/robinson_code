@@ -17,7 +17,7 @@ describe("Get camera traps positions", {
   })
   it("Hash test for plot_crusoe", {
     plot_output_path <- "../data/plot_pred_grid.png"
-    plot_population_prediction_in_square_grid(obtained_pred_grid, crusoe_shp_path = crusoe_shp_path, plot_output_path = plot_output_path)
+    plot_population_prediction_per_grid(obtained_pred_grid, crusoe_shp_path = crusoe_shp_path, plot_output_path = plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
     expected_hash <- c("7c09f97b3cfb23a32345965f2e7a62e0")
     expect_equal(obtanied_hash, expected_hash)
