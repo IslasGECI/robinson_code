@@ -80,7 +80,7 @@ rcell_size <- cell_size / max(cell_size)
 print("Estamos en la línea 166")
 
 allhab <- allhab %>%
-  mutate(ID = grid$ID, rcell = round(rcell_size, 3)) %>%
+  mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>%
   relocate(ID, .before = habitat)
 
 # drop levels not in data fitted to model
@@ -96,7 +96,7 @@ print(preds$Nhat)
 
 # Plot cell predictions
 allhab <- allhab %>% mutate(N = preds$cellpreds$N)
-pred_grid <- inner_join(grid, allhab, by = c("ID" = "ID"))
+pred_grid <- inner_join(grid, allhab, by = c("Id" = "ID"))
 
 plot_output_path <- "data/plot_pred_grid_2.png"
 plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
