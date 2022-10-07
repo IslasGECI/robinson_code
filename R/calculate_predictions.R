@@ -85,6 +85,7 @@ get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_
 
 #' @export
 get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_radius, square_grid, habitats) {
+  grid_clip <- make_grid_square(crusoe_shp, square_grid)
   m <- get_m_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
   summary(m)
 
@@ -94,7 +95,6 @@ get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_
   all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid)
   N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
-  grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
   propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
 }
@@ -121,7 +121,14 @@ calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
 }
 
 #' @export
-make_grid <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
+make_grid_square <- function(crusoe_shp, square_grid) {
+  g <- sf::st_intersection(square_grid, crusoe_shp)
+  return(g)
+}
+
+
+#' @export
+make_grid_polygons <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
   # generate array of polygon centers
   what <- match.arg(what, c("centers", "polygons"))
   g <- sf::st_make_grid(x, cellsize = cell_diameter, what = what, square = square)
