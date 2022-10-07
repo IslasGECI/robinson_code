@@ -31,7 +31,7 @@ plot_camera_positions_in_square_grid(crusoe, square_grid, camera_observations, p
 
 # Plot cell predictions
 buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
-grid_cell <-sf::read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
+grid_cell <- sf::read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
 habitats <- terra::rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 pred_grid <- get_population_estimate(camera_observations, grid_cell, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = square_grid, habitats)
 
