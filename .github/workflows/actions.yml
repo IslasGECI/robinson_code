@@ -18,7 +18,7 @@ jobs:
       env:
         docker_username: ${{ secrets.docker_username }}
         docker_password: ${{ secrets.docker_password }}
-      run: echo "${docker_password}" | docker login -u "${docker_username}" --password-stdin
+      run: echo "${docker_password}" | docker login --username "${docker_username}" --password-stdin
     - name: Upload image to Docker Hub
       run: docker push islasgeci/robinson_code:latest
     - name: Tag image with hash
