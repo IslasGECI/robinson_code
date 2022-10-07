@@ -62,6 +62,12 @@ get_m <- function(habvals, camera_sightings) {
   return(m)
 }
 
+add_prediction_to_all_habitats <- function(m, all_habitats) {
+  preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
+  all_habitats_with_N <- all_habitats %>% mutate(N = preds$cellpreds$N)
+  return(all_habitats_with_N)
+}
+
 #' @export
 get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif", grid_cell_path, crusoe_shp, buffer_radius, square_grid) {
   hab1 <- terra::rast(vegetation_tiff_path)
@@ -80,13 +86,11 @@ get_population_estimate <- function(camera_sightings, vegetation_tiff_path = "da
 
   gridc <- sf::read_sf(grid_cell_path)
   all_habitats <- calculate_all_habitats(gridc, buffer_radius, hab1, square_grid)
-  preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
-
-  all_habitats <- all_habitats %>% mutate(N = preds$cellpreds$N)
+  N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
 
   grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
-  propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats, by = c("Id" = "ID"))
+  propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
 }
 calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
