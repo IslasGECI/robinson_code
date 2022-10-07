@@ -84,17 +84,15 @@ get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_
 }
 
 #' @export
-get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_radius, square_grid, vegetation_tiff_path = "data/spatial/VegetationCONAF2014_50mHabitat.tif") {
-  hab1 <- terra::rast(vegetation_tiff_path)
-  m <- get_m_from_hab1_and_camera_sightings(camera_sightings, hab1, buffer_radius)
+get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_radius, square_grid, habitats) {
+  m <- get_m_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
   summary(m)
 
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
 
-  all_habitats <- calculate_all_habitats(gridc, buffer_radius, hab1, square_grid)
+  all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid)
   N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
-
 
   grid_clip <- sf::st_intersection(square_grid, crusoe_shp)
   propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))

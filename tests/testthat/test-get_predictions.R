@@ -8,10 +8,11 @@ describe("Get camera traps positions", {
   square_grid_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp"
   square_grid <- sf::read_sf(square_grid_path)
   vegetation_tiff_path <- "../data/VegetationCONAF2014_50mHabitat.tif"
+  habitats <- terra::rast(vegetation_tiff_path)
   crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
   buffer_radius <- 500
-  obtained_pred_grid <- get_population_estimate(camera_sightings = camera_sightings, gridc = grid_cell, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid, vegetation_tiff_path = vegetation_tiff_path)
+  obtained_pred_grid <- get_population_estimate(camera_sightings = camera_sightings, gridc = grid_cell, crusoe_shp = crusoe_shp, buffer_radius = buffer_radius, square_grid = square_grid, habitats)
   it("Test get_population_estimates", {
     expected_pred_grid <- read_csv("../data/output_get_population_estimate_pred_grid.csv", show_col_types = FALSE)
     expect_equal(obtained_pred_grid$N, expected_pred_grid$N)
