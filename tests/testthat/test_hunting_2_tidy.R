@@ -26,7 +26,7 @@ describe("Get removals and effort from hunting", {
   })
   it("test tidy hunting", {
     obtained_hunting_tidy <- tidy_from_path_by_method(hunting_path, get_removal_and_effort_hunting)
-    expected_hunting_tidy <- read_csv("../data/test_tidy_for_hunting.csv")
+    expected_hunting_tidy <- read_csv("../data/test_tidy_for_hunting.csv", show_col_types = FALSE)
     expect_equal(obtained_hunting_tidy, expected_hunting_tidy)
   })
 })

@@ -1,9 +1,9 @@
 all: plot_pred_grid_2.png
 
-plot_pred_grid_2.png: data/july_camera_traps.csv src/Robinson_crusoe.R
+plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
 
-data/july_camera_traps.csv: data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv src/get_final_data_structure.R
+data/Camera-Traps.csv: data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv src/get_final_data_structure.R
 	Rscript src/get_final_data_structure.R
 
 .PHONY: \
@@ -19,6 +19,7 @@ data/july_camera_traps.csv: data/raw/robinson_coati_detection_camera_traps/detec
 check:
 	R -e "library(styler)" \
       -e "resumen <- style_dir('R')" \
+      -e "resumen <- rbind(resumen, style_dir('src'))" \
       -e "resumen <- rbind(resumen, style_dir('tests'))" \
       -e "resumen <- rbind(resumen, style_dir('tests/testthat'))" \
       -e "any(resumen[[2]])" \
@@ -36,6 +37,7 @@ coverage: install
 format:
 	R -e "library(styler)" \
       -e "style_dir('R')" \
+      -e "style_dir('src')" \
       -e "style_dir('tests')" \
       -e "style_dir('tests/testthat')"
 
