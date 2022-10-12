@@ -88,8 +88,7 @@ get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_
 }
 
 #' @export
-get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_radius, square_grid, habitats) {
-  grid_clip <- make_grid_square(crusoe_shp, square_grid)
+get_population_estimate <- function(camera_sightings, gridc, grid_clip, crusoe_shp, buffer_radius, square_grid, habitats) {
   m <- get_m_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
   summary(m)
 
@@ -134,13 +133,13 @@ make_grid_square <- function(crusoe_shp, square_grid) {
 
 
 #' @export
-make_grid_polygons <- function(x, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
+make_grid_polygons <- function(crusoe_shp, cell_diameter, what = c("centers", "polygons"), square = FALSE, clip = FALSE) {
   # generate array of polygon centers
   what <- match.arg(what, c("centers", "polygons"))
-  g <- sf::st_make_grid(x, cellsize = cell_diameter, what = what, square = square)
+  g <- sf::st_make_grid(crusoe_shp, cellsize = cell_diameter, what = what, square = square)
   # clip to boundary of study area
   if (clip) {
-    g <- sf::st_intersection(g, x)
+    g <- sf::st_intersection(g, crusoe_shp)
   }
   g <- sf::st_sf(Id = 1:length(g), geometry = g)
   return(g)
