@@ -144,3 +144,17 @@ make_grid_polygons <- function(crusoe_shp, cell_diameter, what = c("centers", "p
   g <- sf::st_sf(Id = 1:length(g), geometry = g)
   return(g)
 }
+
+
+Grid_Square <- R6::R6Class("Grid_Square",
+  public = list(
+    grid_cell = NULL,
+    grid_clip = NULL,
+    square_grid = NULL,
+    initialize = function(grid_cell, grid_clip, square_grid) {
+      self$grid_cell <- grid_cell
+      self$grid_clip <- grid_clip
+      self$square_grid <- square_grid
+    }
+  )
+)
