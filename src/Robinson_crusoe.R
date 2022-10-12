@@ -47,13 +47,13 @@ plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid,
 
 buffer_radius <- 250
 
-grid <- make_grid_polygons(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
-gridc <- st_centroid(grid)
+polygonal_grid <- make_grid_polygons(crusoe, cell_diameter = 2 * buffer_radius, what = "polygons", clip = TRUE, square = FALSE)
+gridc <- st_centroid(polygonal_grid)
 
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
-plot_camera_positions_in_polygons_grid(crusoe, grid, camera_observations, polygons_plot_output_path)
+plot_camera_positions_in_polygons_grid(crusoe, polygonal_grid, camera_observations, polygons_plot_output_path)
 
-propulation_prediction_per_grid <- get_population_estimate(camera_observations, gridc, grid, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = grid, habitats)
+propulation_prediction_per_grid <- get_population_estimate(camera_observations, gridc, polygonal_grid, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = polygonal_grid, habitats)
 
 plot_output_path <- "data/plot_pred_grid_2.png"
 plot_population_prediction_per_grid(propulation_prediction_per_grid = propulation_prediction_per_grid, plot_output_path = plot_output_path)
