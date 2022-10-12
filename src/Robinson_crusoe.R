@@ -53,13 +53,7 @@ gridc <- st_centroid(grid)
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
 plot_camera_positions_in_polygons_grid(crusoe, grid, camera_observations, polygons_plot_output_path)
 
-m <- get_m_from_hab1_and_camera_sightings(camera_observations, habitats, buffer_radius)
-
-summary(m)
-all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, grid)
-
-N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
-propulation_prediction_per_grid <- inner_join(grid, N_coati_by_habitat, by = c("Id" = "ID"))
+propulation_prediction_per_grid <- get_population_estimate(camera_observations, gridc, grid, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = grid, habitats)
 
 plot_output_path <- "data/plot_pred_grid_2.png"
 plot_population_prediction_per_grid(propulation_prediction_per_grid = propulation_prediction_per_grid, plot_output_path = plot_output_path)
