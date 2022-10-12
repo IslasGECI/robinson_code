@@ -52,49 +52,13 @@ gridc <- st_centroid(grid)
 polygons_plot_output_path <- "data/plot_crusoe_2.png"
 plot_camera_positions_in_polygons_grid(crusoe, grid, camera_observations, polygons_plot_output_path)
 
-cobs_l_buff <- st_buffer(camera_locations, dist = buffer_radius)
-hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
-habvals <- terra::extract(hab1, vect(cobs_l_buff), fun = calc_mode)
-habvals <- habvals %>%
-  select(-ID, habitat = starts_with("Veg")) %>%
-  mutate(habitat = factor(habitat))
-
-y <- camera_detections %>% select(starts_with("r"))
-e <- camera_effort %>% select(starts_with("e"))
-
-y[e == 0] <- NA # e==0 implies no camera data available so set to NA
-
-# Fit model
-emf <- eFrame(y = y, siteCovs = habvals, obsCovs = list(effort = e))
-m <- nmix(~habitat, ~effort, data = emf, K = 100) # set K large enough so estimates do no depend on it
+m <- get_m_from_hab1_and_camera_sightings(camera_observations, habitats, buffer_radius)
 
 summary(m)
+all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, grid)
 
-# To extrapolate across the island need to extract habitat values for every grid cell
-
-gridc_buff <- st_buffer(gridc, dist = buffer_radius)
-allhab <- terra::extract(hab1, vect(gridc_buff), fun = calc_mode)
-allhab <- allhab %>% select(-ID, habitat = starts_with("Veg"))
-
-# need to account for fractional cells
-cell_size <- as.numeric(st_area(grid)) / 1e6 # km2
-rcell_size <- cell_size / max(cell_size)
-print("Estamos en la línea 166")
-
-allhab <- allhab %>%
-  mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>%
-  relocate(ID, .before = habitat)
-
-# drop levels not in data fitted to model
-allhab <- allhab %>%
-  filter(!(habitat %in% c(3, 7, 10))) %>%
-  mutate(habitat = factor(habitat))
-
-preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
-
-# Plot cell predictions
-allhab <- allhab %>% mutate(N = preds$cellpreds$N)
-pred_grid <- inner_join(grid, allhab, by = c("Id" = "ID"))
+N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
+propulation_prediction_per_grid <- inner_join(grid, N_coati_by_habitat, by = c("Id" = "ID"))
 
 plot_output_path <- "data/plot_pred_grid_2.png"
-plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
+plot_population_prediction_per_grid(propulation_prediction_per_grid = propulation_prediction_per_grid, plot_output_path = plot_output_path)

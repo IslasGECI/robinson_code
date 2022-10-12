@@ -49,6 +49,7 @@ plot_population_prediction_per_grid <- function(propulation_prediction_per_grid,
   ggsave(plot_output_path)
 }
 
+#' @export
 get_m <- function(habvals, camera_sightings) {
   y <- camera_sightings[["detections"]] %>% select(starts_with("r"))
   e <- camera_sightings[["effort"]] %>% select(starts_with("e"))
@@ -62,12 +63,14 @@ get_m <- function(habvals, camera_sightings) {
   return(m)
 }
 
+#' @export
 add_prediction_to_all_habitats <- function(m, all_habitats) {
   preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
   all_habitats_with_N <- all_habitats %>% mutate(N = preds$cellpreds$N)
   return(all_habitats_with_N)
 }
 
+#' @export
 get_habitat_values <- function(hab1, cobs_l_buff) {
   habvals <- terra::extract(hab1, terra::vect(cobs_l_buff), fun = calc_mode)
   habvals <- habvals %>%
@@ -76,6 +79,7 @@ get_habitat_values <- function(hab1, cobs_l_buff) {
   return(habvals)
 }
 
+#' @export
 get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_radius) {
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- get_habitat_values(hab1, cobs_l_buff)
@@ -98,6 +102,8 @@ get_population_estimate <- function(camera_sightings, gridc, crusoe_shp, buffer_
   propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
 }
+
+#' @export
 calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
   all_habitats <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
