@@ -15,8 +15,9 @@ library(robinson)
 crusoe <- read_sf("data/spatial/Robinson_Coati_Workzones_Simple.shp")
 square_grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
 camera_sightings_path <- "data/Camera-Traps.csv"
+camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
 
-camera_observations <- get_camera_observations(camera_sightings_path = camera_sightings_path)
+camera_observations <- get_camera_observations(camera_sightings = camera_sightings)
 
 camera_detections <- camera_observations[["detections"]]
 camera_effort <- camera_observations[["effort"]]
