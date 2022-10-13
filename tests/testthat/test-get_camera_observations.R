@@ -46,5 +46,11 @@ describe("Get camera traps observations", {
     obtained_detection <- obtained_camera_observations$r_2[[12]]
     expected_detection <- 13
     expect_equal(obtained_detection, expected_detection)
+    camera_sightings <- filter_camera_by_month$get_data_by_month(month = "2022-5")
+    obtained_camera_observations <- get_camera_observations(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
+    obtained_camera_observations <- obtained_camera_observations[["detections"]]
+    obtained_detection <- obtained_camera_observations$r_2[[12]]
+    expected_detection <- 0
+    expect_equal(obtained_detection, expected_detection)
   })
 })
