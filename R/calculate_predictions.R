@@ -1,3 +1,14 @@
+Filter_Camera_by_Month <- R6::R6Class("Filter_Camera_by_Month",
+  public = list(
+    all_months = NULL,
+    initialize = function(all_months) {
+      self$all_months <- all_months
+    },
+    get_data_by_month = function(month) {
+      return(self$all_months %>% filter(Session == month))
+    }
+  )
+)
 
 #' @export
 get_camera_observations <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
@@ -19,8 +30,6 @@ get_camera_observations <- function(camera_sightings, coordinates_path = "data/r
   camera_observations <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = camera_locations)
   return(camera_observations)
 }
-
-buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
 
 #' @export
 calc_mode <- function(v) {
