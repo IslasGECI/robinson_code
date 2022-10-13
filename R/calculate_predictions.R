@@ -40,10 +40,10 @@ calc_mode <- function(v) {
 #' @export
 plot_population_prediction_per_grid <- function(propulation_prediction_per_grid, plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
-
+  max_N <- max(propulation_prediction_per_grid$N)
   propulation_prediction_per_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
-    scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
+    scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, max_N)) +
     geom_sf(fill = NA, data = crusoe_shp)
   ggsave(plot_output_path)
 }
