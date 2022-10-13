@@ -1,3 +1,4 @@
+#' @export
 Filter_Camera_by_Month <- R6::R6Class("Filter_Camera_by_Month",
   public = list(
     all_months = NULL,
