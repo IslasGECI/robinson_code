@@ -95,13 +95,17 @@ get_population_estimate <- function(camera_sightings, gridc, grid_clip, crusoe_s
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
 
-  vegetation_from_model <- as.numeric(as.vector(unique(m$data$siteCovs)[["habitat"]]))
+  vegetation_from_model <- get_habitat_id_from_model(m)
 
   all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid, vegetation_from_model)
   N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
   propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
+}
+
+get_habitat_id_from_model <- function(m) {
+  return(as.numeric(as.vector(unique(m$data$siteCovs)[["habitat"]])))
 }
 
 #' @export
