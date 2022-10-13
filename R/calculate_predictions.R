@@ -1,7 +1,6 @@
 
 #' @export
-get_camera_observations <- function(camera_sightings_path = "data/Camera-Traps.csv", coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
-  camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
+get_camera_observations <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   # remove camera coords with ID == NA
   camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
   camera_coordinates <- camera_coordinates %>%
