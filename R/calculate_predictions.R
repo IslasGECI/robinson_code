@@ -65,6 +65,7 @@ get_m <- function(habvals, camera_sightings) {
 #' @export
 add_prediction_to_all_habitats <- function(m, all_habitats) {
   preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
+  print(preds$Nhat)
   all_habitats_with_N <- all_habitats %>% mutate(N = preds$cellpreds$N)
   return(all_habitats_with_N)
 }
