@@ -1,7 +1,18 @@
+#' @export
+Filter_Camera_by_Month <- R6::R6Class("Filter_Camera_by_Month",
+  public = list(
+    all_months = NULL,
+    initialize = function(all_months) {
+      self$all_months <- all_months
+    },
+    get_data_by_month = function(month) {
+      return(self$all_months %>% filter(Session == month))
+    }
+  )
+)
 
 #' @export
-get_camera_observations <- function(camera_sightings_path = "data/Camera-Traps.csv", coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
-  camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
+get_camera_observations <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   # remove camera coords with ID == NA
   camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
   camera_coordinates <- camera_coordinates %>%
@@ -21,8 +32,6 @@ get_camera_observations <- function(camera_sightings_path = "data/Camera-Traps.c
   return(camera_observations)
 }
 
-buffer_radius <- 500 # m  This should depend on grid size, which should depend on HR size
-
 #' @export
 calc_mode <- function(v) {
   # find most common element in vector
@@ -41,10 +50,10 @@ calc_mode <- function(v) {
 #' @export
 plot_population_prediction_per_grid <- function(propulation_prediction_per_grid, plot_output_path, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
   crusoe_shp <- sf::read_sf(crusoe_shp_path)
-
+  max_N <- max(propulation_prediction_per_grid$N)
   propulation_prediction_per_grid %>% ggplot() +
     geom_sf(aes(fill = N)) +
-    scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, 13)) +
+    scale_fill_distiller(palette = "OrRd", direction = 1, limits = c(0, max_N)) +
     geom_sf(fill = NA, data = crusoe_shp)
   ggsave(plot_output_path)
 }
@@ -66,6 +75,7 @@ get_m <- function(habvals, camera_sightings) {
 #' @export
 add_prediction_to_all_habitats <- function(m, all_habitats) {
   preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
+  print(preds$Nhat)
   all_habitats_with_N <- all_habitats %>% mutate(N = preds$cellpreds$N)
   return(all_habitats_with_N)
 }
@@ -95,15 +105,21 @@ get_population_estimate <- function(camera_sightings, gridc, grid_clip, crusoe_s
   # To extrapolate across the island need to extract habitat values for each 1km grid cell
   # However, we need to account for partial grid cells
 
-  all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid)
+  vegetation_from_model <- get_habitat_id_from_model(m)
+
+  all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid, vegetation_from_model)
   N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
   propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
   return(propulation_prediction_per_grid)
 }
 
+get_habitat_id_from_model <- function(m) {
+  return(as.numeric(as.vector(unique(m$data$siteCovs)[["habitat"]])))
+}
+
 #' @export
-calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
+calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid, vegetation_from_model) {
   gridc_buff <- sf::st_buffer(gridc, dist = buffer_radius)
   all_habitats <- terra::extract(hab1, terra::vect(gridc_buff), fun = calc_mode)
   all_habitats <- all_habitats %>% select(-ID, habitat = starts_with("Veg"))
@@ -120,7 +136,7 @@ calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid) {
   # This means we only get predictions for 49 of the 50 grid cells
 
   all_habitats <- all_habitats %>%
-    filter(!(habitat %in% c(3, 7, 10))) %>%
+    filter(habitat %in% vegetation_from_model) %>%
     mutate(habitat = factor(habitat))
   return(all_habitats)
 }
