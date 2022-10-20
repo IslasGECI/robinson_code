@@ -4,12 +4,6 @@ describe("Prepare multisession data to fit in models", {
   it("Object exists", {
     expect_true(exists("obtained_object"))
   })
-  it("Sort session and grid columns", {
-    obtained_sorted_multisession <- obtained_object$sort_by_session_and_grid()
-    expected_first_6_rows_session <- rep("2021-8", 6)
-    obtained_first_6_rows_session <- obtained_sorted_multisession$Session[1:6]
-    expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
-  })
   it("Tests data for multisession model", {
     obtained <- obtained_object$setup_data_for_multisession()
     obtained_first_6_rows_session <- obtained$Session[1:6]
