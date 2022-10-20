@@ -1,3 +1,4 @@
+#' @export
 Multisession <- R6::R6Class("Multisession",
   public = list(
     all_data = NULL,
