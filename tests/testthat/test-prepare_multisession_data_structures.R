@@ -4,14 +4,14 @@ describe("Prepare multisession data to fit in models", {
   it("Object exists", {
     expect_true(exists("obtained_object"))
   })
-  it("Obtain unique grids and sessions",{
-    expected_unique_grids <- c(9,24,28,31,48,50)
-    obtained_unique_grids <- obtained_object$unique_grids()
-    is_all_grids <- all(obtained_unique_grids %in% expected_unique_grids)
+  it("Obtain present grids and sessions", {
+    expected_present_grids <- c(9, 24, 28, 31, 48, 50)
+    obtained_present_grids <- obtained_object$present_grids()
+    is_all_grids <- all(obtained_present_grids %in% expected_present_grids)
     expect_true(is_all_grids)
-    expected_unique_sessions <- c("2021-8","2021-10","2022-1","2022-3","2022-4","2022-5")
-    obtained_unique_sessions <- obtained_object$unique_sessions()
-    is_all_sessions <- all(obtained_unique_sessions %in% expected_unique_sessions)
+    expected_present_sessions <- c("2021-8", "2021-10", "2022-1", "2022-3", "2022-4", "2022-5")
+    obtained_present_sessions <- obtained_object$present_sessions()
+    is_all_sessions <- all(obtained_present_sessions %in% expected_present_sessions)
     expect_true(is_all_sessions)
   })
 })
