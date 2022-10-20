@@ -9,6 +9,11 @@ Multisession <- R6::R6Class("Multisession",
     },
     present_sessions = function() {
       return(unique(self$all_data$Session))
+    },
+    expanded_grid_session = function() {
+      present_grids <- self$present_grids()
+      present_sessions <- self$present_sessions()
+      return(expand.grid(present_grids, present_sessions))
     }
   )
 )

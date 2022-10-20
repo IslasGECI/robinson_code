@@ -14,4 +14,9 @@ describe("Prepare multisession data to fit in models", {
     is_all_sessions <- all(obtained_present_sessions %in% expected_present_sessions)
     expect_true(is_all_sessions)
   })
+  it("Obtain expanded grids and sessions", {
+    expected_rows_number <- 36
+    obtained_rows_number <- nrow(obtained_object$expanded_grid_session())
+    expect_equal(obtained_rows_number, expected_rows_number)
+  })
 })
