@@ -1,5 +1,5 @@
 describe("Prepare multisession data to fit in models", {
-  input <- readr::read_csv("data/Hunting.csv")
+  input <- readr::read_csv("../data/Hunting.csv")
   obtained_object <- Multisession$new(input)
   it("Object exists", {
     expect_true(exists("obtained_object"))
@@ -38,7 +38,6 @@ describe("Prepare multisession data to fit in models", {
   })
   it("Add new session column", {
     obtained_added_session_column <- obtained_object$rename_session()
-    print(obtained_added_session_column %>% head(20))
     obtained_first_6_rows_session <- obtained_added_session_column$Session[1:6]
     expected_first_6_rows_session <- rep(1, 6)
     expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
