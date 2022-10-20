@@ -26,15 +26,12 @@ describe("Prepare multisession data to fit in models", {
     obtained_first_6_rows_session <- obtained_sorted_multisession$Session[1:6]
     expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
   })
-  it("Add new session column", {
-    obtained_added_session_column <- obtained_object$rename_session()
-    obtained_first_6_rows_session <- obtained_added_session_column$Session[1:6]
+  it("Tests data for multisession model", {
+    obtained <- obtained_object$setup_data_for_multisession()
+    obtained_first_6_rows_session <- obtained$Session[1:6]
     expected_first_6_rows_session <- rep(1, 6)
     expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
-  })
-  it("Tests data for multisession model", {
-    expected <- read_csv("../data/data_for_multisession.csv", show_col_types=FALSE)
-    obtained <- obtained_object$setup_data_for_multisession()
+    expected <- read_csv("../data/data_for_multisession.csv", show_col_types = FALSE)
     expect_equal(obtained, expected)
   })
 })
