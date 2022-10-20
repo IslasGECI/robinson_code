@@ -33,6 +33,27 @@ get_camera_observations <- function(camera_sightings, coordinates_path = "data/r
 }
 
 #' @export
+get_camera_observations_multisession <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
+  # remove camera coords with ID == NA
+  camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
+  camera_coordinates <- camera_coordinates %>%
+    mutate(ID = `N Cuadricula`) %>%
+    filter(!is.na(ID))
+
+  # process camera obs
+  camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
+  camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
+  camera_effort <- camera_sightings %>% select(ID = Grid, session, starts_with("e"))
+
+  camera_locations <- camera_coordinates %>%
+    filter(ID %in% camera_detections$ID) %>%
+    select(ID, X = Easting, Y = Norting)
+  camera_locations <- sf::st_as_sf(camera_locations, coords = c("X", "Y"), crs = 32717)
+  camera_observations <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = camera_locations)
+  return(camera_observations)
+}
+
+#' @export
 calc_mode <- function(v) {
   # find most common element in vector
   # excluding NA
@@ -73,6 +94,21 @@ get_m <- function(habvals, camera_sightings) {
 }
 
 #' @export
+get_m_multisession <- function(habvals, camera_sightings) {
+  y <- camera_sightings[["detections"]] %>% select(session, starts_with("r"))
+  e <- camera_sightings[["effort"]] %>% select(session, starts_with("e"))
+
+  y[e == 0] <- NA # e==0 implies no camera data available so set to NA
+
+  # Fit model
+  emf <- eradicate::eFrameS(y = y, siteCovs = habvals, obsCovs = list(effort = e %>% select(-session)))
+  print(emf)
+  # Fit the Nmixture model
+  m <- eradicate::nmixS(~ habitat + .season, ~1, data = emf, K = 100) # set K large enough so estimates do not depend on it
+  return(m)
+}
+
+#' @export
 add_prediction_to_all_habitats <- function(m, all_habitats) {
   preds <- eradicate::calcN(m, newdata = all_habitats, off.set = all_habitats$rcell)
   print(preds$Nhat)
@@ -90,6 +126,13 @@ get_habitat_values <- function(hab1, cobs_l_buff) {
 }
 
 #' @export
+get_m_multisession_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_radius) {
+  cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
+  habvals <- get_habitat_values(hab1, cobs_l_buff)
+  m <- get_m_multisession(habvals, camera_sightings)
+  return(m)
+}
+#' @export
 get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_radius) {
   cobs_l_buff <- sf::st_buffer(camera_sightings[["locations"]], dist = buffer_radius)
   habvals <- get_habitat_values(hab1, cobs_l_buff)
@@ -97,6 +140,26 @@ get_m_from_hab1_and_camera_sightings <- function(camera_sightings, hab1, buffer_
   return(m)
 }
 
+#' @export
+get_population_estimate_multisession <- function(camera_sightings, gridc, grid_clip, crusoe_shp, buffer_radius, square_grid, habitats) {
+  m <- get_m_multisession_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
+  summary(m)
+
+  # To extrapolate across the island need to extract habitat values for each 1km grid cell
+  # However, we need to account for partial grid cells
+
+  vegetation_from_model <- get_habitat_id_from_model(m)
+
+  all_habitats <- calculate_all_habitats(gridc, buffer_radius, habitats, square_grid, vegetation_from_model)
+  N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
+
+  propulation_prediction_per_grid <- inner_join(grid_clip, N_coati_by_habitat, by = c("Id" = "ID"))
+  return(propulation_prediction_per_grid)
+}
+
+get_habitat_id_from_model <- function(m) {
+  return(as.numeric(as.vector(unique(m$data$siteCovs)[["habitat"]])))
+}
 #' @export
 get_population_estimate <- function(camera_sightings, gridc, grid_clip, crusoe_shp, buffer_radius, square_grid, habitats) {
   m <- get_m_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
