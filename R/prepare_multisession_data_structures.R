@@ -1,17 +1,19 @@
 Multisession <- R6::R6Class("Multisession",
   public = list(
     all_data = NULL,
+    data_for_multisession = NULL,
     initialize = function(all_data) {
       self$all_data <- all_data
-    },
-    setup_data_for_multisession = function() {
+      self$data_for_multisession <- private$setup_data_for_multisession_()
+    }
+  ),
+  private = list(
+    setup_data_for_multisession_ = function() {
       sorted_data <- private$sort_by_session_and_grid_()
       new_names_session <- private$get_new_names_session_()
       renamed_sessions <- sorted_data %>% mutate(Session = new_names_session)
       return(renamed_sessions)
-    }
-  ),
-  private = list(
+    },
     get_new_names_session_ = function() {
       number_of_grids <- length(private$present_grids())
       number_of_sessions <- length(private$present_sessions())
