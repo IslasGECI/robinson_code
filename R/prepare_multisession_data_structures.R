@@ -14,6 +14,15 @@ Multisession <- R6::R6Class("Multisession",
       present_grids <- self$present_grids()
       present_sessions <- self$present_sessions()
       return(expand.grid(present_grids, present_sessions))
+    },
+    get_complete_multisession = function() {
+      expanded_grid_session <- self$expanded_grid_session()
+      expanded_data <- right_join(self$all_data, expanded_grid_session, by = c("Grid" = "Var1", "Session" = "Var2"))
+      return(expanded_data %>% replace(is.na(.), 0))
+    },
+    sort_by_session_and_grid = function() {
+      expanded_data <- self$get_complete_multisession()
+      return(expanded_data %>% arrange(lubridate::ym(expanded_data$Session), Grid))
     }
   )
 )
