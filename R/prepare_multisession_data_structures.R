@@ -23,6 +23,14 @@ Multisession <- R6::R6Class("Multisession",
     sort_by_session_and_grid = function() {
       expanded_data <- self$get_complete_multisession()
       return(expanded_data %>% arrange(lubridate::ym(expanded_data$Session), Grid))
+    },
+    rename_session = function() {
+      number_of_grids <- length(self$present_grids())
+      number_of_sessions <- length(self$present_sessions())
+      sessions <- 1:number_of_sessions
+      sorted_data <- self$sort_by_session_and_grid()
+      renamed_sessions <- sorted_data %>% mutate(Session = rep(sessions, each = number_of_grids))
+      return(renamed_sessions)
     }
   )
 )

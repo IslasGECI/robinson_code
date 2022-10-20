@@ -30,11 +30,17 @@ describe("Prepare multisession data to fit in models", {
     is_any_na <- any(is.na(obtained_complete_multisession))
     expect_false(is_any_na)
   })
-  it("Rename session column", {
+  it("Sort session and grid columns", {
     obtained_sorted_multisession <- obtained_object$sort_by_session_and_grid()
-    print(obtained_sorted_multisession %>% head(20))
     expected_first_6_rows_session <- rep("2021-8", 6)
     obtained_first_6_rows_session <- obtained_sorted_multisession$Session[1:6]
+    expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
+  })
+  it("Add new session column", {
+    obtained_added_session_column <- obtained_object$rename_session()
+    print(obtained_added_session_column %>% head(20))
+    obtained_first_6_rows_session <- obtained_added_session_column$Session[1:6]
+    expected_first_6_rows_session <- rep(1, 6)
     expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
   })
 })
