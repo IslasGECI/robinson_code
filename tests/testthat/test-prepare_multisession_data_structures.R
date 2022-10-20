@@ -42,4 +42,9 @@ describe("Prepare multisession data to fit in models", {
     expected_first_6_rows_session <- rep(1, 6)
     expect_equal(obtained_first_6_rows_session, expected_first_6_rows_session)
   })
+  it("Tests data for multisession model", {
+    expected <- read_csv("../data/data_for_multisession.csv", show_col_types=FALSE)
+    obtained <- obtained_object$setup_data_for_multisession()
+    expect_equal(obtained, expected)
+  })
 })
