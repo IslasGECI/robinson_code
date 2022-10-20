@@ -4,11 +4,6 @@ describe("Prepare multisession data to fit in models", {
   it("Object exists", {
     expect_true(exists("obtained_object"))
   })
-  it("Obtain expanded grids and sessions", {
-    expected_rows_number <- 36
-    obtained_rows_number <- nrow(obtained_object$expanded_grid_session())
-    expect_equal(obtained_rows_number, expected_rows_number)
-  })
   it("Obtain complete multisession structure", {
     obtained_complete_multisession <- obtained_object$get_complete_multisession()
     expected_rows_number <- 36
