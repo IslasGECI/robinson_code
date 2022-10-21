@@ -43,11 +43,15 @@ y <- camera_observations[["detections"]] %>% select(session, starts_with("r"))
 e <- camera_observations[["effort"]] %>% select(session, starts_with("e"))
 y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
-tmplist<- split(e, ~factor(session))
-e_sin_sesion <- lapply((tmplist), function(x) x %>% select(-session)%>% as.matrix())
+tmplist <- split(e, ~ factor(session))
+e_sin_sesion <- lapply((tmplist), function(x) {
+  x %>%
+    select(-session) %>%
+    as.matrix()
+})
 
 # Fit model
-emf <- eradicate::eFrameS(y = y, siteCovs = habvals, obsCovs =  e_sin_sesion)
+emf <- eradicate::eFrameS(y = y, siteCovs = habvals, obsCovs = e_sin_sesion)
 # Fit the Nmixture model
 m <- eradicate::nmixS(~ habitat + .season, ~1, data = emf, K = 100) # set K large enough so estimates do not depend on it
 
