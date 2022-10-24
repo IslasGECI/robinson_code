@@ -42,10 +42,18 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
 
   # process camera obs
   camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
-  camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
-  camera_effort <- camera_sightings %>% select(ID = Grid, session, starts_with("e"))
+  camera_detections <- camera_sightings %>% select(session, starts_with("r"))
+  camera_effort <- camera_sightings %>% select(session, starts_with("e"))
 
 
+  #y[e == 0] <- NA # e==0 implies no camera data available so set to NA
+
+ # tmplist <- split(camera_effort, ~ factor(session))
+ # e_sin_sesion <- lapply((tmplist), function(x) {
+ #   x %>%
+ #       select(-session) %>%
+ #       as.matrix()
+ #   })
   camera_locations <- camera_coordinates %>%
     filter(ID %in% camera_detections$ID) %>%
     select(ID, X = Easting, Y = Norting)
