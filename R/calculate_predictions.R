@@ -45,6 +45,7 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
   camera_effort <- camera_sightings %>% select(ID = Grid, session, starts_with("e"))
 
+
   camera_locations <- camera_coordinates %>%
     filter(ID %in% camera_detections$ID) %>%
     select(ID, X = Easting, Y = Norting)
