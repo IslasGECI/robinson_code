@@ -35,19 +35,12 @@ get_camera_observations <- function(camera_sightings, coordinates_path = "data/r
 #' @export
 get_camera_observations_multisession <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   # remove camera coords with ID == NA
-  camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
-  camera_coordinates <- camera_coordinates %>%
-    mutate(ID = `N Cuadricula`) %>%
-    filter(!is.na(ID))
+  camera_coordinates <- get_camera_coordinates_from_path(coordinates_path)
   check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
   # process camera obs
   camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
   camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
-  camera_locations <- camera_coordinates %>%
-    filter(ID %in% camera_detections$ID) %>%
-    select(ID, X = Easting, Y = Norting)
-  camera_locations <- sf::st_as_sf(camera_locations, coords = c("X", "Y"), crs = 32717)
-
+  camera_locations <- get_camera_locations_as_sf(camera_detections, camera_coordinates)
   camera_detections <- camera_detections %>% select(-ID)
   camera_effort <- camera_sightings %>% select(session, starts_with("e"))
 
@@ -55,6 +48,21 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_effort <- get_matrix_list_from_camera_effort(camera_effort)
   camera_observations <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = camera_locations)
   return(camera_observations)
+}
+
+get_camera_coordinates_from_path <- function(coordinates_path) {
+  camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
+  camera_coordinates <- camera_coordinates %>%
+    mutate(ID = `N Cuadricula`) %>%
+    filter(!is.na(ID))
+  return(camera_coordinates)
+}
+get_camera_locations_as_sf <- function(camera_detections, camera_coordinates) {
+  camera_locations <- camera_coordinates %>%
+    filter(ID %in% camera_detections$ID) %>%
+    select(ID, X = Easting, Y = Norting)
+  camera_locations <- sf::st_as_sf(camera_locations, coords = c("X", "Y"), crs = 32717)
+  return(camera_locations)
 }
 
 get_matrix_list_from_camera_effort <- function(camera_effort) {
