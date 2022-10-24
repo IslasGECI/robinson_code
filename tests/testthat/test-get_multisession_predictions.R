@@ -31,5 +31,10 @@ describe("Get camera traps observations", {
     lapply(obtained_effort, function(x) {
       expect_true(inherits(x, "matrix"))
     })
+    expected_weeks_by_session <- 6
+    lapply(obtained_effort, function(x) {
+      obtained_weeks_by_session <- ncol(x)
+      expect_equal(obtained_weeks_by_session, expected_weeks_by_session)
+    })
   })
 })
