@@ -16,4 +16,10 @@ describe("Get camera traps observations", {
     expected_rows <- number_of_session * number_of_sites
     expect_equal(obtained_rows, expected_rows)
   })
+  it("Detections have NA's", {
+    obtained_detections <- obtained_camera_observations[["detections"]]
+    obtained_NAs <- sum(is.na(obtained_detections))
+    expected_NAs <- 209
+    expect_equal(obtained_NAs, expected_NAs)
+  })
 })

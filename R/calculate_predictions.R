@@ -45,7 +45,7 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_detections <- camera_sightings %>% select(session, starts_with("r"))
   camera_effort <- camera_sightings %>% select(session, starts_with("e"))
 
-
+  camera_detections[camera_effort == 0] <- NA
   # y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
   # tmplist <- split(camera_effort, ~ factor(session))
