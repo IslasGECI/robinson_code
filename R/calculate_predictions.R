@@ -42,15 +42,17 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
   # process camera obs
   camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
-  camera_detections <- camera_sightings %>% select(session, starts_with("r"))
-  camera_effort <- camera_sightings %>% select(session, starts_with("e"))
-
-  camera_detections[camera_effort == 0] <- NA
-  camera_effort <- get_matrix_list_from_camera_effort(camera_effort)
+  camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
   camera_locations <- camera_coordinates %>%
     filter(ID %in% camera_detections$ID) %>%
     select(ID, X = Easting, Y = Norting)
   camera_locations <- sf::st_as_sf(camera_locations, coords = c("X", "Y"), crs = 32717)
+
+  camera_detections <- camera_detections %>% select(-ID)
+  camera_effort <- camera_sightings %>% select(session, starts_with("e"))
+
+  camera_detections[camera_effort == 0] <- NA
+  camera_effort <- get_matrix_list_from_camera_effort(camera_effort)
   camera_observations <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = camera_locations)
   return(camera_observations)
 }

@@ -37,4 +37,9 @@ describe("Get camera traps observations", {
       expect_equal(obtained_weeks_by_session, expected_weeks_by_session)
     })
   })
+  it("Test camera locations", {
+    obtained_locations <- nrow(obtained_camera_observations[["locations"]])
+    expected_locations <- 6
+    expect_equal(obtained_locations, expected_locations)
+  })
 })
