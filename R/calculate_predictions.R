@@ -36,7 +36,7 @@ get_camera_observations <- function(camera_sightings, coordinates_path = "data/r
 get_camera_observations_multisession <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   # remove camera coords with ID == NA
   camera_coordinates <- get_camera_coordinates_from_path(coordinates_path)
-  check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
+  # check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
   # process camera obs
   camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
   camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
