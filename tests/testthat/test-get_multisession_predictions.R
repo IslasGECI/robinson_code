@@ -22,4 +22,14 @@ describe("Get camera traps observations", {
     expected_NAs <- 209
     expect_equal(obtained_NAs, expected_NAs)
   })
+  it("Camera effort is a list of sessions", {
+    obtained_effort <- obtained_camera_observations[["effort"]]
+    expect_true(inherits(obtained_effort, "list"))
+    number_of_session <- 6
+    obtained_elements_of_list <- length(obtained_effort)
+    expect_equal(obtained_elements_of_list, number_of_session)
+    lapply(obtained_effort, function(x) {
+      expect_true(inherits(x, "matrix"))
+    })
+  })
 })

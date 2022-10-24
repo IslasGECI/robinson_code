@@ -46,14 +46,7 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_effort <- camera_sightings %>% select(session, starts_with("e"))
 
   camera_detections[camera_effort == 0] <- NA
-  # y[e == 0] <- NA # e==0 implies no camera data available so set to NA
-
-  # tmplist <- split(camera_effort, ~ factor(session))
-  # e_sin_sesion <- lapply((tmplist), function(x) {
-  #   x %>%
-  #       select(-session) %>%
-  #       as.matrix()
-  #   })
+  camera_effort <- get_matrix_list_from_camera_effort(camera_effort)
   camera_locations <- camera_coordinates %>%
     filter(ID %in% camera_detections$ID) %>%
     select(ID, X = Easting, Y = Norting)
@@ -62,6 +55,15 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   return(camera_observations)
 }
 
+get_matrix_list_from_camera_effort <- function(camera_effort) {
+  camera_effort <- split(camera_effort, ~ factor(session))
+  camera_effort <- lapply((camera_effort), function(x) {
+    x %>%
+      select(-session) %>%
+      as.matrix()
+  })
+  return(camera_effort)
+}
 check_grid_registered_camera_coordinate <- function(camera_sightings, camera_coordinates) {
   if (!all(camera_sightings$Grid %in% camera_coordinates$ID)) {
     stop("Missing grid in camera coordinate")
