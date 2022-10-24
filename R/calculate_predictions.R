@@ -39,27 +39,33 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_coordinates <- camera_coordinates %>%
     mutate(ID = `N Cuadricula`) %>%
     filter(!is.na(ID))
-
+  check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
   # process camera obs
   camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
   camera_detections <- camera_sightings %>% select(session, starts_with("r"))
   camera_effort <- camera_sightings %>% select(session, starts_with("e"))
 
 
-  #y[e == 0] <- NA # e==0 implies no camera data available so set to NA
+  # y[e == 0] <- NA # e==0 implies no camera data available so set to NA
 
- # tmplist <- split(camera_effort, ~ factor(session))
- # e_sin_sesion <- lapply((tmplist), function(x) {
- #   x %>%
- #       select(-session) %>%
- #       as.matrix()
- #   })
+  # tmplist <- split(camera_effort, ~ factor(session))
+  # e_sin_sesion <- lapply((tmplist), function(x) {
+  #   x %>%
+  #       select(-session) %>%
+  #       as.matrix()
+  #   })
   camera_locations <- camera_coordinates %>%
     filter(ID %in% camera_detections$ID) %>%
     select(ID, X = Easting, Y = Norting)
   camera_locations <- sf::st_as_sf(camera_locations, coords = c("X", "Y"), crs = 32717)
   camera_observations <- list("detections" = camera_detections, "effort" = camera_effort, "locations" = camera_locations)
   return(camera_observations)
+}
+
+check_grid_registered_camera_coordinate <- function(camera_sightings, camera_coordinates) {
+  if (!all(camera_sightings$Grid %in% camera_coordinates$ID)) {
+    stop("Missing grid in camera coordinate")
+  }
 }
 
 #' @export
