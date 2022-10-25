@@ -122,14 +122,8 @@ get_m <- function(habvals, camera_sightings) {
 
 #' @export
 get_m_multisession <- function(habvals, camera_sightings) {
-  y <- camera_sightings[["detections"]] %>% select(session, starts_with("r"))
-  e <- camera_sightings[["effort"]] %>% select(session, starts_with("e"))
-
-  y[e == 0] <- NA # e==0 implies no camera data available so set to NA
-
   # Fit model
-  emf <- eradicate::eFrameS(y = y, siteCovs = habvals, obsCovs = list(effort = e %>% select(-session)))
-  print(emf)
+  emf <- eradicate::eFrameS(y = camera_sightings[["detections"]], siteCovs = habvals, obsCovs = camera_sightings[["effort"]])
   # Fit the Nmixture model
   m <- eradicate::nmixS(~ habitat + .season, ~1, data = emf, K = 100) # set K large enough so estimates do not depend on it
   return(m)
@@ -184,9 +178,11 @@ get_population_estimate_multisession <- function(camera_sightings, gridc, grid_c
   return(propulation_prediction_per_grid)
 }
 
+#' @export
 get_habitat_id_from_model <- function(m) {
   return(as.numeric(as.vector(unique(m$data$siteCovs)[["habitat"]])))
 }
+
 #' @export
 get_population_estimate <- function(camera_sightings, gridc, grid_clip, crusoe_shp, buffer_radius, square_grid, habitats) {
   m <- get_m_from_hab1_and_camera_sightings(camera_sightings, habitats, buffer_radius)
@@ -225,10 +221,10 @@ calculate_all_habitats <- function(gridc, buffer_radius, hab1, square_grid, vege
   # we can not get predictions for it.
   # This means we only get predictions for 49 of the 50 grid cells
 
-  all_habitats <- all_habitats %>%
+  filtered_habitats <- all_habitats %>%
     filter(habitat %in% vegetation_from_model) %>%
     mutate(habitat = factor(habitat))
-  return(all_habitats)
+  return(filtered_habitats)
 }
 
 #' @export
