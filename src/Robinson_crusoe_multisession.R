@@ -46,19 +46,19 @@ vegetation_from_model <- get_habitat_id_from_model(m)
 
 all_habitats <- calculate_all_habitats(grid_cell, buffer_radius, habitats, square_grid, vegetation_from_model)
 
-all_habitats_filtered_by_id <- all_habitats %>% filter(ID %in% unique(camera_observations[["locations"]]$ID)) 
+all_habitats_filtered_by_id <- all_habitats %>% filter(ID %in% unique(camera_observations[["locations"]]$ID))
 
-#all_habitats_rep <- rep(all_habitats_filtered_by_id, 5)
+# all_habitats_rep <- rep(all_habitats_filtered_by_id, 5)
 
 preds <- eradicate::calcN(m)
 print(preds$Nhat)
 all_habitats_with_N <- all_habitats_filtered_by_id %>% mutate(N = preds$cellpreds$N)
 
-#N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
+# N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
 propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats_with_N, by = c("Id" = "ID"))
 
-#pred_grid <- get_population_estimate_multisession(camera_observations, grid_cell, grid_clip, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = square_grid, habitats)
+# pred_grid <- get_population_estimate_multisession(camera_observations, grid_cell, grid_clip, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = square_grid, habitats)
 
 plot_output_path <- "data/plot_pred_grid_multisession.png"
 plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
