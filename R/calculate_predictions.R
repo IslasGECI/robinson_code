@@ -38,7 +38,9 @@ get_camera_observations_multisession <- function(camera_sightings, coordinates_p
   camera_coordinates <- get_camera_coordinates_from_path(coordinates_path)
   # check_grid_registered_camera_coordinate(camera_sightings, camera_coordinates)
   # process camera obs
-  camera_sightings <- camera_sightings %>% filter(Grid %in% camera_coordinates$ID)
+  camera_sightings <- camera_sightings %>%
+    filter(Grid %in% camera_coordinates$ID) %>%
+    filter(Grid != 38)
   camera_detections <- camera_sightings %>% select(ID = Grid, session, starts_with("r"))
   camera_locations <- get_camera_locations_as_sf(camera_detections, camera_coordinates)
   camera_detections <- camera_detections %>% select(-ID)
