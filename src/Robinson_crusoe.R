@@ -23,10 +23,6 @@ camera_sightings_filtered <- filter_camera_by_month$get_data_by_month(month = se
 
 camera_observations <- get_camera_observations(camera_sightings = camera_sightings_filtered)
 
-camera_detections <- camera_observations[["detections"]]
-camera_effort <- camera_observations[["effort"]]
-camera_locations <- camera_observations[["locations"]]
-
 # Quick plot of grid cells and camera locations
 plot_output_path <- glue::glue("data/plot_crusoe_{session}.png")
 plot_camera_positions_in_square_grid(crusoe, square_grid, camera_observations, plot_output_path)
