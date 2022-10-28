@@ -52,7 +52,10 @@ all_habitats_filtered_by_id <- all_habitats %>% filter(ID %in% unique(camera_obs
 
 preds <- eradicate::calcN(m)
 print(preds$Nhat)
-all_habitats_with_N <- all_habitats_filtered_by_id %>% mutate(N = preds$cellpreds$N)
+N_per_grid <- preds$cellpreds %>%
+  filter(.season == 5) %>%
+  .$N
+all_habitats_with_N <- all_habitats_filtered_by_id %>% mutate(N = N_per_grid)
 
 # N_coati_by_habitat <- add_prediction_to_all_habitats(m, all_habitats)
 
@@ -61,4 +64,4 @@ propulation_prediction_per_grid <- inner_join(grid_clip, all_habitats_with_N, by
 # pred_grid <- get_population_estimate_multisession(camera_observations, grid_cell, grid_clip, crusoe_shp = crusoe, buffer_radius = buffer_radius, square_grid = square_grid, habitats)
 
 plot_output_path <- "data/plot_pred_grid_multisession.png"
-plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
+plot_population_prediction_per_grid(propulation_prediction_per_grid = propulation_prediction_per_grid, plot_output_path = plot_output_path)
