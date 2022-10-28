@@ -45,4 +45,10 @@ describe("Get camera traps observations", {
     expected_locations <- 6
     expect_equal(obtained_locations, expected_locations)
   })
+  it("Remove grid 38", {
+    camera_sightings_path <- "../data/data_for_multisession_with_grid_38.csv"
+    camera_sightings <- read_csv(camera_sightings_path) %>% mutate(session = Session)
+    obtained_camera_observations <- get_camera_observations_multisession(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
+    expect_false(38 %in% unique(obtained_camera_observations[["locations"]]$ID))
+  })
 })
