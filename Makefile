@@ -1,4 +1,7 @@
-all: plot_pred_grid_2.png
+all: plot_pred_grid_2.png preds_1km_grid.csv
+
+preds_1km_grid.csv: data/Camera-Traps.csv src/Robinson_crusoe_mult_sess.R
+	Rscript src/Robinson_crusoe_mult_sess.R
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
