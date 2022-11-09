@@ -8,7 +8,7 @@ library(tidyverse)
 library(sf)
 library(terra)
 library(ggspatial)
-
+library(robinson)
 # install the latest version of the 'eradicate' package (only need to do this once)
 if (isFALSE(require(eradicate))) remotes::install_github("eradicate-dev/eradicate", build_vignettes = FALSE)
 library(eradicate)
@@ -19,8 +19,13 @@ grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
 gridc <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
 hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
+camera_sightings_path <- "data/Camera-Traps.csv"
+camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
+
+multisession <- Multisession$new(camera_sightings)
+cam_obs <- multisession$data_for_multisession %>% rename(session = Session)
+
 cam_coords <- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv")
-cam_obs <- read_csv("data/camera_m_times_s_rows.csv")
 
 # remove camera coords with ID == NA
 cam_coords <- cam_coords %>%
