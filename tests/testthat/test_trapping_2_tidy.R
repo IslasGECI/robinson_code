@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Get removals and effort from trapping", {
+testthat::describe("Get removals and effort from trapping", {
   trapping_path <- "../data/trapping_database_for_tests.csv"
   trapping_data <- read_csv(trapping_path, show_col_types = FALSE)
   it("test tidy trapping", {

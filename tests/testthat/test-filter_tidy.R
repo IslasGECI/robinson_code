@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Test tidy filters", {
+testthat::describe("Test tidy filters", {
   path_cameras <- "../data/raw_cameras.csv"
   sigthing_path <- "../data/observations_database_for_tests.csv"
   hunting_path <- "../data/hunting_database_for_tests.csv"

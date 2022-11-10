@@ -1,4 +1,4 @@
-describe("Get camera traps positions", {
+testthat::describe("Get camera traps positions", {
   camera_locations <- read_csv("../data/input_plot_camera_positions_square_locations.csv", show_col_types = FALSE)
   camera_sightings <- list("locations" = sf::st_as_sf(camera_locations, wkt = "geometry"))
   crusoe_shp_path <- "../data/Robinson_Coati_Workzones_Simple.shp"

@@ -1,4 +1,4 @@
-describe("Get camera traps observations", {
+testthat::describe("Get camera traps observations", {
   camera_sightings_path <- "../data/data_for_multisession.csv"
   coordinates_path <- "../data/camera_traps_coordinates_april_2022.csv"
   camera_sightings <- read_csv(camera_sightings_path) %>% mutate(session = Session)

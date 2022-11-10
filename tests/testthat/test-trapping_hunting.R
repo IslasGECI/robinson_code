@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Get tidy table from trapping and hunting data", {
+testthat::describe("Get tidy table from trapping and hunting data", {
   sigthing_path <- "../data/observations_database_for_tests.csv"
   hunting_path <- "../data/hunting_database_for_tests.csv"
   trapping_path <- "../data/trapping_database_for_tests.csv"

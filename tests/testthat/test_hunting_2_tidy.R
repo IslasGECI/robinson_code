@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Get removals and effort from hunting", {
+testthat::describe("Get removals and effort from hunting", {
   hunting_path <- "../data/hunting_database_for_tests.csv"
   hunting_data <- read_csv(hunting_path, show_col_types = FALSE)
   it("test get_person_day_effort", {

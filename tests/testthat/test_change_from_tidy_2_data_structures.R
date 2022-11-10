@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("We define the expected data structures", {
+testthat::describe("We define the expected data structures", {
   path_cameras <- "../data/raw_cameras.csv"
   sigthing_path <- "../data/observations_database_for_tests.csv"
   hunting_path <- "../data/hunting_database_for_tests.csv"
@@ -71,7 +71,7 @@ describe("We define the expected data structures", {
     expect_equal(obtained_capture, expected_capture)
   })
 })
-describe("Get limit weeks", {
+testthat::describe("Get limit weeks", {
   it("Get first and final week from April", {
     month <- "2022-4"
     expected_weeks <- c(14, 18)
@@ -85,7 +85,7 @@ describe("Get limit weeks", {
     expect_equal(obtained_weeks, expected_weeks)
   })
 })
-describe("Make join to add missing weeks in a grid", {
+testthat::describe("Make join to add missing weeks in a grid", {
   it("For example for grid 49 and month 4", {
     filtered_tall_table <- read_csv("../data/input_april_filtered_tall_hunting.csv", show_col_types = FALSE)
     expected_missing_weeks <- read_csv("../data/output_april_filtered_tall_hunting.csv", show_col_types = FALSE)
@@ -94,7 +94,7 @@ describe("Make join to add missing weeks in a grid", {
     expect_equal(obtained_missing_weeks, expected_missing_weeks)
   })
 })
-describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid and ocassion", {
+testthat::describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid and ocassion", {
   it("For the example grid = 49 and session = 1", {
     grid <- 49
     session <- "2022-1"
@@ -125,7 +125,7 @@ describe("get_tibble_with_grid_ocassion_columns return tibble with columns Grid 
   })
 })
 
-describe("get_week_of_year_from_date", {
+testthat::describe("get_week_of_year_from_date", {
   it("Testing January", {
     expected_week <- 1
     date <- "2007-01-01"

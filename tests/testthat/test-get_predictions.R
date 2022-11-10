@@ -1,4 +1,4 @@
-describe("Get camera traps positions", {
+testthat::describe("Get camera traps positions", {
   camera_detections <- read_csv("../data/input_plot_camera_positions_square_detections.csv", show_col_types = FALSE)
   camera_effort <- read_csv("../data/input_plot_camera_positions_square_effort.csv", show_col_types = FALSE)
   camera_locations <- read_csv("../data/input_plot_camera_positions_square_locations.csv", show_col_types = FALSE)
@@ -22,7 +22,7 @@ describe("Get camera traps positions", {
     plot_output_path <- "../data/plot_pred_grid.png"
     plot_population_prediction_per_grid(obtained_pred_grid, crusoe_shp_path = crusoe_shp_path, plot_output_path = plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
-    expected_hash <- c("54a9f14a1adf985a9e39e3d8c54229a7")
+    expected_hash <- c("0081d9f45f54f0ee581635f8b2c01326")
     expect_equal(obtanied_hash, expected_hash)
   })
 })

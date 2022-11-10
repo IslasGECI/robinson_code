@@ -1,6 +1,6 @@
 library(tidyverse)
 
-describe("Add empty photos", {
+testthat::describe("Add empty photos", {
   it("Define function", {
     path <- "../data/raw_cameras_to_fill_dates.csv"
     raw_data <- read_csv(path, show_col_types = FALSE)
@@ -19,7 +19,7 @@ describe("Add empty photos", {
     expect_equal(expected_min_day_camera, obtained_min_day_camera)
   })
 })
-describe("Get dataframe", {
+testthat::describe("Get dataframe", {
   it("dates", {
     first_date_interval <- lubridate::ymd("2022-04-02") + lubridate::days(0:3)
     second_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:8)
@@ -35,7 +35,7 @@ describe("Get dataframe", {
     expect_equal(obtained, expected)
   })
 })
-describe("Define filtered data structure", {
+testthat::describe("Define filtered data structure", {
   it("Expected filtered data structure", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path, show_col_types = FALSE)
@@ -61,7 +61,7 @@ describe("Define filtered data structure", {
   })
 })
 
-describe("Group data by window", {
+testthat::describe("Group data by window", {
   it("Expected grouped data structure", {
     path <- "../data/raw_camera_id_35_and_61.csv"
     data <- read_csv(path, show_col_types = FALSE)
@@ -73,7 +73,7 @@ describe("Group data by window", {
   })
 })
 
-describe("Add column for the 10-minute window ID", {
+testthat::describe("Add column for the 10-minute window ID", {
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
@@ -92,7 +92,7 @@ describe("Add column for the 10-minute window ID", {
   })
 })
 
-describe("Group data by day", {
+testthat::describe("Group data by day", {
   it("Expected grouped data structure", {
     path <- "../data/raw_cameras_effort.csv"
     data <- read_csv(path, show_col_types = FALSE)
@@ -119,7 +119,7 @@ describe("Group data by day", {
   })
 })
 
-describe("Calculate effort", {
+testthat::describe("Calculate effort", {
   it("Compute effort from grouped data with different ocassion", {
     path <- "../data/capture_by_window_camera_1.csv"
     data <- read_csv(path, show_col_types = FALSE)
@@ -133,7 +133,7 @@ describe("Calculate effort", {
   })
 })
 
-describe("Get camera traps tidy table", {
+testthat::describe("Get camera traps tidy table", {
   it("Get tidy from path", {
     tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
     expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)

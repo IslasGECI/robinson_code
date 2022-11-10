@@ -1,4 +1,4 @@
-describe("Prepare multisession data to fit in models", {
+testthat::describe("Prepare multisession data to fit in models", {
   input <- readr::read_csv("../data/Hunting.csv")
   obtained_object <- Multisession$new(input)
   obtained <- obtained_object$data_for_multisession
