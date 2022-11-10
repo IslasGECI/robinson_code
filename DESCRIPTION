@@ -20,7 +20,7 @@ Imports:
 LazyData: true
 License: AGPL-3.0-or-later
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Suggests:
     devtools,
     roxygen2,
