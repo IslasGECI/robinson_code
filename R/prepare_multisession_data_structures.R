@@ -11,11 +11,11 @@ Multisession <- R6::R6Class("Multisession",
   private = list(
     setup_data_for_multisession_ = function() {
       sorted_data <- private$sort_by_session_and_grid_()
-      new_names_session <- private$get_new_names_session_()
+      new_names_session <- private$get_new_session_names_()
       renamed_sessions <- sorted_data %>% mutate(Session = new_names_session)
       return(renamed_sessions)
     },
-    get_new_names_session_ = function() {
+    get_new_session_names_ = function() {
       number_of_grids <- length(private$present_grids())
       number_of_sessions <- length(private$present_sessions())
       sessions <- 1:number_of_sessions
