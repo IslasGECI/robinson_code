@@ -24,7 +24,7 @@ testthat::describe("Filter cameras by month", {
     all_camera_sightings_path <- "../data/input_ramsey_format.csv"
     all_camera_sightings <- read_csv(all_camera_sightings_path)
     filter_camera_by_month <- Filter_Camera_by_Month$new(all_camera_sightings)
-     
+
     obtained <- filter_camera_by_month$filter_data_for_multisession()
     obtained_number_of_sessions <- nrow(obtained)
     expected_number_of_sessions <- 116
