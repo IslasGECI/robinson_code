@@ -3,8 +3,8 @@ testthat::describe("Filter cameras by month", {
   it("Test number of camera observations with the new object", {
     all_camera_sightings_path <- "../data/all_camera_traps_2022.csv"
     all_camera_sightings <- read_csv(all_camera_sightings_path)
-    filter_camera_by_month <- Filter_Camera_by_Month$new(all_camera_sightings)
-    camera_sightings <- filter_camera_by_month$get_data_by_month(month = "2022-4")
+    Filter_Data_Structure <- Filter_Data_Structure$new(all_camera_sightings)
+    camera_sightings <- Filter_Data_Structure$get_data_by_month(month = "2022-4")
     obtained_camera_observations <- get_camera_observations(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
     obtained_camera_observations <- obtained_camera_observations[["detections"]]
     obtained_camera_observations_columns <- names(obtained_camera_observations)
@@ -13,7 +13,7 @@ testthat::describe("Filter cameras by month", {
     obtained_detection <- obtained_camera_observations$r_2[[12]]
     expected_detection <- 13
     expect_equal(obtained_detection, expected_detection)
-    camera_sightings <- filter_camera_by_month$get_data_by_month(month = "2022-5")
+    camera_sightings <- Filter_Data_Structure$get_data_by_month(month = "2022-5")
     obtained_camera_observations <- get_camera_observations(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
     obtained_camera_observations <- obtained_camera_observations[["detections"]]
     obtained_detection <- obtained_camera_observations$r_2[[12]]
@@ -23,9 +23,9 @@ testthat::describe("Filter cameras by month", {
   it("Define filter_data_for_multisession method 💫", {
     all_camera_sightings_path <- "../data/input_ramsey_format.csv"
     all_camera_sightings <- read_csv(all_camera_sightings_path)
-    filter_camera_by_month <- Filter_Camera_by_Month$new(all_camera_sightings)
+    Filter_Data_Structure <- Filter_Data_Structure$new(all_camera_sightings)
 
-    obtained <- filter_camera_by_month$filter_data_for_multisession()
+    obtained <- Filter_Data_Structure$filter_data_for_multisession()
     obtained_number_of_sessions <- nrow(obtained)
     expected_number_of_sessions <- 116
     expect_equal(obtained_number_of_sessions, expected_number_of_sessions)

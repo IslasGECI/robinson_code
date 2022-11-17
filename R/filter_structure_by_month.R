@@ -1,5 +1,5 @@
 #' @export
-Filter_Camera_by_Month <- R6::R6Class("Filter_Camera_by_Month",
+Filter_Data_Structure <- R6::R6Class("Filter_Data_Structure",
   public = list(
     all_months = NULL,
     initialize = function(all_months) {
