@@ -1,3 +1,4 @@
+#' @export
 camera_traps_2_ramsey_format <- function(camera_sightings) {
   camera_data <- Filter_Data_Structure$new(camera_sightings)
   filtered_data <- camera_data$filter_data_for_multisession()
