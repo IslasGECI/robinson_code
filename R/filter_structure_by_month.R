@@ -10,7 +10,7 @@ Filter_Data_Structure <- R6::R6Class("Filter_Data_Structure",
     },
     filter_data_for_multisession = function() {
       sessions_with_more_than_5_grids <- private$get_sessions_with_more_than_5_grids_()
-      filtered_sessions <- self$all_months %>% filter(Session %in% sessions_with_more_than_5_grids)
+      filtered_sessions <- self$all_months %>% filter(Session %in% sessions_with_more_than_5_grids & Session != "2021-9")
       return(filtered_sessions)
     }
   ),

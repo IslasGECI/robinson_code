@@ -7,7 +7,7 @@ testthat::describe("Prepare camera traps data to Ramsey format", {
     obtained_path <- "../data/ramsey_format.csv"
     write_csv(obtained, obtained_path)
     obtained_hash <- tools::md5sum(obtained_path)
-    expected_hash <- "cecb6bde91f0e8f99139fec580ccbb14"
+    expected_hash <- "c0ac40ca5e15f5e0065d586cad8d8aa0"
     expect_equal(obtained_hash[[1]], expected_hash)
   })
 })

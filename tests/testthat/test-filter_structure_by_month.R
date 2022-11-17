@@ -27,7 +27,7 @@ testthat::describe("Filter cameras by month", {
 
     obtained <- Filter_Data_Structure$filter_data_for_multisession()
     obtained_number_of_sessions <- nrow(obtained)
-    expected_number_of_sessions <- 116
+    expected_number_of_sessions <- 107
     expect_equal(obtained_number_of_sessions, expected_number_of_sessions)
   })
 })
