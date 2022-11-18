@@ -1,17 +1,4 @@
 #' @export
-Filter_Camera_by_Month <- R6::R6Class("Filter_Camera_by_Month",
-  public = list(
-    all_months = NULL,
-    initialize = function(all_months) {
-      self$all_months <- all_months
-    },
-    get_data_by_month = function(month) {
-      return(self$all_months %>% filter(Session == month))
-    }
-  )
-)
-
-#' @export
 get_camera_observations <- function(camera_sightings, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
   # remove camera coords with ID == NA
   camera_coordinates <- read_csv(coordinates_path, show_col_types = FALSE)
