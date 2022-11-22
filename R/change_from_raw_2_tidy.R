@@ -35,7 +35,20 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
     date = dates,
     Ocassion = ocassions,
     camera_id = camera_IDs,
-    coati_count = coati_count
+    coati_count = coati_count,
+  )
+  return(result)
+}
+select_date_ocassion_camera_and_detection_columns_for_cat <- function(data) {
+  dates <- data$DateTime
+  ocassions <- sapply(dates, get_week_of_year_from_date)
+  camera_IDs <- get_id_camera_from_relative_path(data$RelativePath)
+  cat_count <- as.numeric(data$Cat)
+  result <- tibble(
+    date = dates,
+    Ocassion = ocassions,
+    camera_id = camera_IDs,
+    cat_count = cat_count
   )
   return(result)
 }

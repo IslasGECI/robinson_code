@@ -50,13 +50,11 @@ testthat::describe("Define filtered data structure", {
     expected_ocassion <- c(rep(14, 4), 15, 15)
     expected_id <- c(1, 1, 1, 1, 22, 10)
     expected_coati_count <- c(0, 0, 0, 1, 0, 1)
-    expected_cat_count <- c(0, 0, 1, 0, 1, 1)
     expected_structure <- tibble(
       date = c(expected_dates),
       Ocassion = c(expected_ocassion),
       camera_id = expected_id,
-      coati_count = expected_coati_count,
-      cat_count = expected_cat_count
+      coati_count = expected_coati_count
     )
     obtained_structure <- select_date_ocassion_camera_and_detection_columns(data)
     expect_equal(expected_structure, obtained_structure)
