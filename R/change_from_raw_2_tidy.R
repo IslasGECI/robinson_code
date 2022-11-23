@@ -56,9 +56,9 @@ get_id_camera_from_relative_path <- function(RelativePath_column) {
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", RelativePath_column))
   return(camera_IDs)
 }
-count_detection_by_window <- function(filtered_structure) {
+count_detection_by_window_for_coatis <- function(filtered_structure) {
   result <- filtered_structure %>%
-    assign_window_number_to_detections() %>%
+    assign_window_number_to_detections_for_coatis() %>%
     mutate(date = substr(date, start = 0, stop = 10)) %>%
     group_by(date, window, camera_id, Ocassion) %>%
     summarize(coati_count = max(coati_count)) %>%
@@ -75,7 +75,7 @@ count_detection_by_window_for_cats <- function(filtered_structure) {
   return(result)
 }
 
-assign_window_number_to_detections <- function(selected_columns) {
+assign_window_number_to_detections_for_coatis <- function(selected_columns) {
   with_window_numbers <- selected_columns %>%
     filter_with_coati() %>%
     add_time_difference() %>%
@@ -157,7 +157,7 @@ tidy_from_path_camera <- function(path) {
   tidy_table <- data %>%
     fill_dates() %>%
     select_date_ocassion_camera_and_detection_columns() %>%
-    count_detection_by_window() %>%
+    count_detection_by_window_for_coatis() %>%
     count_detection_by_day() %>%
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])

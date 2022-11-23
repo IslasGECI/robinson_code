@@ -62,9 +62,9 @@ testthat::describe("Define filtered data structure", {
 })
 
 testthat::describe("Group data by window", {
-  it("Test count_detection_by_window", {
+  it("Test count_detection_by_window_for_coatis", {
     filtered_structure <- read_csv("../data/output_filtered_structure.csv", show_col_types = FALSE)
-    obtained_grouped_by_window <- count_detection_by_window(filtered_structure)
+    obtained_grouped_by_window <- count_detection_by_window_for_coatis(filtered_structure)
     expected_grouped <- read_csv("../data/output_data_grouped_by_window.csv", show_col_types = FALSE, col_types = "ciiii")
     expect_equal(obtained_grouped_by_window, expected_grouped)
   })
@@ -81,7 +81,7 @@ testthat::describe("Add column for the 10-minute window ID", {
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
-    obtained <- assign_window_number_to_detections(selected_columns)
+    obtained <- assign_window_number_to_detections_for_coatis(selected_columns)
     expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
     expect_equal(obtained, expect_join)
   })
