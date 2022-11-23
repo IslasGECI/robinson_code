@@ -62,11 +62,18 @@ testthat::describe("Define filtered data structure", {
 })
 
 testthat::describe("Group data by window", {
-  it("Expected grouped data structure", {
+  it("Test count_detection_by_window", {
     path <- "../data/raw_camera_id_35_and_61.csv"
     data <- read_csv(path, show_col_types = FALSE)
     filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
-    data_grouped_by_window <- count_detection_by_window(filtered_structure)
+    write_csv(filtered_structure, "../data/output_filtered_structure.csv")
+    obtained_grouped_by_window <- count_detection_by_window(filtered_structure)
+    expected_grouped <- read_csv("../data/output_data_grouped_by_window.csv", show_col_types = FALSE)
+    expect_equal(obtained_grouped_by_window, expected_grouped)
+  })
+  it("Test count_detection_by_day", {
+    path <- "../data/output_data_grouped_by_window.csv"
+    data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
     obtained_grouped <- count_detection_by_day(data_grouped_by_window)
     expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
     expect_equal(obtained_grouped, expected_grouped)
