@@ -92,10 +92,13 @@ assign_window_number_to_detections_for_cats <- function(selected_columns) {
   return(join_original_with_window_numbers(selected_columns, with_window_numbers))
 }
 filter_with_coati <- function(selected_columns) {
-  return(selected_columns %>% filter(coati_count > 0))
+  return(filter_with_species(selected_columns, `coati_count`))
 }
 filter_with_cat <- function(selected_columns) {
-  return(selected_columns %>% filter(cat_count > 0))
+  return(filter_with_species(selected_columns, `cat_count`))
+}
+filter_with_species <- function(selected_columns, species) {
+  return(selected_columns %>% filter({{ species }} > 0))
 }
 add_time_difference <- function(filtered_structure) {
   seconds <- get_seconds(filtered_structure)
