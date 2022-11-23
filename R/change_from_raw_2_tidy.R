@@ -65,6 +65,15 @@ count_detection_by_window <- function(filtered_structure) {
     ungroup()
   return(result)
 }
+count_detection_by_window_for_cats <- function(filtered_structure) {
+  result <- filtered_structure %>%
+    assign_window_number_to_detections_for_cats() %>%
+    mutate(date = substr(date, start = 0, stop = 10)) %>%
+    group_by(date, window, camera_id, Ocassion) %>%
+    summarize(cat_count = max(cat_count)) %>%
+    ungroup()
+  return(result)
+}
 
 assign_window_number_to_detections <- function(selected_columns) {
   with_window_numbers <- selected_columns %>%
@@ -74,8 +83,19 @@ assign_window_number_to_detections <- function(selected_columns) {
     add_window_number()
   return(join_original_with_window_numbers(selected_columns, with_window_numbers))
 }
+assign_window_number_to_detections_for_cats <- function(selected_columns) {
+  with_window_numbers <- selected_columns %>%
+    filter_with_cat() %>%
+    add_time_difference() %>%
+    is_new_window() %>%
+    add_window_number()
+  return(join_original_with_window_numbers(selected_columns, with_window_numbers))
+}
 filter_with_coati <- function(selected_columns) {
   return(selected_columns %>% filter(coati_count > 0))
+}
+filter_with_cat <- function(selected_columns) {
+  return(selected_columns %>% filter(cat_count > 0))
 }
 add_time_difference <- function(filtered_structure) {
   seconds <- get_seconds(filtered_structure)
