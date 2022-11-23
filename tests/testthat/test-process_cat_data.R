@@ -1,7 +1,7 @@
 library(tidyverse)
 
-testthat::describe("Define filtered data structure for cat detection", {
-  it("Expected filtered data structure for cats", {
+testthat::describe("Tidy structure for cats", {
+  it("first function: select_date_ocassion_camera_and_detection_columns_for_cat()", {
     path <- "../data/raw_cameras.csv"
     data <- read_csv(path, show_col_types = FALSE)
     expected_dates <- as.POSIXct(c(
@@ -23,5 +23,9 @@ testthat::describe("Define filtered data structure for cat detection", {
     )
     obtained_structure <- select_date_ocassion_camera_and_detection_columns_for_cat(data)
     expect_equal(expected_structure, obtained_structure)
+  })
+  it("second function: count_detection_by_window()", {
+  })
+  it("third function: count_detection_by_day()", {
   })
 })
