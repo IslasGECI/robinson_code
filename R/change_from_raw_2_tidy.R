@@ -124,16 +124,26 @@ join_original_with_window_numbers <- function(original, with_window) {
   return(joined)
 }
 
+count_detection_by_day_for_cats <- function(filter_table) {
+  count_detection_by_day_for_species(filter_table, `cat_count`)
+}
 
+count_detection_by_day_for_coatis <- function(filter_table) {
+  count_detection_by_day_for_species(filter_table, `coati_count`)
+}
 
-count_detection_by_day <- function(filter_table) {
+count_detection_by_day_for_species <- function(filter_table, species) {
   months <- lubridate::month(filter_table$date)
   years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
     group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years, months, sep = "-")) %>%
-    summarize(r = sum(coati_count)) %>%
+    summarize(r = sum({{ species }})) %>%
     ungroup()
   return(filtered_structure)
+}
+count_detection_by_day <- function(filter_table) {
+  warning("This function will be deprecated in the next major version ⚰️ . Please use 'count_detection_by_day_for_coatis()' instead of 'count_detection_by_day()'")
+  count_detection_by_day_for_coatis(filter_table) 
 }
 
 

@@ -32,6 +32,11 @@ testthat::describe("Tidy structure for cats", {
     expect_equal(obtained_grouped_by_window, expected_grouped)
   })
   it("third function: count_detection_by_day_for_cats()", {
+    path <- "../data/output_cat_data_grouped_by_window.csv"
+    data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
+    obtained_grouped <- count_detection_by_day_for_cats(data_grouped_by_window)
+    expected_grouped <- read_csv("../data/max_captures_grouped_by_day_for_cats.csv", show_col_types = FALSE)
+    expect_equal(obtained_grouped, expected_grouped)
   })
   it("Get tidy from path", {
     tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
