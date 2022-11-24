@@ -57,24 +57,16 @@ get_id_camera_from_relative_path <- function(RelativePath_column) {
   return(camera_IDs)
 }
 count_detection_by_window_for_coatis <- function(filtered_structure) {
-  result <- filtered_structure %>%
-    assign_window_number_to_detections_for_coatis() %>%
-    mutate(date = substr(date, start = 0, stop = 10)) %>%
-    group_by(date, window, camera_id, Ocassion) %>%
-    summarize(coati_count = max(coati_count)) %>%
-    ungroup()
+  result <- count_detection_by_window_for_species(filtered_structure, assign_window_number_to_detections_for_coatis, `coati_count`) %>%
+  rename(coati_count = species)
   return(result)
 }
 count_detection_by_window_for_cats <- function(filtered_structure) {
-  result <- filtered_structure %>%
-    assign_window_number_to_detections_for_cats() %>%
-    mutate(date = substr(date, start = 0, stop = 10)) %>%
-    group_by(date, window, camera_id, Ocassion) %>%
-    summarize(cat_count = max(cat_count)) %>%
-    ungroup()
+  result <- count_detection_by_window_for_species(filtered_structure, assign_window_number_to_detections_for_cats, `cat_count`) %>%
+    rename(cat_count = species)
   return(result)
 }
-count_detection_by_window_for_species <- function(filtered_structure, assing_window_method, species) {
+count_detection_by_window_for_species <- function(filtered_structure, assign_window_method, species) {
   result <- filtered_structure %>%
     assign_window_method() %>%
     mutate(date = substr(date, start = 0, stop = 10)) %>%
