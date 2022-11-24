@@ -58,7 +58,7 @@ get_id_camera_from_relative_path <- function(RelativePath_column) {
 }
 count_detection_by_window_for_coatis <- function(filtered_structure) {
   result <- count_detection_by_window_for_species(filtered_structure, assign_window_number_to_detections_for_coatis, `coati_count`) %>%
-  rename(coati_count = species)
+    rename(coati_count = species)
   return(result)
 }
 count_detection_by_window_for_cats <- function(filtered_structure) {
@@ -143,7 +143,7 @@ count_detection_by_day_for_species <- function(filter_table, species) {
 }
 count_detection_by_day <- function(filter_table) {
   warning("This function will be deprecated in the next major version ⚰️ . Please use 'count_detection_by_day_for_coatis()' instead of 'count_detection_by_day()'")
-  count_detection_by_day_for_coatis(filter_table) 
+  count_detection_by_day_for_coatis(filter_table)
 }
 
 
