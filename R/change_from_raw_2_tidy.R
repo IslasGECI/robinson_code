@@ -137,7 +137,7 @@ count_detection_by_day_for_species <- function(filter_table, species) {
   years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
     group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years, months, sep = "-")) %>%
-    summarize(r = sum({{ species }})) %>%
+    summarize(r = sum({{ species }}, na.rm = TRUE)) %>%
     ungroup()
   return(filtered_structure)
 }
@@ -170,6 +170,17 @@ tidy_from_path_camera <- function(path) {
     select_date_ocassion_camera_and_detection_columns() %>%
     count_detection_by_window_for_coatis() %>%
     count_detection_by_day() %>%
+    add_effort_and_detection_columns_by_ocassion() %>%
+    replace_camera_id_with_grid_id(path[["coordinates"]])
+  return(tidy_table)
+}
+tidy_from_path_camera_for_cats <- function(path) {
+  data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
+  tidy_table <- data %>%
+    fill_dates() %>%
+    select_date_ocassion_camera_and_detection_columns_for_cat() %>%
+    count_detection_by_window_for_cats() %>%
+    count_detection_by_day_for_cats() %>%
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
