@@ -20,7 +20,7 @@ testthat::describe("Add empty photos", {
   })
 })
 testthat::describe("Get dataframe", {
-  it("dates", {
+  it("dates: coati example", {
     first_date_interval <- lubridate::ymd("2022-04-02") + lubridate::days(0:3)
     second_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:8)
     third_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:0)
@@ -33,6 +33,13 @@ testthat::describe("Get dataframe", {
     max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)
     obtained <- get_missing_rows_with_date_by_camera(max_day_camera)
     expect_equal(obtained, expected)
+  })
+  it("dates: cat example", {
+    expected_cat_column <- c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, NA, NA, NA)
+    path <- "../data/raw_cameras.csv"
+    raw_data <- read_csv(path, show_col_types = FALSE)
+    obtained_cat_column <- fill_dates(raw_data)$Cat
+    expect_equal(obtained_cat_column, expected_cat_column)
   })
 })
 testthat::describe("Define filtered data structure", {
