@@ -22,7 +22,6 @@ testthat::describe("Tidy structure for cats", {
       cat_count = expected_cat_count
     )
     obtained_structure <- select_date_ocassion_camera_and_detection_columns_for_cat(data)
-    write_csv(obtained_structure, "../data/output_select_data_ocassion_camera_and_detection_for_cats.csv")
     expect_equal(expected_structure, obtained_structure)
   })
   it("second function: count_detection_by_window_for_cats()", {
@@ -39,9 +38,11 @@ testthat::describe("Tidy structure for cats", {
     expect_equal(obtained_grouped, expected_grouped)
   })
   it("Get tidy from path", {
-    tidy_path_camera_traps <- "../data/tidy_camera_traps.csv"
+    path_coordinates <- "../data/camera_traps_coordinates.csv"
+    path_config <- list("cameras" = raw_cameras_path, "coordinates" = path_coordinates)
+    obtained_tidy_camera_traps <- tidy_from_path_camera_for_cats(path_config)
+    tidy_path_camera_traps <- "../data/tidy_camera_traps_for_cats.csv"
     expected_tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
-    obtained_tidy_camera_traps <- tidy_from_path_camera_for_cats(raw_cameras_path)
     expect_equal(obtained_tidy_camera_traps, expected_tidy_camera_traps)
   })
 })
