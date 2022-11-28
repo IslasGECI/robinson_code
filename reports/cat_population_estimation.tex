@@ -1,0 +1,67 @@
+\documentclass{article} % El documento es de tipo artículo
+\usepackage[utf8]{inputenc} % Paquete que permite escribir caracteres especiales
+\usepackage[english, spanish, es-tabla]{babel} % Paquete para cambiar "Cuadro" a "Tabla" en encabezados de tablas
+\usepackage{graphicx} % Paquete para importar figuras
+\usepackage[hidelinks]{hyperref} % Paquete para agregar vínculos como enlaces
+\usepackage{booktabs}
+\usepackage{authblk}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{caption}
+\usepackage{csvsimple}
+\usepackage{pgfplotstable}
+\usepackage{adjustbox}
+\usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+\usepackage{parcolumns}
+
+\pgfplotstableread[col sep=comma]{../preds_1km_grid-cats.csv}\Cats
+
+\author{Dirección de Ciencia de Datos}
+
+\title{Estimación de tamaño poblacional de gato feral en Isla Robinson Crusoe hasta julio de 2022\\ \begin{large} Grupo de Ecología y Conservación de Islas, A.C. \end{large}}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  Hay alrededor de 60 individios de gato feral en Isla Robinson Crusoe. Las estimaciones de octubre de 2021 a julio de 2022 oscilan 
+  entre 12 y 125 individuos.
+\end{abstract}
+
+\section*{Metodología}
+
+\subsection*{Datos}
+Calculamos las predicciones a partir de los datos obtenidos por las cámaras trampa.
+Esos datos incluyen registros desde octubre de 2021 hasta julio de 2022.
+Los resultados actuales corresponden a los datos recibidos el 26 de octubre de 2022.
+
+\subsection*{Modelo}
+Usamos el paquete \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} desarrollado por David Ramsey\footnote{\href{https://www.ari.vic.gov.au/about-us/staff}{Arthur Rylah Institute}}. 
+El paquete \texttt{eradicate} implementa modelos mixtos para estimar el tamaño de la población a partir de conteos espaciales
+ ({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
+El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 km.
+
+\section*{Resultados}
+
+\begin{table}[H]
+    \centering
+    \caption{Tamaño poblacional de gato feral en Isla Robinson Crusoe.
+    La sesión 1 corresponde al mes de octubre del 2021, 
+    la sesión 4 a enero de 2022 y la sesión 10 a julio de 2022.
+    \textbf{N} se refiere al tamaño de la población.}
+     \pgfplotstabletypeset[
+       string type,
+       columns={.season,N,lcl,ucl},
+       columns/{N}/.style={column name={\textbf{N}}},
+       columns/{.season}/.style={column name={\textbf{Sesión}}},
+       columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
+       columns/{ucl}/.style={column name={\textbf{Límite superior}}},
+      every head row/.style={before row=\toprule,after row=\midrule},
+      every last row/.style={after row=\bottomrule},
+      ]{\Cats}
+    \label{tab:csvEstimacionGatos}
+  \end{table}
+
+\end{document}
