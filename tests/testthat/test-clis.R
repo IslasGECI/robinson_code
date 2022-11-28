@@ -4,4 +4,9 @@ testthat::describe("Cli works", {
     expected <- "Coati"
     expect_equal(obtained, expected)
   })
+  it("cli_get_multisession_predictions works", {
+    obtained <- cli_get_multisession_predictions()[["species"]]
+    expected <- "Coati"
+    expect_equal(obtained, expected)
+  })
 })
