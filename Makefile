@@ -73,4 +73,5 @@ setup:
 
 tests:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
+	shellspec tests
 
