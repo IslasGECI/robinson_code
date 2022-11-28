@@ -12,7 +12,8 @@ define renderLatex
 	cd $(<D) && pdflatex $(<F)
 endef
 
-reports/cat_population_estimation.pdf: reports/cat_population_estimation.tex
+reports/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
+	preds_1km_grid-cats.csv
 	$(checkDirectories)
 	$(renderLatex)
 

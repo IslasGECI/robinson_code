@@ -16,10 +16,31 @@
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{parcolumns}
 
-\title{Estimación de tamaño poblacional de gato feral en Isla Robinson Crusoe\\ \begin{large} Grupo de Ecología y Conservación de Islas \end{large}}
+\author{Dirección de Ciencia de Datos}
+
+\title{Estimación de tamaño poblacional de gato feral en Isla Robinson Crusoe\\ \begin{large} Grupo de Ecología y Conservación de Islas, A.C. \end{large}}
 
 \begin{document}
 
 \maketitle
+
+\pgfplotstableread[col sep=comma]{../preds_1km_grid-cats.csv}\Cats
+
+\begin{table}[H]
+    \centering
+    \caption{Tamaño poblacional gato feral en Isla Robinson Crusoe.
+    La primera sesión corresponde al mes de octubre del 2021.}
+     \pgfplotstabletypeset[
+       string type,
+       columns={.season,N,lcl,ucl},
+       columns/{N}/.style={column name={\textbf{N}}},
+       columns/{.season}/.style={column name={\textbf{Sesión}}},
+       columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
+       columns/{ucl}/.style={column name={\textbf{Límite superior}}},
+      every head row/.style={before row=\toprule,after row=\midrule},
+      every last row/.style={after row=\bottomrule},
+      ]{\Cats}
+    \label{tab:csvEstimacionGatos}
+  \end{table}
 
 \end{document}
