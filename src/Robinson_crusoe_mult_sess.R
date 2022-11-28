@@ -12,14 +12,18 @@ library(robinson)
 # install the latest version of the 'eradicate' package (only need to do this once)
 if (isFALSE(require(eradicate))) remotes::install_github("eradicate-dev/eradicate", build_vignettes = FALSE)
 library(eradicate)
+library(optparse)
 
+
+opciones <- cli_get_multisession_predictions()
+species <- opciones[["species"]]
 
 crusoe <- read_sf("data/spatial/Robinson_Coati.shp")
 grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp")
 gridc <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPointsNames.shp")
 hab1 <- rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 
-cam_obs <- read_csv("data/multisession-Camera-Traps.csv", show_col_types = FALSE)
+cam_obs <- read_csv(input_multisession[[species]], show_col_types = FALSE)
 
 cam_coords <- read_csv("data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv", show_col_types = FALSE)
 
@@ -111,7 +115,7 @@ preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
 # Total population size
 preds$Nhat
 
-write_csv(preds$Nhat, "preds_1km_grid.csv")
+write_csv(preds$Nhat, output_prediction[[species]][1])
 # Plot cell predictions
 pred_grid <- inner_join(grid_clip, allhab, by = c("Id" = "ID"))
 T <- max(y$session)
@@ -192,7 +196,7 @@ preds <- calcN(m, newdata = allhab, off.set = allhab$rcell)
 
 # Total population size
 preds$Nhat
-write_csv(preds$Nhat, "preds_0.5km_grid.csv")
+write_csv(preds$Nhat, output_prediction[[species]][2])
 
 # Plot cell predictions
 pred_grid <- inner_join(grid_clip, allhab, by = c("ID" = "ID"))
