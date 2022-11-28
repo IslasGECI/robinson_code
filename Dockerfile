@@ -9,5 +9,6 @@ RUN apt update && apt install --yes \
 RUN R -e "install.packages(c('ggspatial', 'sf'))"
 RUN R -e "install.packages('terra', repos='https://rspatial.r-universe.dev')"
 RUN R -e "remotes::install_github('eradicate-dev/eradicate', build_vignettes=FALSE, upgrade = 'always')"
+RUN R -e "install.packages(c('optparse'), repos='http://cran.rstudio.com')"
 
 RUN make install

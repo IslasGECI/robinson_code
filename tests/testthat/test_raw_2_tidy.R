@@ -20,7 +20,7 @@ testthat::describe("Add empty photos", {
   })
 })
 testthat::describe("Get dataframe", {
-  it("dates", {
+  it("dates: coati example", {
     first_date_interval <- lubridate::ymd("2022-04-02") + lubridate::days(0:3)
     second_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:8)
     third_date_interval <- lubridate::ymd("2022-04-04") + lubridate::days(0:0)
@@ -33,6 +33,13 @@ testthat::describe("Get dataframe", {
     max_day_camera <- get_initial_and_delta_day_by_camera(raw_data)
     obtained <- get_missing_rows_with_date_by_camera(max_day_camera)
     expect_equal(obtained, expected)
+  })
+  it("dates: cat example", {
+    expected_cat_column <- c(FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, NA, NA, NA)
+    path <- "../data/raw_cameras.csv"
+    raw_data <- read_csv(path, show_col_types = FALSE)
+    obtained_cat_column <- fill_dates(raw_data)$Cat
+    expect_equal(obtained_cat_column, expected_cat_column)
   })
 })
 testthat::describe("Define filtered data structure", {
@@ -62,12 +69,23 @@ testthat::describe("Define filtered data structure", {
 })
 
 testthat::describe("Group data by window", {
-  it("Expected grouped data structure", {
-    path <- "../data/raw_camera_id_35_and_61.csv"
-    data <- read_csv(path, show_col_types = FALSE)
-    filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
-    data_grouped_by_window <- count_detection_by_window(filtered_structure)
+  it("Test count_detection_by_window_for_coatis", {
+    filtered_structure <- read_csv("../data/output_filtered_structure.csv", show_col_types = FALSE)
+    obtained_grouped_by_window <- count_detection_by_window_for_coatis(filtered_structure)
+    expected_grouped <- read_csv("../data/output_data_grouped_by_window.csv", show_col_types = FALSE, col_types = "ciiii")
+    expect_equal(obtained_grouped_by_window, expected_grouped)
+  })
+  it("Test count_detection_by_day", {
+    path <- "../data/output_data_grouped_by_window.csv"
+    data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
     obtained_grouped <- count_detection_by_day(data_grouped_by_window)
+    expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
+    expect_equal(obtained_grouped, expected_grouped)
+  })
+  it("Test count_detection_by_day", {
+    path <- "../data/output_data_grouped_by_window.csv"
+    data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
+    obtained_grouped <- count_detection_by_day_for_coatis(data_grouped_by_window)
     expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
     expect_equal(obtained_grouped, expected_grouped)
   })
@@ -77,7 +95,7 @@ testthat::describe("Add column for the 10-minute window ID", {
   it("Select coati", {
     path <- "../data/output_select_date_ocassion_camera_and_detection_columns.csv"
     selected_columns <- read_csv(path, show_col_types = FALSE)
-    obtained <- assign_window_number_to_detections(selected_columns)
+    obtained <- assign_window_number_to_detections_for_coatis(selected_columns)
     expect_join <- read_csv("../data/output_join_original_with_new_window.csv", show_col_types = FALSE)
     expect_equal(obtained, expect_join)
   })
@@ -93,23 +111,6 @@ testthat::describe("Add column for the 10-minute window ID", {
 })
 
 testthat::describe("Group data by day", {
-  it("Expected grouped data structure", {
-    path <- "../data/raw_cameras_effort.csv"
-    data <- read_csv(path, show_col_types = FALSE)
-    filtered_structure <- select_date_ocassion_camera_and_detection_columns(data)
-    obtained_grouped <- count_detection_by_day(filtered_structure)
-    expected_id <- c(1, 2, 10, 10)
-    expected_ocassion <- c(14, 15, 15, 15)
-    expected_captures <- c(1, 0, 1, 0)
-    expected_grouped <- tibble(
-      camera_id = expected_id,
-      Ocassion = expected_ocassion,
-      day = c(2, 4, 4, 5),
-      Session = rep("2022-4", 4),
-      r = expected_captures
-    )
-    expect_equal(obtained_grouped, expected_grouped)
-  })
   it("Get id camera from relative path", {
     path <- "../data/raw_cameras_effort_dirty_relative_path.csv"
     data <- read_csv(path, show_col_types = FALSE)

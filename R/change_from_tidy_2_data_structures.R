@@ -12,6 +12,16 @@ get_multisession_structures_by_method <- function(path_config) {
     write_csv(multisession_by_method, file = output_path, na = "0")
   }
 }
+#' @export
+get_camera_traps_multisession_structures_for_cats <- function(path_config) {
+  tidy_table <- tidy_from_path_camera_for_cats(path_config)
+  method <- "Camera-Traps"
+  years <- 2020:2022
+  multisession_by_method <- get_multiyear_structure_by_method(tidy_table, years, method)
+  output_dir <- path_config[["output_path"]]
+  output_path <- glue::glue("{output_dir}/Camera-Traps-Cats.csv")
+  write_csv(multisession_by_method, file = output_path, na = "0")
+}
 get_multiyear_structure_by_method <- function(tidy_table, years, method) {
   multisession_by_method <- tibble(Grid = as.numeric(), Session = "", Method = "", r_1 = as.numeric(), r_2 = as.numeric(), r_3 = as.numeric(), r_4 = as.numeric(), r_5 = as.numeric(), r_6 = as.numeric(), e_1 = as.numeric(), e_2 = as.numeric(), e_3 = as.numeric(), e_4 = as.numeric(), e_5 = as.numeric(), e_6 = as.numeric())
   for (year in years) {

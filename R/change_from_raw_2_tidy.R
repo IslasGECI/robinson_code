@@ -35,7 +35,20 @@ select_date_ocassion_camera_and_detection_columns <- function(data) {
     date = dates,
     Ocassion = ocassions,
     camera_id = camera_IDs,
-    coati_count = coati_count
+    coati_count = coati_count,
+  )
+  return(result)
+}
+select_date_ocassion_camera_and_detection_columns_for_cat <- function(data) {
+  dates <- data$DateTime
+  ocassions <- sapply(dates, get_week_of_year_from_date)
+  camera_IDs <- get_id_camera_from_relative_path(data$RelativePath)
+  cat_count <- as.numeric(data$Cat)
+  result <- tibble(
+    date = dates,
+    Ocassion = ocassions,
+    camera_id = camera_IDs,
+    cat_count = cat_count
   )
   return(result)
 }
@@ -43,26 +56,47 @@ get_id_camera_from_relative_path <- function(RelativePath_column) {
   camera_IDs <- as.numeric(gsub(".*?([0-9]+).*", "\\1", RelativePath_column))
   return(camera_IDs)
 }
-count_detection_by_window <- function(filtered_structure) {
+count_detection_by_window_for_coatis <- function(filtered_structure) {
+  result <- count_detection_by_window_for_species(filtered_structure, assign_window_number_to_detections_for_coatis, `coati_count`) %>%
+    rename(coati_count = species)
+  return(result)
+}
+count_detection_by_window_for_cats <- function(filtered_structure) {
+  result <- count_detection_by_window_for_species(filtered_structure, assign_window_number_to_detections_for_cats, `cat_count`) %>%
+    rename(cat_count = species)
+  return(result)
+}
+count_detection_by_window_for_species <- function(filtered_structure, assign_window_method, species) {
   result <- filtered_structure %>%
-    assign_window_number_to_detections() %>%
+    assign_window_method() %>%
     mutate(date = substr(date, start = 0, stop = 10)) %>%
     group_by(date, window, camera_id, Ocassion) %>%
-    summarize(coati_count = max(coati_count)) %>%
+    summarize(species = max({{ species }})) %>%
     ungroup()
   return(result)
 }
-
-assign_window_number_to_detections <- function(selected_columns) {
+assign_window_number_to_detections_for_coatis <- function(selected_columns) {
+  return(assign_window_number_to_detections_for_species(selected_columns, filter_with_coati))
+}
+assign_window_number_to_detections_for_cats <- function(selected_columns) {
+  return(assign_window_number_to_detections_for_species(selected_columns, filter_with_cat))
+}
+assign_window_number_to_detections_for_species <- function(selected_columns, filter_method) {
   with_window_numbers <- selected_columns %>%
-    filter_with_coati() %>%
+    filter_method() %>%
     add_time_difference() %>%
     is_new_window() %>%
     add_window_number()
   return(join_original_with_window_numbers(selected_columns, with_window_numbers))
 }
 filter_with_coati <- function(selected_columns) {
-  return(selected_columns %>% filter(coati_count > 0))
+  return(filter_with_species(selected_columns, `coati_count`))
+}
+filter_with_cat <- function(selected_columns) {
+  return(filter_with_species(selected_columns, `cat_count`))
+}
+filter_with_species <- function(selected_columns, species) {
+  return(selected_columns %>% filter({{ species }} > 0))
 }
 add_time_difference <- function(filtered_structure) {
   seconds <- get_seconds(filtered_structure)
@@ -90,16 +124,26 @@ join_original_with_window_numbers <- function(original, with_window) {
   return(joined)
 }
 
+count_detection_by_day_for_cats <- function(filter_table) {
+  count_detection_by_day_for_species(filter_table, `cat_count`)
+}
 
+count_detection_by_day_for_coatis <- function(filter_table) {
+  count_detection_by_day_for_species(filter_table, `coati_count`)
+}
 
-count_detection_by_day <- function(filter_table) {
+count_detection_by_day_for_species <- function(filter_table, species) {
   months <- lubridate::month(filter_table$date)
   years <- lubridate::year(filter_table$date)
   filtered_structure <- filter_table %>%
     group_by(camera_id, Ocassion, day = lubridate::day(date), Session = paste(years, months, sep = "-")) %>%
-    summarize(r = sum(coati_count)) %>%
+    summarize(r = sum({{ species }}, na.rm = TRUE)) %>%
     ungroup()
   return(filtered_structure)
+}
+count_detection_by_day <- function(filter_table) {
+  warning("This function will be deprecated in the next major version ⚰️ . Please use 'count_detection_by_day_for_coatis()' instead of 'count_detection_by_day()'")
+  count_detection_by_day_for_coatis(filter_table)
 }
 
 
@@ -124,8 +168,19 @@ tidy_from_path_camera <- function(path) {
   tidy_table <- data %>%
     fill_dates() %>%
     select_date_ocassion_camera_and_detection_columns() %>%
-    count_detection_by_window() %>%
+    count_detection_by_window_for_coatis() %>%
     count_detection_by_day() %>%
+    add_effort_and_detection_columns_by_ocassion() %>%
+    replace_camera_id_with_grid_id(path[["coordinates"]])
+  return(tidy_table)
+}
+tidy_from_path_camera_for_cats <- function(path) {
+  data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
+  tidy_table <- data %>%
+    fill_dates() %>%
+    select_date_ocassion_camera_and_detection_columns_for_cat() %>%
+    count_detection_by_window_for_cats() %>%
+    count_detection_by_day_for_cats() %>%
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
