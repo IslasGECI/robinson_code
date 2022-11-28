@@ -14,10 +14,16 @@ $(final_structures_data): data/raw/robinson_coati_detection_camera_traps/detecti
 	Rscript src/get_final_data_structure.R
 
 data/multisession-Camera-Traps.csv: data/Camera-Traps.csv src/robinson_format_2_ramsey_format.R
-	Rscript src/robinson_format_2_ramsey_format.R
+	Rscript src/robinson_format_2_ramsey_format.R --species Coati
+
+data/multisession-Camera-Traps-Cats.csv: data/Camera-Traps-Cats.csv src/robinson_format_2_ramsey_format.R
+	Rscript src/robinson_format_2_ramsey_format.R --species Cats
 
 preds_1km_grid.csv: data/multisession-Camera-Traps.csv src/Robinson_crusoe_mult_sess.R
-	Rscript src/Robinson_crusoe_mult_sess.R
+	Rscript src/Robinson_crusoe_mult_sess.R --species Coati
+
+preds_1km_grid-cats.csv: data/multisession-Camera-Traps-Cats.csv src/Robinson_crusoe_mult_sess.R
+	Rscript src/Robinson_crusoe_mult_sess.R --species Cats
 
 .PHONY: \
     all \
