@@ -1,4 +1,20 @@
-all: plot_pred_grid_2.png preds_1km_grid.csv preds_1km_grid-cats.csv
+all: plot_pred_grid_2.png \
+	preds_1km_grid.csv \
+	preds_1km_grid-cats.csv \
+	reports/cat_population_estimation.pdf
+
+define checkDirectories
+	mkdir --parents $(@D)
+endef
+
+define renderLatex
+	cd $(<D) && pdflatex $(<F)
+	cd $(<D) && pdflatex $(<F)
+endef
+
+reports/cat_population_estimation.pdf: reports/cat_population_estimation.tex
+	$(checkDirectories)
+	$(renderLatex)
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
