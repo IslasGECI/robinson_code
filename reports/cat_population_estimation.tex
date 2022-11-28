@@ -10,11 +10,12 @@
 \usepackage{xcolor}
 \usepackage{caption}
 \usepackage{csvsimple}
-\usepackage{pythontex}
 \usepackage{pgfplotstable}
 \usepackage{adjustbox}
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{parcolumns}
+
+\pgfplotstableread[col sep=comma]{../preds_1km_grid-cats.csv}\Cats
 
 \author{Dirección de Ciencia de Datos}
 
@@ -24,11 +25,13 @@
 
 \maketitle
 
-\pgfplotstableread[col sep=comma]{../preds_1km_grid-cats.csv}\Cats
+Usamos el modelo de Ramsey \footnote{\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle 2004}} con las funciones \texttt{eFrameS()} y \texttt{nmixS()}.
+Consideramos un radio hogareño del gato feral de 1 km.
+Las predicciones consideran el histórico de los datos obtenidos por las cámaras trampa.
 
 \begin{table}[H]
     \centering
-    \caption{Tamaño poblacional gato feral en Isla Robinson Crusoe.
+    \caption{Tamaño poblacional de gato feral en Isla Robinson Crusoe.
     La primera sesión corresponde al mes de octubre del 2021.}
      \pgfplotstabletypeset[
        string type,
