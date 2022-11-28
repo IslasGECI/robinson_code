@@ -52,6 +52,7 @@ clean:
 
 coverage: install
 	Rscript tests/testthat/coverage.R
+	shellspec tests
 
 format:
 	R -e "library(styler)" \
