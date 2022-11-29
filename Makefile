@@ -88,6 +88,7 @@ install: clean setup
 
 setup:
 	mkdir --parents tests/testthat/data
+	shellspec --init
 
 tests:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
