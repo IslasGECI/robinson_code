@@ -26,3 +26,8 @@ get_effort_by_grid_and_season_in_long_table <- function(multi_data) {
     get_long_table_for_effort() %>%
     effort_by_grid_and_season()
 }
+
+drop_grid_without_effort <- function(resumed_effort) {
+  resumed_effort %>%
+    filter(e != 0)
+}

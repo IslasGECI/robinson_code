@@ -7,6 +7,10 @@ testthat::describe("Counting active cameras", {
     expect_equal(obtained, expected)
   })
   it("Filter inactive cameras", {
-
+    resumed_effort <- read_csv("../data/count_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
+    obtained <- drop_grid_without_effort(resumed_effort)
+    obtained_rows <- nrow(obtained)
+    expected_rows <- 5
+    expect_equal(obtained_rows, expected_rows)
   })
 })
