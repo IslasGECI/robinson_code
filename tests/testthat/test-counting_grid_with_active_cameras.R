@@ -23,3 +23,23 @@ testthat::describe("Join predictions and cells with camera data", {
     expect_equal(obtained, expected)
   })
 })
+
+exist_predictions_with_cameras_data <- function(path) {
+  file.exists(path)
+}
+delete_predictions_with_cameras_data <- function(path) {
+  if (exist_predictions_with_cameras_data(path)) {
+    file.remove(path)
+  }
+}
+
+testthat::describe("Test write_prediction_and_cells_with_camera_data", {
+  it("File exist", {
+    output_path <- "/workdir/prediction_with_count_cells.csv"
+    delete_predictions_with_cameras_data(output_path)
+    path_predictions <- "../data/preds_1km_grid-cats.csv"
+    path_multisession_camera_data <- "../data/multisesion_camera_traps_cats.csv"
+    write_prediction_and_cells_with_camera_data(path_predictions, path_multisession_camera_data)
+    expect_true(exist_predictions_with_cameras_data(output_path))
+  })
+})

@@ -1,9 +1,17 @@
 library(tidyverse)
 
+#' @export
+write_prediction_and_cells_with_camera_data <- function(path_predictions, multisession_data_path) {
+  predictions <- read_csv(path_predictions, show_col_types = FALSE)
+  cells_with_camera_data <- read_csv(multisession_data_path, show_col_types = FALSE) %>%
+    count_cells_with_camera_data_from_multisession_data()
+  joined_table <- join_prediction_and_cells_with_camera_data(predictions, cells_with_camera_data)
+  write_csv(joined_table, "/workdir/prediction_with_count_cells.csv")
+}
 join_prediction_and_cells_with_camera_data <- function(predictions, cell_counts_with_data) {
   result <- left_join(predictions, cell_counts_with_data, by = c(".season" = "session"))
 }
-#' @export
+
 count_cells_with_camera_data_from_multisession_data <- function(multi_data) {
   multi_data %>%
     get_effort_by_grid_and_season_in_long_table() %>%
