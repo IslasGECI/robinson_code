@@ -90,7 +90,10 @@ setup:
 	mkdir --parents tests/testthat/data
 	shellspec --init
 
-tests:
-	Rscript -e "devtools::test(stop_on_failure = TRUE)"
-	shellspec tests
+tests: tests_r tests_spec
 
+tests_r:
+	Rscript -e "devtools::test(stop_on_failure = TRUE)"
+
+tests_spec:
+	shellspec tests
