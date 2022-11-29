@@ -13,7 +13,7 @@ define renderLatex
 endef
 
 reports/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
-	predictions_with_count_of_number_of_cells.csv
+	predictions_with_count_cells.csv
 	$(checkDirectories)
 	$(renderLatex)
 
