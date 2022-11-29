@@ -14,16 +14,6 @@ testthat::describe("Counting active cameras", {
   })
 })
 
-testthat::describe("Join predictions and cells with camera data", {
-  it("join_prediction_and_cells_with_camera_data", {
-    predictions <- read_csv("../data/preds_1km_grid-cats.csv", show_col_types = FALSE)
-    cells_with_camera_data <- read_csv("../data/filter_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
-    obtained <- join_prediction_and_cells_with_camera_data(predictions, cells_with_camera_data)
-    expected <- read_csv("../data/preds_1km_grid-cats_with_number_of_cells.csv", show_col_types = FALSE)
-    expect_equal(obtained, expected)
-  })
-})
-
 exist_predictions_with_cameras_data <- function(path) {
   file.exists(path)
 }
@@ -41,5 +31,8 @@ testthat::describe("Test write_prediction_and_cells_with_camera_data", {
     path_multisession_camera_data <- "../data/multisesion_camera_traps_cats.csv"
     write_prediction_and_cells_with_camera_data(path_predictions, path_multisession_camera_data)
     expect_true(exist_predictions_with_cameras_data(output_path))
+    expected_table <- read_csv("../data/preds_1km_grid-cats_with_number_of_cells.csv", show_col_types = FALSE)
+    obtained_table <- read_csv(output_path, show_col_types = FALSE)
+    expect_equal(obtained_table, expected_table)
   })
 })

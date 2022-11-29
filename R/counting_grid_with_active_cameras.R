@@ -10,6 +10,7 @@ write_prediction_and_cells_with_camera_data <- function(path_predictions, multis
 }
 join_prediction_and_cells_with_camera_data <- function(predictions, cell_counts_with_data) {
   result <- left_join(predictions, cell_counts_with_data, by = c(".season" = "session"))
+  result <- result %>% mutate(percentage_of_cells_with_camera_data = 100 * cells_with_camera_data / 50)
 }
 
 count_cells_with_camera_data_from_multisession_data <- function(multi_data) {
