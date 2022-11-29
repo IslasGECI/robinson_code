@@ -15,7 +15,7 @@
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{parcolumns}
 
-\pgfplotstableread[col sep=comma]{../preds_1km_grid-cats.csv}\Cats
+\pgfplotstableread[col sep=comma]{../prediction_with_count_cells.csv}\Cats
 
 \author{Dirección de Ciencia de Datos}
 
@@ -53,11 +53,13 @@ El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 k
     \textbf{N} se refiere al tamaño de la población.}
      \pgfplotstabletypeset[
        string type,
-       columns={.season,N,lcl,ucl},
+       columns={.season,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
        columns/{N}/.style={column name={\textbf{N}}},
        columns/{.season}/.style={column name={\textbf{Sesión}}},
        columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
        columns/{ucl}/.style={column name={\textbf{Límite superior}}},
+       columns/{cells_with_camera_data}/.style={column name={\textbf{Cámaras revisadas}}},
+       columns/{percentage_of_cells_with_camera_data}/.style={column name={\textbf{\% cámaras}}},
       every head row/.style={before row=\toprule,after row=\midrule},
       every last row/.style={after row=\bottomrule},
       ]{\Cats}
