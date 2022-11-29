@@ -13,4 +13,11 @@ testthat::describe("Counting active cameras", {
     expected_rows <- 5
     expect_equal(obtained_rows, expected_rows)
   })
+  it("count_cells_with_camera_data_by_session", {
+    resumed_effort <- read_csv("../data/count_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
+    droped_grid <- drop_grid_without_effort(resumed_effort)
+    obtained <- count_cells_with_camera_data_by_session(droped_grid)
+    expected <- read_csv("../data/filter_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
+    expect_equal(obtained, expected)
+  })
 })

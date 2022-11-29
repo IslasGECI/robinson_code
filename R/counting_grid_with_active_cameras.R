@@ -31,3 +31,10 @@ drop_grid_without_effort <- function(resumed_effort) {
   resumed_effort %>%
     filter(e != 0)
 }
+
+count_cells_with_camera_data_by_session <- function(grids_with_data) {
+  grids_with_data %>%
+    group_by(session) %>%
+    summarize(cells_with_camera_data = n()) %>%
+    ungroup()
+}
