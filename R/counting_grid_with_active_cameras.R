@@ -12,10 +12,17 @@ get_long_table_for_effort <- function(selected_effort) {
 }
 
 effort_by_grid_and_season <- function(long_table) {
-    result <- long_table %>%
-      group_by(session, Grid) %>%
-      summarize(e = sum(e)) %>%
-      ungroup() %>%
-      select(Grid, session, e)
-    return(result)
+  result <- long_table %>%
+    group_by(session, Grid) %>%
+    summarize(e = sum(e)) %>%
+    ungroup() %>%
+    select(Grid, session, e)
+  return(result)
+}
+
+get_effort_by_grid_and_season_in_long_table <- function(multi_data) {
+  multi_data %>%
+    select_effort() %>%
+    get_long_table_for_effort() %>%
+    effort_by_grid_and_season()
 }
