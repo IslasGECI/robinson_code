@@ -13,9 +13,12 @@ define renderLatex
 endef
 
 reports/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
-	preds_1km_grid-cats.csv
+	predictions_with_count_cells.csv
 	$(checkDirectories)
 	$(renderLatex)
+
+predictions_with_count_cells.csv: preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
+	Rscript src/join_predictions_with_count_of_cells_with_data.R
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
@@ -88,8 +91,12 @@ install: clean setup
 
 setup:
 	mkdir --parents tests/testthat/data
+	shellspec --init
 
-tests:
+tests: tests_r tests_spec
+
+tests_r:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
-	shellspec tests
 
+tests_spec:
+	shellspec tests

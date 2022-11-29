@@ -2,7 +2,7 @@ testthat::describe("Filter cameras by month", {
   coordinates_path <- "../data/camera_traps_coordinates_april_2022.csv"
   it("Test number of camera observations with the new object", {
     all_camera_sightings_path <- "../data/all_camera_traps_2022.csv"
-    all_camera_sightings <- read_csv(all_camera_sightings_path)
+    all_camera_sightings <- read_csv(all_camera_sightings_path, show_col_types = FALSE)
     Filter_Data_Structure <- Filter_Data_Structure$new(all_camera_sightings)
     camera_sightings <- Filter_Data_Structure$get_data_by_month(month = "2022-4")
     obtained_camera_observations <- get_camera_observations(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
@@ -22,7 +22,7 @@ testthat::describe("Filter cameras by month", {
   })
   it("Define filter_data_for_multisession method 💫", {
     all_camera_sightings_path <- "../data/input_ramsey_format.csv"
-    all_camera_sightings <- read_csv(all_camera_sightings_path)
+    all_camera_sightings <- read_csv(all_camera_sightings_path, show_col_types = FALSE)
     Filter_Data_Structure <- Filter_Data_Structure$new(all_camera_sightings)
 
     obtained <- Filter_Data_Structure$filter_data_for_multisession()

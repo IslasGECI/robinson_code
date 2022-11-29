@@ -1,5 +1,5 @@
 testthat::describe("Prepare multisession data to fit in models", {
-  input <- readr::read_csv("../data/Hunting.csv")
+  input <- readr::read_csv("../data/Hunting.csv", show_col_types = FALSE)
   obtained_object <- Multisession$new(input)
   obtained <- obtained_object$data_for_multisession
   it("Object exists", {

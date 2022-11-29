@@ -1,7 +1,7 @@
 testthat::describe("Get camera traps observations", {
   camera_sightings_path <- "../data/april_camera_traps_2022.csv"
   coordinates_path <- "../data/camera_traps_coordinates_april_2022.csv"
-  camera_sightings <- read_csv(camera_sightings_path)
+  camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
   obtained_camera_observations <- get_camera_observations(camera_sightings = camera_sightings, coordinates_path = coordinates_path)
   it("Test number of camera observations", {
     obtained_camera_observations <- obtained_camera_observations[["detections"]]
