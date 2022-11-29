@@ -13,3 +13,13 @@ testthat::describe("Counting active cameras", {
     expect_equal(obtained, expected)
   })
 })
+
+testthat::describe("Join predictions and cells with camera data", {
+  it("join_prediction_and_cells_with_camera_data", {
+    predictions <- read_csv("../data/preds_1km_grid-cats.csv", show_col_types = FALSE)
+    cells_with_camera_data <- read_csv("../data/filter_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
+    obtained <- join_prediction_and_cells_with_camera_data(predictions, cells_with_camera_data)
+    expected <- read_csv("../data/preds_1km_grid-cats_with_number_of_cells.csv", show_col_types = FALSE)
+    expect_equal(obtained, expected)
+  })
+})

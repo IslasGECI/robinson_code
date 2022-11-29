@@ -1,5 +1,8 @@
 library(tidyverse)
 
+join_prediction_and_cells_with_camera_data <- function(predictions, cell_counts_with_data) {
+  result <- left_join(predictions, cell_counts_with_data, by = c(".season" = "session"))
+}
 #' @export
 count_cells_with_camera_data_from_multisession_data <- function(multi_data) {
   multi_data %>%
