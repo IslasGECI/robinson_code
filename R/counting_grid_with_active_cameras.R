@@ -38,3 +38,10 @@ count_cells_with_camera_data_by_session <- function(grids_with_data) {
     summarize(cells_with_camera_data = n()) %>%
     ungroup()
 }
+
+count_cells_with_camera_data_from_multisession_data <- function(multi_data) {
+  multi_data %>%
+    get_effort_by_grid_and_season_in_long_table() %>%
+    drop_grid_without_effort() %>%
+    count_cells_with_camera_data_by_session()
+}

@@ -20,4 +20,9 @@ testthat::describe("Counting active cameras", {
     expected <- read_csv("../data/filter_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
     expect_equal(obtained, expected)
   })
+  it("🪙 ", {
+    obtained <- count_cells_with_camera_data_from_multisession_data(multi_data)
+    expected <- read_csv("../data/filter_cameras_with_effort_from_multisesion.csv", show_col_types = FALSE)
+    expect_equal(obtained, expected)
+  })
 })
