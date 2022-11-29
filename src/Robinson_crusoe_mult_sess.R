@@ -96,11 +96,9 @@ grid_clip <- st_intersection(grid, crusoe)
 cell_size <- as.numeric(st_area(grid_clip)) / 1e6 # km2
 rcell_size <- cell_size / max(cell_size) # relative cell size
 
-print("Antes del rcell")
 allhab <- allhab %>%
   mutate(ID = grid$Id, rcell = round(rcell_size, 3)) %>%
   relocate(ID, .before = habitat)
-print("Despues del rcell")
 
 # Need to drop level '10' as this was not included in the model so
 # we can not get predictions for it.
