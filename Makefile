@@ -12,11 +12,11 @@ define renderLatex
 	cd $(<D) && pdflatex $(<F)
 endef
 
-cat_population_estimation.pdf: reports/cat_population_estimation.tex \
+data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
 	predictions_with_count_cells.csv
 	$(checkDirectories)
 	$(renderLatex)
-	cp reports/cat_population_estimation.pdf .
+	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
 predictions_with_count_cells.csv: preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R
