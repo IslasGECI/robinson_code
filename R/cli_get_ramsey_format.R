@@ -25,7 +25,7 @@ cli_get_ramsey_format <- function() {
 #' @export
 input_multisession <- list(Coati = "data/multisession-Camera-Traps.csv", Cats = "data/multisession-Camera-Traps-Cats.csv")
 #' @export
-output_prediction <- list(Coati = c("preds_1km_grid.csv", "preds_0.5km_grid.csv"), Cats = c("preds_1km_grid-cats.csv", "preds_0.5km_grid-cats.csv"))
+output_prediction <- list(Coati = c("data/preds_1km_grid.csv", "data/preds_0.5km_grid.csv"), Cats = c("data/preds_1km_grid-cats.csv", "data/preds_0.5km_grid-cats.csv"))
 
 #' @export
 cli_get_multisession_predictions <- function() {
