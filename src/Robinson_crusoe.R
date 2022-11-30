@@ -17,7 +17,7 @@ square_grid <- read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGrids.sh
 camera_sightings_path <- "data/Camera-Traps.csv"
 camera_sightings <- read_csv(camera_sightings_path, show_col_types = FALSE)
 
-session <- "2022-5"
+session <- "2022-7"
 Filter_Data_Structure <- Filter_Data_Structure$new(camera_sightings)
 camera_sightings_filtered <- Filter_Data_Structure$get_data_by_month(month = session)
 
