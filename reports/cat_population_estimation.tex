@@ -30,18 +30,32 @@
   Las estimaciones de octubre de 2021 a julio de 2022 oscilaron entre 12 y 125 individuos.
 \end{abstract}
 
-\section*{Metodología}
-
-\subsection*{Datos}
+\begin{parcolumns}{2}
+  \colchunk[1]{\section*{Metodología}
+  \subsection*{Datos}
 Calculamos las predicciones a partir de los datos obtenidos por las cámaras trampa.
 Esos datos incluyen registros desde octubre de 2021 hasta julio de 2022.
 Los resultados actuales corresponden a los datos recibidos el 26 de octubre de 2022.
+}
+  \colchunk[2]{\section*{Methodology}
+  \subsection*{Data}
+We calculate the predictions from the data obtained by the camera traps.
+Those data include records from October 2021 through July 2022.
+The current results are for data received on October 26, 2022.
+}
+\end{parcolumns}
 
 \subsection*{Modelo}
 Usamos el paquete \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} desarrollado por David Ramsey\footnote{\href{https://www.ari.vic.gov.au/about-us/staff}{Arthur Rylah Institute}}. 
 El paquete \texttt{eradicate} implementa modelos mixtos para estimar el tamaño de la población a partir de conteos espaciales
  ({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
 El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 km.
+
+We use the \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} package developed by David Ramsey.
+The \texttt{eradicate} package implements mixed models to estimate population size from spatial
+counts
+({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
+The diameter of the feral cat home range used by the model is 1 km.
 
 \section*{Resultados}
 
