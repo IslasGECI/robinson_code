@@ -149,3 +149,18 @@ testthat::describe("Get camera traps tidy table", {
     expect_equal(obtained_tidy_camera_traps, expected_tidy_camera_traps)
   })
 })
+
+testthat::describe("Questions from tidy structure", {
+  tidy_path_camera_traps <- "../data/tidy_camera_traps_for_cats.csv"
+  tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
+  it("How many cameras are in the data?", {
+    obtained <- count_cameras_in_data(tidy_camera_traps)
+    expected <- 3
+    expect_equal(obtained, expected)
+  })
+  it("How many cameras has at least one detection?", {
+    obtained <- count_cameras_with_at_least_one_detection(tidy_camera_traps)
+    expected <- 2
+    expect_equal(obtained, expected)
+  })
+})

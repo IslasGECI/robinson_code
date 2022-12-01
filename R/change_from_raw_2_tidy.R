@@ -119,7 +119,7 @@ add_window_number <- function(output_is_new_window) {
 }
 join_original_with_window_numbers <- function(original, with_window) {
   columns <- c("date", "camera_id", "window")
-  good_table <- with_window %>% select(columns)
+  good_table <- with_window %>% select(all_of(columns))
   joined <- original %>% left_join(good_table, by = c("date", "camera_id"))
   return(joined)
 }
@@ -163,6 +163,7 @@ replace_camera_id_with_grid_id <- function(tidy_camera, coordinates_path) {
   return(tidy_grid)
 }
 
+#' @export
 tidy_from_path_camera <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
@@ -174,6 +175,7 @@ tidy_from_path_camera <- function(path) {
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
 }
+#' @export
 tidy_from_path_camera_for_cats <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
@@ -184,4 +186,14 @@ tidy_from_path_camera_for_cats <- function(path) {
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
+}
+
+count_cameras_in_data <- function(tidy_camera_traps) {
+  length(unique(tidy_camera_traps$Grid))
+}
+
+count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
+  tidy_camera_traps %>%
+    filter(r != 0) %>%
+    count_cameras_in_data()
 }
