@@ -197,3 +197,9 @@ count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
     filter(r != 0) %>%
     count_cameras_in_data()
 }
+
+count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_traps, session) {
+  tidy_camera_traps %>%
+    filter(Session == session) %>%
+    count_cameras_with_at_least_one_detection()
+}
