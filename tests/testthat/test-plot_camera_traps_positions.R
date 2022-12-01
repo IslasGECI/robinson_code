@@ -6,12 +6,13 @@ testthat::describe("Get camera traps positions", {
   square_grid_path <- "../data/Robinson_Coati_1kmGrid_SubsetCameraGrids.shp"
   square_grid <- sf::read_sf(square_grid_path)
   it("Hash test for plot_crusoe", {
-    camera_sightings_path <- "../data/april_camera_traps_2022.csv"
-    coordinates_path <- "../data/camera_traps_coordinates_april_2022.csv"
+    camera_detections_path <- "../data/input_plot_camera_positions_square_detections.csv"
+    camera_detections <- read_csv(camera_detections_path, show_col_types = FALSE)
     plot_output_path <- "../data/plot_crusoe.png"
+    camera_sightings <- list("detections" = camera_detections, "locations" = sf::st_as_sf(camera_locations, wkt = "geometry"))
     plot_camera_positions_in_square_grid(crusoe_shp, square_grid, camera_sightings, plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
-    expected_hash <- c("042316766181beb35f055208ce4b5f1f")
+    expected_hash <- c("8af6b8bc7c6202555a130d7e310af3b2")
     expect_equal(obtanied_hash, expected_hash)
   })
   it("Hash test for plot_crusoe_2", {

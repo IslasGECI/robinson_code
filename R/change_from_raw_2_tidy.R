@@ -119,7 +119,7 @@ add_window_number <- function(output_is_new_window) {
 }
 join_original_with_window_numbers <- function(original, with_window) {
   columns <- c("date", "camera_id", "window")
-  good_table <- with_window %>% select(columns)
+  good_table <- with_window %>% select(all_of(columns))
   joined <- original %>% left_join(good_table, by = c("date", "camera_id"))
   return(joined)
 }
@@ -163,6 +163,7 @@ replace_camera_id_with_grid_id <- function(tidy_camera, coordinates_path) {
   return(tidy_grid)
 }
 
+#' @export
 tidy_from_path_camera <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
@@ -174,6 +175,7 @@ tidy_from_path_camera <- function(path) {
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
 }
+#' @export
 tidy_from_path_camera_for_cats <- function(path) {
   data <- readr::read_csv(path[["cameras"]], show_col_types = FALSE)
   tidy_table <- data %>%
@@ -184,4 +186,54 @@ tidy_from_path_camera_for_cats <- function(path) {
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
+}
+
+#' @export
+count_cameras_from_october <- function(tidy_camera_traps) {
+  tidy_camera_traps %>%
+    get_cameras_since_october_2021() %>%
+    count_cameras_in_data()
+}
+#' @export
+count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_traps, session) {
+  tidy_camera_traps %>%
+    get_cameras_from_a_session(session) %>%
+    count_cameras_with_at_least_one_detection()
+}
+#' @export
+count_cameras_with_at_least_one_detection_since_october <- function(tidy_camera_traps) {
+  tidy_camera_traps %>%
+    get_cameras_since_october_2021() %>%
+    count_cameras_with_at_least_one_detection()
+}
+
+get_cameras_from_a_session <- function(tidy_camera_traps, session) {
+  tidy_camera_traps %>%
+    filter(Session == session)
+}
+
+get_cameras_since_october_2021 <- function(tidy_data) {
+  october21 <- "2021-10"
+  tidy_data %>%
+    mutate(Session = lubridate::ym(Session)) %>%
+    filter(Session >= lubridate::ym(october21))
+}
+count_cameras_in_data <- function(tidy_camera_traps) {
+  tidy_camera_traps_without_na <- tidy_camera_traps %>%
+    filter(!is.na(Grid))
+  length(unique(tidy_camera_traps_without_na$Grid))
+}
+count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
+  tidy_camera_traps %>%
+    filter(r != 0) %>%
+    count_cameras_in_data()
+}
+write_answer_for_cote <- function(tidy_camera_traps, output_path = "/workdir/data/answers_for_cote.json") {
+  number_cameras_since_october <- count_cameras_from_october(tidy_camera_traps)
+  number_cameras_with_detections_since_october <- count_cameras_with_at_least_one_detection_since_october(tidy_camera_traps)
+  number_cameras_with_detections_for_july <- count_cameras_with_at_least_one_detection_by_session(tidy_camera_traps, "2022-7")
+  number_cameras_with_detections_for_april <- count_cameras_with_at_least_one_detection_by_session(tidy_camera_traps, "2022-4")
+  answers <- list("number_cameras_since_october" = number_cameras_since_october, "number_cameras_with_detections_since_october" = number_cameras_with_detections_since_october, "number_cameras_with_detections_for_april" = number_cameras_with_detections_for_april, "number_cameras_with_detections_for_july" = number_cameras_with_detections_for_july)
+  json_data <- rjson::toJSON(answers)
+  write(json_data, output_path)
 }

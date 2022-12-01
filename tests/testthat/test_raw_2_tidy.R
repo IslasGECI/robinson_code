@@ -149,3 +149,51 @@ testthat::describe("Get camera traps tidy table", {
     expect_equal(obtained_tidy_camera_traps, expected_tidy_camera_traps)
   })
 })
+
+testthat::describe("Questions from tidy structure", {
+  tidy_path_camera_traps <- "../data/tidy_for_questions.csv"
+  tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
+
+  it("Count cameras have effort from october 2021 to last", {
+    obtained <- count_cameras_from_october(tidy_camera_traps)
+    expected <- 5
+    expect_equal(obtained, expected)
+  })
+
+  it("How many cameras have at least one detection in a specific month?", {
+    session <- "2022-4"
+    obtained <- count_cameras_with_at_least_one_detection_by_session(tidy_camera_traps, session)
+    expected <- 2
+    expect_equal(obtained, expected)
+  })
+  it("How many cameras have at least one detection since october 2021?", {
+    obtained <- count_cameras_with_at_least_one_detection_since_october(tidy_camera_traps)
+    expected <- 4
+    expect_equal(obtained, expected)
+  })
+})
+
+exist_output_file <- function(path) {
+  file.exists(path)
+}
+delete_output_file <- function(path) {
+  if (exist_output_file(path)) {
+    file.remove(path)
+  }
+}
+
+testthat::describe("Write answer to questions", {
+  it("Write answers in json file", {
+    tidy_path_camera_traps <- "../data/tidy_for_questions.csv"
+    tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
+    output_path <- "../data/answer_for_cote.json"
+    delete_output_file(output_path)
+    write_answer_for_cote(tidy_camera_traps, output_path)
+    expect_true(exist_output_file(output_path))
+
+    answers <- rjson::fromJSON(file = output_path)
+    obtained_number_cameras_since_october <- answers[["number_cameras_since_october"]]
+    expected_number_cameras_since_october <- 5
+    expect_equal(obtained_number_cameras_since_october, expected_number_cameras_since_october)
+  })
+})

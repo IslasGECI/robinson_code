@@ -42,6 +42,9 @@ cobs_l <- cam_coords %>%
   select(ID, X = Easting, Y = Norting)
 cobs_l <- st_as_sf(cobs_l, coords = c("X", "Y"), crs = 32717)
 
+camera_observations <- list("detections" = cobs_n, "effort" = cobs_e, "locations" = cobs_l)
+plot_output_path <- glue::glue("data/plot_crusoe_multisession_{species}.png")
+plot_camera_positions_in_square_grid(crusoe, grid, camera_observations, plot_output_path)
 
 # Extract habitat information from raster using a buffer around the camera
 # locations (size set below).  In this case habitat appears to be categorical
@@ -122,6 +125,9 @@ pred_grid <- pred_grid[rep(1:M, T), ]
 
 pred_grid <- pred_grid %>% mutate(N = preds$cellpreds$N, session = rep(1:T, each = M))
 
+
+plot_output_path <- glue::glue("data/plot_pred_grid_multisession_{species}.png")
+plot_population_prediction_per_grid(propulation_prediction_per_grid = pred_grid, plot_output_path = plot_output_path)
 
 #-------------------------------------------------------
 #  example using smaller grid of 500 m
