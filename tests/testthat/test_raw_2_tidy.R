@@ -154,22 +154,12 @@ testthat::describe("Questions from tidy structure", {
   tidy_path_camera_traps <- "../data/tidy_for_questions.csv"
   tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
 
-  it("How many cameras are in the data?", {
-    obtained <- count_cameras_in_data(tidy_camera_traps)
-    expected <- 6
-    expect_equal(obtained, expected)
-  })
   it("Count cameras have effort from october 2021 to last", {
     obtained <- count_cameras_from_october(tidy_camera_traps)
     expected <- 5
     expect_equal(obtained, expected)
   })
 
-  it("How many cameras have at least one detection?", {
-    obtained <- count_cameras_with_at_least_one_detection(tidy_camera_traps)
-    expected <- 5
-    expect_equal(obtained, expected)
-  })
   it("How many cameras have at least one detection in a specific month?", {
     session <- "2022-4"
     obtained <- count_cameras_with_at_least_one_detection_by_session(tidy_camera_traps, session)
