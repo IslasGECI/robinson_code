@@ -219,7 +219,9 @@ get_cameras_since_october_2021 <- function(tidy_data) {
     filter(Session >= lubridate::ym(october21))
 }
 count_cameras_in_data <- function(tidy_camera_traps) {
-  length(unique(tidy_camera_traps$Grid))
+  tidy_camera_traps_without_na <- tidy_camera_traps %>%
+    filter(!is.na(Grid))
+  length(unique(tidy_camera_traps_without_na$Grid))
 }
 count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
