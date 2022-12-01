@@ -191,7 +191,7 @@ tidy_from_path_camera_for_cats <- function(path) {
 #' @export
 count_cameras_from_october <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
-    filter_tidy_from_october_2021() %>%
+    get_cameras_since_october_2021() %>%
     count_cameras_in_data()
 }
 #' @export
@@ -203,7 +203,7 @@ count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_tra
 #' @export
 count_cameras_with_at_least_one_detection_since_october <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
-    filter_tidy_from_october_2021() %>%
+    get_cameras_since_october_2021() %>%
     count_cameras_with_at_least_one_detection()
 }
 
@@ -212,7 +212,7 @@ get_cameras_from_a_session <- function(tidy_camera_traps, session) {
     filter(Session == session)
 }
 
-filter_tidy_from_october_2021 <- function(tidy_data) {
+get_cameras_since_october_2021 <- function(tidy_data) {
   october21 <- "2021-10"
   tidy_data %>%
     mutate(Session = lubridate::ym(Session)) %>%
