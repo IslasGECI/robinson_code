@@ -188,34 +188,36 @@ tidy_from_path_camera_for_cats <- function(path) {
   return(tidy_table)
 }
 
-count_cameras_in_data <- function(tidy_camera_traps) {
-  length(unique(tidy_camera_traps$Grid))
-}
-
-count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
-  tidy_camera_traps %>%
-    filter(r != 0) %>%
-    count_cameras_in_data()
-}
-
-count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_traps, session) {
-  tidy_camera_traps %>%
-    filter(Session == session) %>%
-    count_cameras_with_at_least_one_detection()
-}
+#' @export
 count_cameras_from_october <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
     filter_tidy_from_october_2021() %>%
     count_cameras_in_data()
 }
+#' @export
+count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_traps, session) {
+  tidy_camera_traps %>%
+    filter(Session == session) %>%
+    count_cameras_with_at_least_one_detection()
+}
+#' @export
+count_cameras_with_at_least_one_detection_since_october <- function(tidy_camera_traps) {
+  tidy_camera_traps %>%
+    filter_tidy_from_october_2021() %>%
+    count_cameras_with_at_least_one_detection()
+}
+
 filter_tidy_from_october_2021 <- function(tidy_data) {
   october21 <- "2021-10"
   tidy_data %>%
     mutate(Session = lubridate::ym(Session)) %>%
     filter(Session >= lubridate::ym(october21))
 }
-count_cameras_with_at_least_one_detection_since_october <- function(tidy_camera_traps) {
+count_cameras_in_data <- function(tidy_camera_traps) {
+  length(unique(tidy_camera_traps$Grid))
+}
+count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
-    filter_tidy_from_october_2021() %>%
-    count_cameras_with_at_least_one_detection()
+    filter(r != 0) %>%
+    count_cameras_in_data()
 }
