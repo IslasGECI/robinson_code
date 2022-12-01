@@ -197,7 +197,7 @@ count_cameras_from_october <- function(tidy_camera_traps) {
 #' @export
 count_cameras_with_at_least_one_detection_by_session <- function(tidy_camera_traps, session) {
   tidy_camera_traps %>%
-    filter(Session == session) %>%
+    get_cameras_from_a_session(session) %>%
     count_cameras_with_at_least_one_detection()
 }
 #' @export
@@ -205,6 +205,11 @@ count_cameras_with_at_least_one_detection_since_october <- function(tidy_camera_
   tidy_camera_traps %>%
     filter_tidy_from_october_2021() %>%
     count_cameras_with_at_least_one_detection()
+}
+
+get_cameras_from_a_session <- function(tidy_camera_traps, session) {
+  tidy_camera_traps %>%
+    filter(Session == session)
 }
 
 filter_tidy_from_october_2021 <- function(tidy_data) {
