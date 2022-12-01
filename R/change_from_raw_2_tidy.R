@@ -228,7 +228,7 @@ count_cameras_with_at_least_one_detection <- function(tidy_camera_traps) {
     filter(r != 0) %>%
     count_cameras_in_data()
 }
-write_answer_for_cote <- function(tidy_camera_traps, output_path) {
+write_answer_for_cote <- function(tidy_camera_traps, output_path = "/workdir/data/answers_for_cote.json") {
   number_cameras_since_october <- count_cameras_from_october(tidy_camera_traps)
   number_cameras_with_detections_since_october <- count_cameras_with_at_least_one_detection_since_october(tidy_camera_traps)
   number_cameras_with_detections_for_july <- count_cameras_with_at_least_one_detection_by_session(tidy_camera_traps, "2022-7")
