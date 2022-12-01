@@ -19,7 +19,7 @@
 
 \author{Dirección de Ciencia de Datos}
 
-\title{Estimación de tamaño poblacional de gato feral en Isla Robinson Crusoe hasta julio de 2022\\ \begin{large} Grupo de Ecología y Conservación de Islas, A.C. \end{large}}
+\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta julio de 2022\\ \begin{large} Grupo de Ecología y Conservación de Islas, A.C. \end{large}}
 
 \begin{document}
 
@@ -39,9 +39,9 @@ Los resultados actuales corresponden a los datos recibidos el 26 de octubre de 2
 }
   \colchunk[2]{\section*{Methodology}
   \subsection*{Data}
-We calculate the predictions from the data obtained by the camera traps.
-Those data include records from October 2021 through July 2022.
-The current results are for data received on October 26, 2022.
+We calculated the distribution and abundance using the camera-trap data. 
+This data includes records from October 2021 through July 2022. 
+The current results are for the data set received on October 26, 2022.
 }
 \end{parcolumns}
 
@@ -53,12 +53,10 @@ El paquete \texttt{eradicate} implementa modelos mixtos para estimar el tamaño 
 El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 km.
   }\footnotetext{\href{https://www.ari.vic.gov.au/about-us/staff}{Arthur Rylah Institute}}
   \colchunk[2]{\subsection*{Model}
-We use the \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} package developed by David Ramsey\footnotemark[1].
-The \texttt{eradicate} package implements mixed models to estimate population size from spatial
-counts
-({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
-The diameter of the feral cat home range used by the model is 1 km.
-  }
+We used the package \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} package developed by David Ramsey\footnotemark[1].
+The package \texttt{eradicate} implements N-mixture models for estimating population size ({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
+We used a home range diameter of 1 km for the feral cat population.
+}
 \end{parcolumns}
 \section*{Resultados}
 
