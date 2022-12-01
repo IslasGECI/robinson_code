@@ -172,3 +172,18 @@ testthat::describe("Questions from tidy structure", {
     expect_equal(obtained, expected)
   })
 })
+
+testthat::describe("Write answer to questions", {
+  it("Write how many cells with camera data do we have in July", {
+    tidy_path_camera_traps <- "../data/tidy_for_questions.csv"
+    tidy_camera_traps <- read_csv(tidy_path_camera_traps, show_col_types = FALSE)
+    output_path <- "../data/answer_for_cote.json"
+    write_answer_for_cote(tidy_camera_traps, output_path)
+    expect_true(file.exists(output_path))
+
+    answers <- rjson::fromJSON(file = output_path)
+    obtained_number_cameras_since_october <- answers[["number_cameras_since_october"]]
+    expected_number_cameras_since_october <- 5
+    expect_equal(obtained_number_cameras_since_october, expected_number_cameras_since_october)
+  })
+})
