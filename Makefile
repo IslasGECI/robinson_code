@@ -12,9 +12,14 @@ define renderLatex
 	cd $(<D) && pdflatex $(<F)
 endef
 
-data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
+
+
+reports/cat_population_estimation.tex: reports/templates/cat_population_estimation.tex \
 	predictions_with_count_cells.csv
 	$(checkDirectories)
+	python src/render.py "cat_population_estimation"
+
+data/cat_population_estimation.pdf: reports/cat_population_estimation.tex
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
@@ -64,18 +69,33 @@ check:
       -e "resumen <- rbind(resumen, style_dir('tests/testthat'))" \
       -e "any(resumen[[2]])" \
       | grep FALSE
+	black --check --line-length 100 jinja_render
+	black --check --line-length 100 src
+	black --check --line-length 100 tests
+	flake8 --max-line-length 100 jinja_render
+	flake8 --max-line-length 100 src
+	flake8 --max-line-length 100 tests
+	mypy jinja_render
+	mypy src
+	mypy tests
 
 clean:
 	rm --force *.tar.gz
 	rm --force --recursive tests/testthat/_snaps
 	rm --force --recursive tests/testthat/data
+	rm --force --recursive robinson.Rcheck
 	rm --force NAMESPACE
+	rm --force --recursive jinja_render/__pycache__
+	rm --force --recursive tests/pytest/__pycache__
 
 coverage: install
 	Rscript tests/testthat/coverage.R
 	shellspec tests
 
 format:
+	black --line-length 100 jinja_render
+	black --line-length 100 src
+	black --line-length 100 tests
 	R -e "library(styler)" \
       -e "style_dir('R')" \
       -e "style_dir('src')" \
@@ -84,17 +104,25 @@ format:
 
 init: setup tests
 
-install: clean setup
+install: install_python install_r
+
+install_python: clean
+	pip install --editable .
+
+install_r: clean setup
 	R -e "devtools::document()" && \
     R CMD build . && \
     R CMD check robinson_0.1.0.tar.gz && \
     R CMD INSTALL robinson_0.1.0.tar.gz
 
-setup:
+setup: clean
 	mkdir --parents tests/testthat/data
 	shellspec --init
 
-tests: tests_r tests_spec
+tests: tests_python tests_r tests_spec
+
+tests_python:
+	pytest --verbose
 
 tests_r:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
