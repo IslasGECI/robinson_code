@@ -3,7 +3,7 @@ import json
 from jinja2 import Environment, FileSystemLoader
 
 
-def write_tex(report_name: str, summary_path="reports/non-tabular/effort_summary.json"):
+def write_tex(report_name: str, summary_path="tests/data/results.json"):
     rendered_report = get_rendered_report(report_name, summary_path)
     with open(f"reports/{report_name}.tex", "w") as report_tex:
         report_tex.writelines(rendered_report)

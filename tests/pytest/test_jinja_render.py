@@ -32,5 +32,3 @@ def _get_hash_from_tex_file():
     report_content = rendered_report.encode("utf-8")
     obtained_hash = hashlib.md5(report_content).hexdigest()
     return obtained_hash
-
-
