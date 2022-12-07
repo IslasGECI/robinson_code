@@ -10,5 +10,11 @@ RUN R -e "install.packages(c('ggspatial', 'sf'))"
 RUN R -e "install.packages('terra', repos='https://rspatial.r-universe.dev')"
 RUN R -e "remotes::install_github('eradicate-dev/eradicate', build_vignettes=FALSE, upgrade = 'always')"
 RUN R -e "install.packages(c('optparse'), repos='http://cran.rstudio.com')"
-
+RUN pip install --upgrade \
+    black \
+    flake8 \
+    jinja2 \
+    mutmut \
+    pytest \
+    typer
 RUN make install
