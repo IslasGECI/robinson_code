@@ -15,6 +15,7 @@ RUN pip install --upgrade \
     flake8 \
     jinja2 \
     mutmut \
+    mypy \
     pytest \
     typer
 RUN make install
