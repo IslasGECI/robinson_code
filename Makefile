@@ -9,6 +9,8 @@ endef
 
 define renderLatex
 	cd $(<D) && pdflatex $(<F)
+	cd $(<D) && bibtex $(subst .tex,,$(<F))
+	cd $(<D) && pdflatex $(<F)
 	cd $(<D) && pdflatex $(<F)
 endef
 

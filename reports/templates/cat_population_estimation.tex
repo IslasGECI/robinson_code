@@ -14,12 +14,13 @@
 \usepackage{adjustbox}
 \usepackage[a4paper,top=2cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
 \usepackage{parcolumns}
+\usepackage[lang=english]{bicaption}
 
 \pgfplotstableread[col sep=comma]{../prediction_with_count_cells.csv}\Cats
 
-\author{Dirección de Ciencia de Datos}
+\author{ Grupo de Ecología y Conservación de Islas, A.C. }
 
-\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta julio de 2022\\ \begin{large} Grupo de Ecología y Conservación de Islas, A.C. \end{large}}
+\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta julio de 2022}
 
 \begin{document}
 
@@ -28,7 +29,14 @@
 \begin{abstract}
   Hubo hasta \textbf{\VAR{prediction} individuos} de gato feral en Isla Robinson Crusoe en julio de 2022.
   Las estimaciones de octubre de 2021 a julio de 2022 oscilaron entre \VAR{min} y \VAR{max} individuos.
+
 \end{abstract}
+\selectlanguage{english}
+\begin{abstract}
+  There were up to  \textbf{\VAR{prediction} individuos} feral cat individuals on Robinson Island in July 2022.
+  Estimates from October 2021 to July 2022 ranged from \VAR{min} to \VAR{max} individuals.
+\end{abstract}
+\selectlanguage{spanish}
 
 \begin{parcolumns}{2}
   \colchunk[1]{\section*{Metodología}
@@ -47,14 +55,15 @@ The current results are for the data set received on October 26, 2022.
 
 \begin{parcolumns}{2}
 \colchunk[1]{\subsection*{Modelo}
-Usamos el paquete \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} desarrollado por David Ramsey\footnotemark.
+Usamos el paquete \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} \cite{ram2022} desarrollado por David Ramsey\footnotemark.
 El paquete \texttt{eradicate} implementa modelos mixtos para estimar el tamaño de la población a partir de conteos espaciales
- ({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
+ {\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{\cite{roy2004}}}.
 El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 km.
   }\footnotetext{\href{https://www.ari.vic.gov.au/about-us/staff}{Arthur Rylah Institute}}
   \colchunk[2]{\subsection*{Model}
-We used the package \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} developed by David Ramsey\footnotemark[1].
-The package \texttt{eradicate} implements N-mixture models for estimating the population size ({\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{Royle, 2004}}).
+We used the package \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}}
+\cite{ram2022} developed by David Ramsey\footnotemark[1].
+The package \texttt{eradicate} implements N-mixture models for estimating the population size {\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{\cite{roy2004}}}.
 We used a home range diameter of 1 km for the feral cat population.
 }
 \end{parcolumns}
@@ -62,10 +71,14 @@ We used a home range diameter of 1 km for the feral cat population.
 
 \begin{table}[H]
     \centering
-    \caption{Tamaño poblacional de gato feral en Isla Robinson Crusoe.
+    \bicaption{Tamaño poblacional de gato feral en Isla Robinson Crusoe.
     La sesión 1 corresponde al mes de octubre del 2021, 
     la sesión 4 a enero de 2022 y la sesión 10 a julio de 2022.
-    \textbf{N} se refiere al tamaño de la población.}
+    \textbf{N} se refiere al tamaño de la población.}{
+      Feral cat population size on Robinson Crusoe Island. Session 1 corresponds to the month of 
+      October 2021, session 4 to January 2022, and session 10 to July 2022. N refers to the
+      size of the population
+    }
      \pgfplotstabletypeset[
        string type,
        columns={.season,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
@@ -84,13 +97,16 @@ We used a home range diameter of 1 km for the feral cat population.
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../data/plot_pred_grid_multisession_Cats.png}
-  \caption{Distribución de la población de gato feral.}
+  \bicaption{Distribución de la población de gato feral.}{Distribution of the feral cat population.}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{../data/plot_crusoe_2022-7.png}
-  \caption{Celdas con datos de cámaras trampa para el mes de julio de 2022.}
+  \bicaption{Celdas con datos de cámaras trampa para el mes de julio de 2022.}{Grid cells with
+  camera-trap data for the month of July 2022.}
 \end{figure}
 
+\bibliography{ref}
+\bibliographystyle{apalike}
 \end{document}
