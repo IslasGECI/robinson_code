@@ -112,8 +112,8 @@ We used a home range diameter of 1 km for the feral cat population.
     }
      \pgfplotstabletypeset[
        string type,
-       columns={.season,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
-       columns/{.season}/.style={column name={\textbf{Mes}}},
+       columns={months,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
+       columns/{months}/.style={column name={\textbf{Mes}}},
        columns/{N}/.style={column name={\textbf{N}}},
        columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
        columns/{ucl}/.style={column name={\textbf{Límite superior}}},
