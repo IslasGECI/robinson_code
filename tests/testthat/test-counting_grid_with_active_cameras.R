@@ -25,11 +25,11 @@ delete_predictions_with_cameras_data <- function(path) {
 
 testthat::describe("Test write_prediction_and_cells_with_camera_data", {
   it("File exist", {
-    output_path <- "/workdir/prediction_with_count_cells.csv"
+    output_path <- "../data/prediction_with_count_cells.csv"
     delete_predictions_with_cameras_data(output_path)
     path_predictions <- "../data/preds_1km_grid-cats.csv"
     path_multisession_camera_data <- "../data/multisesion_camera_traps_cats.csv"
-    write_prediction_and_cells_with_camera_data(path_predictions, path_multisession_camera_data)
+    write_prediction_and_cells_with_camera_data(path_predictions, path_multisession_camera_data, output_path)
     expect_true(exist_predictions_with_cameras_data(output_path))
     expected_table <- read_csv("../data/preds_1km_grid-cats_with_number_of_cells.csv", show_col_types = FALSE)
     obtained_table <- read_csv(output_path, show_col_types = FALSE)

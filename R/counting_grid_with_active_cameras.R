@@ -1,12 +1,12 @@
 library(tidyverse)
 
 #' @export
-write_prediction_and_cells_with_camera_data <- function(path_predictions, multisession_data_path) {
+write_prediction_and_cells_with_camera_data <- function(path_predictions, multisession_data_path, output_path = "/workdir/prediction_with_count_cells.csv") {
   predictions <- read_csv(path_predictions, show_col_types = FALSE)
   cells_with_camera_data <- read_csv(multisession_data_path, show_col_types = FALSE) %>%
     count_cells_with_camera_data_from_multisession_data()
   joined_table <- join_prediction_and_cells_with_camera_data(predictions, cells_with_camera_data)
-  write_csv(joined_table, "/workdir/prediction_with_count_cells.csv")
+  write_csv(joined_table, output_path)
 }
 join_prediction_and_cells_with_camera_data <- function(predictions, cell_counts_with_data) {
   result <- left_join(predictions, cell_counts_with_data, by = c(".season" = "session"))
