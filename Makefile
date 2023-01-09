@@ -21,7 +21,7 @@ reports/cat_population_estimation.tex: reports/templates/cat_population_estimati
 	$(checkDirectories)
 	python src/render.py "cat_population_estimation"
 
-data/cat_population_estimation.pdf: reports/cat_population_estimation.tex
+data/cat_population_estimation.pdf: reports/cat_population_estimation.tex plot_pred_grid_2.png
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
