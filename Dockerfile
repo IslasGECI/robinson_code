@@ -13,9 +13,7 @@ RUN R -e "install.packages(c('optparse'), repos='http://cran.rstudio.com')"
 RUN pip install --upgrade \
     black \
     flake8 \
-    jinja2 \
-    mutmut \
+    jinja-render \
     mypy \
-    pytest \
     typer
 RUN make install
