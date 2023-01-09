@@ -90,9 +90,8 @@ clean:
 	rm --force --recursive jinja_render/__pycache__
 	rm --force --recursive tests/pytest/__pycache__
 
-coverage: install
+coverage: install tests
 	Rscript tests/testthat/coverage.R
-	shellspec tests
 
 format:
 	black --line-length 100 jinja_render
