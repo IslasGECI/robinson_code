@@ -97,10 +97,7 @@ format:
 
 init: setup tests
 
-install: install_python install_r
-
-install_python: clean
-	pip install --editable .
+install: install_r
 
 install_r: clean setup
 	R -e "devtools::document()" && \
@@ -112,10 +109,7 @@ setup: clean
 	mkdir --parents tests/testthat/data
 	shellspec --init
 
-tests: tests_python tests_r tests_spec
-
-tests_python:
-	pytest --verbose
+tests: tests_r tests_spec
 
 tests_r:
 	Rscript -e "devtools::test(stop_on_failure = TRUE)"
