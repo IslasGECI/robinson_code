@@ -71,15 +71,9 @@ check:
       -e "resumen <- rbind(resumen, style_dir('tests/testthat'))" \
       -e "any(resumen[[2]])" \
       | grep FALSE
-	black --check --line-length 100 jinja_render
 	black --check --line-length 100 src
-	black --check --line-length 100 tests
-	flake8 --max-line-length 100 jinja_render
 	flake8 --max-line-length 100 src
-	flake8 --max-line-length 100 tests
-	mypy jinja_render
 	mypy src
-	mypy tests
 
 clean:
 	rm --force *.tar.gz
@@ -94,9 +88,7 @@ coverage: install tests
 	Rscript tests/testthat/coverage.R
 
 format:
-	black --line-length 100 jinja_render
 	black --line-length 100 src
-	black --line-length 100 tests
 	R -e "library(styler)" \
       -e "style_dir('R')" \
       -e "style_dir('src')" \
