@@ -20,21 +20,21 @@
 
 \author{ Grupo de Ecología y Conservación de Islas, A.C. }
 
-\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta agosto de 2022}
+\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta \VAR{fecha_fin}}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-  Hubo hasta \textbf{\VAR{prediction} individuos de gato feral} en Isla Robinson Crusoe en agosto de 2022.
-  Las estimaciones de octubre de 2021 a agosto de 2022 oscilaron entre \VAR{min} y \VAR{max} individuos.
+  Hubo hasta \textbf{\VAR{prediction} individuos de gato feral} en Isla Robinson Crusoe en \VAR{fecha_fin}.
+  Las estimaciones de \VAR{fecha_inicio} a \VAR{fecha_fin} oscilaron entre \VAR{min} y \VAR{max} individuos.
 
 \end{abstract}
 \selectlanguage{english}
 \begin{abstract}
-  Up to \textbf{\VAR{prediction} feral cat individuals} were present on Robinson Island in August 2022.
-  Estimates from October 2021 to August 2022 ranged from \VAR{min} to \VAR{max} individuals.
+  Up to \textbf{\VAR{prediction} feral cat individuals} were present on Robinson Island in \VAR{end_date}.
+  Estimates from \VAR{start_date} to \VAR{end_date} ranged from \VAR{min} to \VAR{max} individuals.
 \end{abstract}
 \selectlanguage{spanish}
 
@@ -42,13 +42,13 @@
   \colchunk[1]{\section*{Metodología}
   \subsection*{Datos}
 Calculamos la distribución y abundacia de la población de gato feral a partir de los datos de las cámaras trampa.
-Esos datos incluyen registros desde octubre de 2021 hasta agosto de 2022.
+Esos datos incluyen registros desde \VAR{fecha_inicio} hasta \VAR{fecha_fin}.
 Los resultados actuales incluyen los datos recibidos el 22 noviembre de 2022.
 }
   \colchunk[2]{\section*{Methodology}
   \subsection*{Data}
 We calculated the distribution and abundance of the feral cat population using the camera-trap data. 
-This data includes records from October 2021 through August 2022. 
+This data includes records from \VAR{start_date} through \VAR{end_date}. 
 The current results include the data set received on November 22, 2022.
 }
 \end{parcolumns}
@@ -73,7 +73,7 @@ We used a home range diameter of 1 km for the feral cat population.
   \colchunk[1]{\section*{Resultados}
   La Tabla \ref{tab:csvEstimacionGatos} muestra el tamaño de la
   población para cada mes desde octubre de
-  2021 hasta agosto de 2022. Ignoramos los
+  2021 hasta \VAR{fecha_fin}. Ignoramos los
   resultados para agosto ya que contamos con
   datos en sólo 24\% de las celdas.
   La mediana de octubre 2021 a julio 2022 es
@@ -88,10 +88,10 @@ We used a home range diameter of 1 km for the feral cat population.
 }
   \colchunk[2]{\section*{Results}
   Table \ref{tab:csvEstimacionGatos} shows the size of the population for
-  each month from October 2021 to August 2022.
+  each month from \VAR{start_date} to \VAR{end_date}.
   We ignored the results for August, as we have
   data in only 24\% of the cells.
-  The median for the period of October 2021
+  The median for the period of \VAR{start_date}
   to July 2022 was \textbf{70 individuals}. Throughout
   the period, the estimates ranged \textbf{from \VAR{min} to
   \VAR{max} individuals}. The upper limit for July 2022
