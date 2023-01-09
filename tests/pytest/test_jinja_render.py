@@ -7,7 +7,7 @@ from jinja_render import (
 )
 
 
-expected_hash = "862fe1ddbbb4583961dd1e62b6806539"
+expected_hash = "c0abade28e8e1100ccfd6092b998e63b"
 report_name = "cat_population_estimation"
 summary_path = "tests/data/results.json"
 
