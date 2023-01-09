@@ -20,70 +20,101 @@
 
 \author{ Grupo de Ecología y Conservación de Islas, A.C. }
 
-\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta julio de 2022}
+\title{Distribución y abundancia de gato feral en Isla Robinson Crusoe hasta agosto de 2022}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-  Hubo hasta \textbf{\VAR{prediction} individuos} de gato feral en Isla Robinson Crusoe en julio de 2022.
-  Las estimaciones de octubre de 2021 a julio de 2022 oscilaron entre \VAR{min} y \VAR{max} individuos.
+  Hubo hasta \textbf{\VAR{prediction} individuos de gato feral} en Isla Robinson Crusoe en agosto de 2022.
+  Las estimaciones de octubre de 2021 a agosto de 2022 oscilaron entre \VAR{min} y \VAR{max} individuos.
 
 \end{abstract}
 \selectlanguage{english}
 \begin{abstract}
-  There were up to  \textbf{\VAR{prediction} individuos} feral cat individuals on Robinson Island in July 2022.
-  Estimates from October 2021 to July 2022 ranged from \VAR{min} to \VAR{max} individuals.
+  Up to \textbf{\VAR{prediction} feral cat individuals} were present on Robinson Island in August 2022.
+  Estimates from October 2021 to August 2022 ranged from \VAR{min} to \VAR{max} individuals.
 \end{abstract}
 \selectlanguage{spanish}
 
 \begin{parcolumns}{2}
   \colchunk[1]{\section*{Metodología}
   \subsection*{Datos}
-Calculamos las predicciones a partir de los datos obtenidos por las cámaras trampa.
-Esos datos incluyen registros desde octubre de 2021 hasta julio de 2022.
-Los resultados actuales corresponden a los datos recibidos el 26 de octubre de 2022.
+Calculamos la distribución y abundacia de la población de gato feral a partir de los datos de las cámaras trampa.
+Esos datos incluyen registros desde octubre de 2021 hasta agosto de 2022.
+Los resultados actuales incluyen los datos recibidos el 22 noviembre de 2022.
 }
   \colchunk[2]{\section*{Methodology}
   \subsection*{Data}
-We calculated the distribution and abundance using the camera-trap data. 
-This data includes records from October 2021 through July 2022. 
-The current results are for the data set received on October 26, 2022.
+We calculated the distribution and abundance of the feral cat population using the camera-trap data. 
+This data includes records from October 2021 through August 2022. 
+The current results include the data set received on November 22, 2022.
 }
 \end{parcolumns}
 
 \begin{parcolumns}{2}
 \colchunk[1]{\subsection*{Modelo}
 Usamos el paquete \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}} \cite{ram2022} desarrollado por David Ramsey\footnotemark.
-El paquete \texttt{eradicate} implementa modelos mixtos para estimar el tamaño de la población a partir de conteos espaciales
+El paquete implementa modelos mixtos para estimar el tamaño de la población a partir de conteos espaciales
  {\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{\cite{roy2004}}}.
 El diámetro del rango hogareño de gato feral utilizado por el modelo es de 1 km.
   }\footnotetext{\href{https://www.ari.vic.gov.au/about-us/staff}{Arthur Rylah Institute}}
   \colchunk[2]{\subsection*{Model}
 We used the package \href{https://github.com/eradicate-dev/eradicate}{\texttt{eradicate}}
 \cite{ram2022} developed by David Ramsey\footnotemark[1].
-The package \texttt{eradicate} implements N-mixture models for estimating the population size {\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{\cite{roy2004}}}.
+The package implements N-mixture models to estimate population size {\href{https://onlinelibrary.wiley.com/doi/10.1111/j.0006-341X.2004.00142.x}{\cite{roy2004}}}.
 We used a home range diameter of 1 km for the feral cat population.
 }
 \end{parcolumns}
-\section*{Resultados}
+
+
+\begin{parcolumns}{2}
+  \colchunk[1]{\section*{Resultados}
+  La Tabla \ref{tab:csvEstimacionGatos} muestra el tamaño de la
+  población para cada mes desde octubre de
+  2021 hasta agosto de 2022. Ignoramos los
+  resultados para agosto ya que contamos con
+  datos en sólo 24\% de las celdas.
+  La mediana de octubre 2021 a julio 2022 es
+  de \textbf{70 individuos}. Durante todo el periodo las
+  estimaciones oscilaron \textbf{entre \VAR{min} y \VAR{max}
+  individuos}. El límite superior para julio 2022
+  es de \textbf{\VAR{prediction} individuos}. La Figura \ref{fig:cameras_per_month} muestra la
+  localización de las cámaras trampa con datos en
+  julio 2022.
+  La Figura \ref{fig:feral_cat_population_distribution} muestra que la distribución de la
+  población es aproximadamente homogénea.
+}
+  \colchunk[2]{\section*{Results}
+  Table \ref{tab:csvEstimacionGatos} shows the size of the population for
+  each month from October 2021 to August 2022.
+  We ignored the results for August, as we have
+  data in only 24\% of the cells.
+  The median for the period of October 2021
+  to July 2022 was \textbf{70 individuals}. Throughout
+  the period, the estimates ranged \textbf{from \VAR{min} to
+  \VAR{max} individuals}. The upper limit for July 2022
+  was \textbf{\VAR{prediction} individuals}. Figure \ref{fig:cameras_per_month} shows the
+  locations of the camera traps with data for July
+  2022.
+  Figure \ref{fig:feral_cat_population_distribution} shows that the distribution of the
+  population was approximately homogeneous.
+}
+\end{parcolumns}
 
 \begin{table}[H]
     \centering
     \bicaption{Tamaño poblacional de gato feral en Isla Robinson Crusoe.
-    La sesión 1 corresponde al mes de octubre del 2021, 
-    la sesión 4 a enero de 2022 y la sesión 10 a julio de 2022.
-    \textbf{N} se refiere al tamaño de la población.}{
-      Feral cat population size on Robinson Crusoe Island. Session 1 corresponds to the month of 
-      October 2021, session 4 to January 2022, and session 10 to July 2022. N refers to the
-      size of the population
+    \texttt{N} es el número de individuos de gato feral.}{
+      Feral cat population size on Robinson Crusoe Island. 
+      \texttt{N} is the number of feral cat individuals.
     }
      \pgfplotstabletypeset[
        string type,
        columns={.season,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
+       columns/{.season}/.style={column name={\textbf{Mes}}},
        columns/{N}/.style={column name={\textbf{N}}},
-       columns/{.season}/.style={column name={\textbf{Sesión}}},
        columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
        columns/{ucl}/.style={column name={\textbf{Límite superior}}},
        columns/{cells_with_camera_data}/.style={column name={\textbf{Celdas con datos}}},
@@ -98,6 +129,7 @@ We used a home range diameter of 1 km for the feral cat population.
   \centering
   \includegraphics[width=\textwidth]{../data/plot_pred_grid_multisession_Cats.png}
   \bicaption{Distribución de la población de gato feral.}{Distribution of the feral cat population.}
+  \label{fig:feral_cat_population_distribution}
 \end{figure}
 
 \begin{figure}[H]
@@ -105,6 +137,7 @@ We used a home range diameter of 1 km for the feral cat population.
   \includegraphics[width=\textwidth]{../data/plot_crusoe_2022-7.png}
   \bicaption{Celdas con datos de cámaras trampa para el mes de julio de 2022.}{Grid cells with
   camera-trap data for the month of July 2022.}
+  \label{fig:cameras_per_month}
 \end{figure}
 
 \bibliography{ref}
