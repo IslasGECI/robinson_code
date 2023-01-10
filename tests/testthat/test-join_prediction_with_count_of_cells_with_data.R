@@ -1,4 +1,12 @@
-test_that("The paths are right", {
-  Writer <- Writer_Prediction_And_Cells_With_Camera_Data$new()
-  expect_equal(Writer$path_predictions, "path predictions")
+testthat::describe("The paths are right", {
+  it("Cats", {
+  Writer <- Writer_Prediction_And_Cells_With_Camera_Data$new("Cats")
+  expect_equal(Writer$predictions_path, "data/preds_1km_grid-cats.csv")
+  expect_equal(Writer$multisession_data_path, "data/multisession-Camera-Traps-Cats.csv")
+})
+  it("Coati", {
+  Writer <- Writer_Prediction_And_Cells_With_Camera_Data$new("Coatis")
+  expect_equal(Writer$predictions_path, "data/preds_1km_grid.csv")
+  expect_equal(Writer$multisession_data_path, "data/multisession-Camera-Traps.csv")
+})
 })
