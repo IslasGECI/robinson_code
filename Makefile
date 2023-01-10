@@ -25,6 +25,9 @@ data/cat_population_estimation.pdf: reports/cat_population_estimation.tex plot_p
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
+predictions_with_count_cells_coatis.csv: data/preds_1km_grid.csv src/join_predictions_with_count_of_cells_with_data.R
+	Rscript src/join_predictions_with_count_of_cells_with_data.R
+
 predictions_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R
 
