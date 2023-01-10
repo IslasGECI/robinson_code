@@ -29,7 +29,7 @@ predictions_with_count_cells_coatis.csv: data/preds_1km_grid.csv src/join_predic
 	Rscript src/join_predictions_with_count_of_cells_with_data.R
 
 predictions_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
-	Rscript src/join_predictions_with_count_of_cells_with_data.R
+	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
