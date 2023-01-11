@@ -21,3 +21,24 @@ testthat::describe("Change session to months", {
     expect_equal(obtained_months, expected_months)
   })
 })
+testthat::describe("Add months column", {
+  it("Change month number to spanish month name", {
+    month_number <- 1
+    obtained_name <- replace_number_with_spanish_name(month_number)
+    expect_true(is.character(obtained_name))
+    expected_name <- "enero"
+    expect_equal(obtained_name, expected_name)
+    month_number <- 5
+    obtained_name <- replace_number_with_spanish_name(month_number)
+    expected_name <- "mayo"
+    expect_equal(obtained_name, expected_name)
+  })
+  it("Paste month name and year", {
+    month_in_spanish <- "enero"
+    year <- "2021"
+    obtained_name_and_year <- add_month_in_spanish_and_year(month_in_spanish, year)
+    expect_true(is.character(obtained_name_and_year))
+    expected_name_and_year <- "enero de 2021"
+    expect_equal(obtained_name_and_year, expected_name_and_year)
+  })
+})

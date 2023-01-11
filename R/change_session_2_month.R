@@ -9,3 +9,12 @@ add_month_names <- function(original_table) {
   month_names <- fill_months(number_of_sessions)
   return(original_table %>% mutate(months = month_names))
 }
+
+replace_number_with_spanish_name <- function(month_number) {
+  months_in_spanish <- c("enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre")
+  return(months_in_spanish[month_number])
+}
+
+add_month_in_spanish_and_year <- function(month_in_spanish, year) {
+  return(glue::glue("{month_in_spanish} de {year}"))
+}
