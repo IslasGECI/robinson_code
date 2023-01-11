@@ -13,4 +13,17 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_prediction <- 73
     expect_equal(obtained_prediction, expected_prediction)
   })
+  it("Obtain max", {
+    ignore_month <- "August 2022"
+    obtained_max <- get_max(predictions_df, ignore_month)
+    expect_true(is.numeric(obtained_max))
+    expected_max <- 231
+    expect_equal(obtained_max, expected_max)
+  })
+  it("Obtain max ignoring two months", {
+    ignore_month <- c("August 2022", "June 2022")
+    obtained_max <- get_max(predictions_df, ignore_month)
+    expected_max <- 227
+    expect_equal(obtained_max, expected_max)
+  })
 })
