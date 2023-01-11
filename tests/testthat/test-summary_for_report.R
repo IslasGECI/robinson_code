@@ -39,4 +39,14 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_min <- 20
     expect_equal(obtained_min, expected_min)
   })
+  it("Obtain median", {
+    obtained_median <- get_median(predictions_df)
+    expect_true(is.numeric(obtained_median))
+    expected_median <- 132
+    expect_equal(obtained_median, expected_median)
+    ignore_month <- "August 2022"
+    obtained_median <- get_median(predictions_df, ignore_month)
+    expected_median <- 111
+    expect_equal(obtained_median, expected_median)
+  })
 })
