@@ -78,4 +78,10 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_end_date <- "agosto de 2022"
     expect_equal(obtained_end_date, expected_end_date)
   })
+  it("Get completed list", {
+    obtained_summary_report <- concatenate_summary_for_report(predictions_df)
+    obtained_names <- names(obtained_summary_report)
+    expected_names <- c("prediction", "max", "min", "median", "start_date", "end_date", "fecha_inicio", "fecha_fin")
+    expect_equal(obtained_names, expected_names)
+  })
 })

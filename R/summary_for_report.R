@@ -44,3 +44,7 @@ get_date_limits <- function(predictions_df, limit) {
   year <- lubridate::year(date)
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
+
+concatenate_summary_for_report <- function(predictions_df) {
+  list("prediction" = 0, "max" = 0, "min" = 0, "median" = 0, "start_date" = 0, "end_date" = 0, "fecha_inicio" = 0, "fecha_fin" = 0)
+}
