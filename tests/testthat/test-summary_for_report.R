@@ -23,14 +23,6 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_start_date <- "January 2022"
     expect_equal(obtained_start_date, expected_start_date)
   })
-  it("Get prediction date", {
-    obtained_prediction_date <- get_prediction_date(predictions_df)
-    expect_true(is.character(obtained_prediction_date))
-    ignore_month <- "August 2022"
-    obtained_prediction_date <- get_prediction_date(predictions_df, ignore_month)
-    expected_prediction_date <- "July 2022"
-    expect_equal(obtained_prediction_date, expected_prediction_date)
-  })
 })
 testthat::describe("Write json", {
   assert_value <- function(expected, variable_name) {
@@ -94,6 +86,8 @@ testthat::describe("Write json", {
     expected_end_date <- "August 2022"
     assert_value_with_ignoring_month(expected_end_date, "end_date")
 
+    expected_prediction_date <- "August 2022"
+    assert_value(expected_prediction_date, "prediction_date")
     expected_prediction_date <- "July 2022"
     assert_value_with_ignoring_month(expected_prediction_date, "prediction_date")
 
