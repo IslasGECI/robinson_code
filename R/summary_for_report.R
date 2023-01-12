@@ -2,7 +2,13 @@ get_prediction <- function(predictions_df, month) {
   selected_data <- predictions_df %>% filter(months == month)
   return(selected_data$ucl)
 }
-
+get_prediction_date <- function(predictions_df, ignore_month = NULL) {
+  last_month <- predictions_df %>%
+    ignoring_months(ignore_month) %>%
+    .$months %>%
+    last()
+  return(last_month)
+}
 get_max <- function(predictions_df, ignore_month = NULL) {
   get_statistic(predictions_df, ignore_month, `ucl`, max)
 }
@@ -45,6 +51,17 @@ get_date_limits <- function(predictions_df, limit) {
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
 
-concatenate_summary_for_report <- function(predictions_df) {
-  list("prediction" = 0, "max" = 0, "min" = get_min(predictions_df), "median" = 0, "start_date" = 0, "end_date" = 0, "fecha_inicio" = 0, "fecha_fin" = 0)
+concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) {
+  prediction_date <- get_prediction_date(predictions_df, ignore_month)
+  list(
+    "prediction" = get_prediction(predictions_df, prediction_date),
+    "max" = get_max(predictions_df, ignore_month),
+    "min" = get_min(predictions_df, ignore_month),
+    "median" = get_median(predictions_df, ignore_month),
+    "start_date" = get_start_date(predictions_df),
+    "end_date" = get_end_date(predictions_df),
+    "fecha_inicio" = get_start_date_es(predictions_df),
+    "fecha_fin" = get_end_date_es(predictions_df),
+    "prediction_date" = prediction_date
+  )
 }

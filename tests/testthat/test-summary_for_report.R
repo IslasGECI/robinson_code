@@ -1,5 +1,5 @@
+predictions_df <- read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)
 testthat::describe("Obtain relevant numbers for json", {
-  predictions_df <- read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)
   it("Obtain prediction for July 2022", {
     month <- "July 2022"
     obtained_prediction <- get_prediction(predictions_df, month)
@@ -13,42 +13,6 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_prediction <- 73
     expect_equal(obtained_prediction, expected_prediction)
   })
-  it("Obtain max", {
-    obtained_max <- get_max(predictions_df)
-    expect_true(is.numeric(obtained_max))
-    expected_max <- 336
-    expect_equal(obtained_max, expected_max)
-    ignore_month <- "August 2022"
-    obtained_max <- get_max(predictions_df, ignore_month)
-    expected_max <- 231
-    expect_equal(obtained_max, expected_max)
-  })
-  it("Obtain max ignoring two months", {
-    ignore_month <- c("August 2022", "June 2022")
-    obtained_max <- get_max(predictions_df, ignore_month)
-    expected_max <- 227
-    expect_equal(obtained_max, expected_max)
-  })
-  it("Obtain min", {
-    obtained_min <- get_min(predictions_df)
-    expect_true(is.numeric(obtained_min))
-    expected_min <- 19
-    expect_equal(obtained_min, expected_min)
-    ignore_month <- "January 2022"
-    obtained_min <- get_min(predictions_df, ignore_month)
-    expected_min <- 20
-    expect_equal(obtained_min, expected_min)
-  })
-  it("Obtain median", {
-    obtained_median <- get_median(predictions_df)
-    expect_true(is.numeric(obtained_median))
-    expected_median <- 132
-    expect_equal(obtained_median, expected_median)
-    ignore_month <- "August 2022"
-    obtained_median <- get_median(predictions_df, ignore_month)
-    expected_median <- 111
-    expect_equal(obtained_median, expected_median)
-  })
   predictions_2022 <- predictions_df[4:(nrow(predictions_df) - 2), ]
   it("Get start date", {
     obtained_start_date <- get_start_date(predictions_df)
@@ -59,35 +23,68 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_start_date <- "January 2022"
     expect_equal(obtained_start_date, expected_start_date)
   })
-  it("Get end date", {
-    obtained_end_date <- get_end_date(predictions_df)
-    expect_true(is.character(obtained_end_date))
-    expected_end_date <- "June 2022"
-    obtained_end_date <- get_end_date(predictions_2022)
-    expect_equal(obtained_end_date, expected_end_date)
+  it("Get prediction date", {
+    obtained_prediction_date <- get_prediction_date(predictions_df)
+    expect_true(is.character(obtained_prediction_date))
+    ignore_month <- "August 2022"
+    obtained_prediction_date <- get_prediction_date(predictions_df, ignore_month)
+    expected_prediction_date <- "July 2022"
+    expect_equal(obtained_prediction_date, expected_prediction_date)
   })
-  it("Get spanish start date", {
-    obtained_start_date <- get_start_date_es(predictions_df)
-    expect_true(is.character(obtained_start_date))
-    expected_start_date <- "octubre de 2021"
-    expect_equal(obtained_start_date, expected_start_date)
-  })
-  it("Get spanish end date", {
-    obtained_end_date <- get_end_date_es(predictions_df)
-    expect_true(is.character(obtained_end_date))
-    expected_end_date <- "agosto de 2022"
-    expect_equal(obtained_end_date, expected_end_date)
-  })
+})
+testthat::describe("Write json", {
+  assert_value <- function(expected, variable_name) {
+    obtained_summary_report <- concatenate_summary_for_report(predictions_df)
+    obtained <- obtained_summary_report[[variable_name]]
+    expect_equal(obtained, expected)
+  }
   it("Get completed list", {
     obtained_summary_report <- concatenate_summary_for_report(predictions_df)
     obtained_names <- names(obtained_summary_report)
-    expected_names <- c("prediction", "max", "min", "median", "start_date", "end_date", "fecha_inicio", "fecha_fin")
+    expected_names <- c("prediction", "max", "min", "median", "start_date", "end_date", "fecha_inicio", "fecha_fin", "prediction_date")
     expect_equal(obtained_names, expected_names)
-    expected_min <- 19
-    obtained_min <- obtained_summary_report[["min"]]
-    expect_equal(obtained_min, expected_min)
+
     expected_start_date <- "October 2021"
-    obtained_start_date <- obtained_summary_report[["start_date"]]
-    expect_equal(obtained_start_date, expected_start_date)
+    assert_value(expected_start_date, "start_date")
+
+    expected_start_date_es <- "octubre de 2021"
+    assert_value(expected_start_date_es, "fecha_inicio")
+
+    expected_end_date_es <- "agosto de 2022"
+    assert_value(expected_end_date_es, "fecha_fin")
+  })
+  assert_value_with_ignoring_month <- function(expected, variable_name, ignore_month = "August 2022") {
+    
+    obtained_summary_report_ignoring_month <- concatenate_summary_for_report(predictions_df, ignore_month)
+    obtained <- obtained_summary_report_ignoring_month[[variable_name]]
+    expect_equal(obtained, expected)
+  }
+  it("Ignoring months", {
+    expected_prediction <- 336
+    assert_value(expected_prediction, "prediction")
+
+    expected_prediction <- 194
+    assert_value_with_ignoring_month(expected_prediction, "prediction")
+
+    expected_min <- 19
+    assert_value(expected_min, "min")
+    expected_min <- 20
+    assert_value_with_ignoring_month(expected_min, "min", "January 2022")
+
+    expected_max <- 336
+    assert_value(expected_max, "max")
+    expected_max <- 231
+    assert_value_with_ignoring_month(expected_max, "max")
+
+    expected_median <- 132
+    assert_value(expected_median, "median")
+    expected_median <- 111
+    assert_value_with_ignoring_month(expected_median, "median")
+
+    expected_end_date <- "August 2022"
+    assert_value_with_ignoring_month(expected_end_date, "end_date")
+
+    expected_prediction_date <- "July 2022"
+    assert_value_with_ignoring_month(expected_prediction_date, "prediction_date")
   })
 })
