@@ -30,3 +30,11 @@ get_start_date <- function(predictions_df) {
 get_end_date <- function(predictions_df) {
   return(last(predictions_df$months))
 }
+
+get_start_date_es <- function(predictions_df) {
+  first_date <- lubridate::my(get_start_date(predictions_df))
+  month_number <- lubridate::month(first_date)
+  month_in_spanish <- replace_number_with_spanish_name(month_number)
+  year <- lubridate::year(first_date)
+  add_month_in_spanish_and_year(month_in_spanish, year)
+}
