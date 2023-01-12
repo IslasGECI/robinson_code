@@ -83,5 +83,11 @@ testthat::describe("Obtain relevant numbers for json", {
     obtained_names <- names(obtained_summary_report)
     expected_names <- c("prediction", "max", "min", "median", "start_date", "end_date", "fecha_inicio", "fecha_fin")
     expect_equal(obtained_names, expected_names)
+    expected_min <- 19
+    obtained_min <- obtained_summary_report[["min"]]
+    expect_equal(obtained_min, expected_min)
+    expected_start_date <- "October 2021"
+    obtained_start_date <- obtained_summary_report[["start_date"]]
+    expect_equal(obtained_start_date, expected_start_date)
   })
 })
