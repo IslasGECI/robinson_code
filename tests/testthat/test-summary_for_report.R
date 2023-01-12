@@ -41,7 +41,18 @@ testthat::describe("Write json", {
   it("Get completed list", {
     obtained_summary_report <- concatenate_summary_for_report(predictions_df)
     obtained_names <- names(obtained_summary_report)
-    expected_names <- c("prediction", "max", "min", "median", "start_date", "end_date", "fecha_inicio", "fecha_fin", "prediction_date")
+    expected_names <- c(
+      "prediction",
+      "max",
+      "min",
+      "median",
+      "start_date",
+      "end_date",
+      "fecha_inicio",
+      "fecha_fin",
+      "prediction_date",
+      "fecha_prediccion"
+    )
     expect_equal(obtained_names, expected_names)
 
     expected_start_date <- "October 2021"
@@ -54,7 +65,6 @@ testthat::describe("Write json", {
     assert_value(expected_end_date_es, "fecha_fin")
   })
   assert_value_with_ignoring_month <- function(expected, variable_name, ignore_month = "August 2022") {
-    
     obtained_summary_report_ignoring_month <- concatenate_summary_for_report(predictions_df, ignore_month)
     obtained <- obtained_summary_report_ignoring_month[[variable_name]]
     expect_equal(obtained, expected)
@@ -86,5 +96,8 @@ testthat::describe("Write json", {
 
     expected_prediction_date <- "July 2022"
     assert_value_with_ignoring_month(expected_prediction_date, "prediction_date")
+
+    expected_prediction_date_es <- "julio de 2022"
+    assert_value_with_ignoring_month(expected_prediction_date_es, "fecha_prediccion")
   })
 })

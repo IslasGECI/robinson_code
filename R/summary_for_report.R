@@ -43,8 +43,16 @@ get_start_date_es <- function(predictions_df) {
 get_end_date_es <- function(predictions_df) {
   get_date_limits(predictions_df, get_end_date)
 }
+get_prediction_date_es <- function(predictions_df) {
+  get_date_limits(predictions_df, get_prediction_date)
+}
 get_date_limits <- function(predictions_df, limit) {
-  date <- lubridate::my(limit(predictions_df))
+  date <- limit(predictions_df)
+  translate_date(date)
+}
+
+translate_date <- function(date) {
+  date <- lubridate::my(date)
   month_number <- lubridate::month(date)
   month_in_spanish <- replace_number_with_spanish_name(month_number)
   year <- lubridate::year(date)
@@ -62,6 +70,7 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
     "end_date" = get_end_date(predictions_df),
     "fecha_inicio" = get_start_date_es(predictions_df),
     "fecha_fin" = get_end_date_es(predictions_df),
-    "prediction_date" = prediction_date
+    "prediction_date" = prediction_date,
+    "fecha_prediccion" = translate_date(prediction_date)
   )
 }
