@@ -1,7 +1,8 @@
 all: plot_pred_grid_2.png \
 	data/preds_1km_grid.csv \
 	data/preds_1km_grid-cats.csv \
-	data/cat_population_estimation.pdf
+	data/cat_population_estimation.pdf \
+	data/coati_population_estimation.pdf
 
 define checkDirectories
 	mkdir --parents $(@D)
