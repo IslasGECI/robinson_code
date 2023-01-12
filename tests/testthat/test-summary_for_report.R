@@ -66,10 +66,16 @@ testthat::describe("Obtain relevant numbers for json", {
     obtained_end_date <- get_end_date(predictions_2022)
     expect_equal(obtained_end_date, expected_end_date)
   })
-  it("Get spanish dates", {
+  it("Get spanish start date", {
     obtained_start_date <- get_start_date_es(predictions_df)
     expect_true(is.character(obtained_start_date))
     expected_start_date <- "octubre de 2021"
     expect_equal(obtained_start_date, expected_start_date)
+  })
+  it("Get spanish end date", {
+    obtained_end_date <- get_end_date_es(predictions_df)
+    expect_true(is.character(obtained_end_date))
+    expected_end_date <- "agosto de 2022"
+    expect_equal(obtained_end_date, expected_end_date)
   })
 })
