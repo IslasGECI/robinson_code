@@ -24,3 +24,9 @@ get_statistic <- function(data, ignore_month, column, statistic) {
     summarize(computed_statistics = statistic({{ column }}))
   return(selected_data$computed_statistics)
 }
+get_start_date <- function(predictions_df) {
+  return(first(predictions_df$months))
+}
+get_end_date <- function(predictions_df) {
+  return(last(predictions_df$months))
+}

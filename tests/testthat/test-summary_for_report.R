@@ -49,4 +49,21 @@ testthat::describe("Obtain relevant numbers for json", {
     expected_median <- 111
     expect_equal(obtained_median, expected_median)
   })
+  predictions_2022 <- predictions_df[4:(nrow(predictions_df)-2), ]
+  it("Get start date", {
+    obtained_start_date <- get_start_date(predictions_df)
+    expect_true(is.character(obtained_start_date))
+    expected_start_date <- "October 2021"
+    expect_equal(obtained_start_date, expected_start_date)
+    obtained_start_date <- get_start_date(predictions_2022)
+    expected_start_date <- "January 2022"
+    expect_equal(obtained_start_date, expected_start_date)
+  })
+  it("Get end date", {
+    obtained_end_date <- get_end_date(predictions_df)
+    expect_true(is.character(obtained_end_date))
+    expected_end_date <- "June 2022"
+    obtained_end_date <- get_end_date(predictions_2022)
+    expect_equal(obtained_end_date, expected_end_date)
+  })
 })
