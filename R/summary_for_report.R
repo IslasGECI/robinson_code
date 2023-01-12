@@ -32,16 +32,15 @@ get_end_date <- function(predictions_df) {
 }
 
 get_start_date_es <- function(predictions_df) {
-  first_date <- lubridate::my(get_start_date(predictions_df))
-  month_number <- lubridate::month(first_date)
-  month_in_spanish <- replace_number_with_spanish_name(month_number)
-  year <- lubridate::year(first_date)
-  add_month_in_spanish_and_year(month_in_spanish, year)
+  get_date_limits(predictions_df, get_start_date)
 }
 get_end_date_es <- function(predictions_df) {
-  end_date <- lubridate::my(get_end_date(predictions_df))
-  month_number <- lubridate::month(end_date)
+  get_date_limits(predictions_df, get_end_date)
+}
+get_date_limits <- function(predictions_df, limit) {
+  date <- lubridate::my(limit(predictions_df))
+  month_number <- lubridate::month(date)
   month_in_spanish <- replace_number_with_spanish_name(month_number)
-  year <- lubridate::year(end_date)
+  year <- lubridate::year(date)
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
