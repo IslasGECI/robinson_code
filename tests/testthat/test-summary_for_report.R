@@ -102,13 +102,40 @@ testthat::describe("Write json", {
       file.remove(path)
     }
   }
+  create_dir_data <- function() {
+    if (!exist_output_file("/workdir/data")) {
+      dir.create("/workdir/data", recursive = TRUE)
+    }
+  }
   it("Write complete Json file", {
-    output_path <- "/workdir/tests/testthat/myJSON.json"
+    output_path <- "/workdir/tests/testthat/obtained_coati_results.json"
     delete_output_file(output_path)
-    write_concatenate_summary_for_report(predictions_df, "August 2022")
+    write_concatenate_summary_for_report(predictions_df, output_path,"August 2022")
     expect_true(exist_output_file(output_path))
-    obtained_summary <- rjson::fromJSON(file = "/workdir/tests/testthat/myJSON.json")
+    obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
+    expect_equal(obtained_summary, expected_summary)
+    delete_output_file(output_path)
+  })
+  it("Write complete Json file for coati report", {
+    output_path <- "/workdir/data/coati_results.json"
+    delete_output_file(output_path)
+    create_dir_data()
+    write_summary_for_coati_report(predictions_df,"August 2022")
+    expect_true(exist_output_file(output_path))
+    obtained_summary <- rjson::fromJSON(file = output_path)
+    expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
+    expect_equal(obtained_summary, expected_summary)
+    delete_output_file(output_path)
+  })
+  it("Write complete Json file for cats report", {
+    output_path <- "/workdir/data/cats_results.json"
+    delete_output_file(output_path)
+    create_dir_data()
+    write_summary_for_cat_report(predictions_df,"August 2022")
+    expect_true(exist_output_file(output_path))
+    obtained_summary <- rjson::fromJSON(file = output_path)
+    expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/results.json")
     expect_equal(obtained_summary, expected_summary)
     delete_output_file(output_path)
   })
