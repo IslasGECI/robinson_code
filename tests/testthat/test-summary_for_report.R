@@ -110,7 +110,7 @@ testthat::describe("Write json", {
   it("Write complete Json file", {
     output_path <- "/workdir/tests/testthat/obtained_coati_results.json"
     delete_output_file(output_path)
-    write_concatenate_summary_for_report(predictions_df, output_path,"August 2022")
+    write_concatenate_summary_for_report(predictions_df, output_path, "August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
@@ -121,7 +121,7 @@ testthat::describe("Write json", {
     output_path <- "/workdir/data/coati_results.json"
     delete_output_file(output_path)
     create_dir_data()
-    write_summary_for_coati_report(predictions_df,"August 2022")
+    write_summary_for_coati_report(predictions_df, "August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
@@ -129,10 +129,11 @@ testthat::describe("Write json", {
     delete_output_file(output_path)
   })
   it("Write complete Json file for cats report", {
-    output_path <- "/workdir/data/cats_results.json"
+    predictions_cats <- read_csv("../data/prediction_with_count_cells_cats.csv", show_col_types = FALSE)
+    output_path <- "/workdir/data/cat_results.json"
     delete_output_file(output_path)
     create_dir_data()
-    write_summary_for_cat_report(predictions_df,"August 2022")
+    write_summary_for_cat_report(predictions_cats, "August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/results.json")
