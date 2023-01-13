@@ -4,7 +4,7 @@ import typer
 app = typer.Typer()
 
 default_report = "cat_population_estimation"
-summary_path = "tests/data/results.json"
+summary_path = "data/cat_results.json"
 
 
 @app.command()
