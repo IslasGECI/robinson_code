@@ -18,7 +18,7 @@ get_min <- function(predictions_df, ignore_month = NULL) {
 }
 
 get_median <- function(predictions_df, ignore_month = NULL) {
-  get_statistic(predictions_df, ignore_month, `N`, median)
+  ceiling(get_statistic(predictions_df, ignore_month, `N`, median))
 }
 
 ignoring_months <- function(predictions_df, ignore_month) {
@@ -75,8 +75,14 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
   )
 }
 
+#' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
   write_concatenate_summary_for_report(predictions_df, "/workdir/data/coati_results.json", ignore_month)
+}
+
+#' @export
+write_summary_for_cat_report <- function(predictions_df, ignore_month = NULL) {
+  write_concatenate_summary_for_report(predictions_df, "/workdir/data/cat_results.json", ignore_month)
 }
 
 write_concatenate_summary_for_report <- function(predictions_df, output_path, ignore_month = NULL) {
