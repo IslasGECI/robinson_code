@@ -43,6 +43,9 @@ data/cat_population_estimation.pdf: reports/cat_population_estimation.tex plot_p
 predictions_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
+data/cat_results.json: prediction_with_count_cells.csv src/summary_for_cats.R
+	Rscript src/summary_for_cats.R
+
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
 
