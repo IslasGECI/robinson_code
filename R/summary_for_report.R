@@ -74,3 +74,10 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
     "fecha_prediccion" = translate_date(prediction_date)
   )
 }
+
+write_concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) {
+  summary_for_report <- concatenate_summary_for_report(predictions_df, ignore_month)
+  myfile <- rjson::toJSON(summary_for_report)
+  output_path <- "myJSON.json"
+  write(myfile, output_path)
+}

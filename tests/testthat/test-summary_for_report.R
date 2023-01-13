@@ -94,4 +94,22 @@ testthat::describe("Write json", {
     expected_prediction_date_es <- "julio de 2022"
     assert_value_with_ignoring_month(expected_prediction_date_es, "fecha_prediccion")
   })
+  exist_output_file <- function(path) {
+    file.exists(path)
+  }
+  delete_output_file <- function(path) {
+    if (exist_output_file(path)) {
+      file.remove(path)
+    }
+  }
+  it("Write complete Json file", {
+    output_path <- "/workdir/tests/testthat/myJSON.json"
+    delete_output_file(output_path)
+    write_concatenate_summary_for_report(predictions_df, "August 2022")
+    expect_true(exist_output_file(output_path))
+    obtained_summary <- rjson::fromJSON(file = "/workdir/tests/testthat/myJSON.json")
+    expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
+    expect_equal(obtained_summary, expected_summary)
+    delete_output_file(output_path)
+  })
 })
