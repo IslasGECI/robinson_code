@@ -15,36 +15,38 @@ define renderLatex
 	cd $(<D) && pdflatex $(<F)
 endef
 
-reports/coati_population_estimation.tex: reports/templates/coati_population_estimation.tex 
-	data/coati_results.json \
-	prediction_with_count_cells_coatis.csv
-	$(checkDirectories)
-	python src/render.py "coati_population_estimation" "data/coati_results.json"
-
-data/coati_population_estimation.pdf: reports/coati_population_estimation.tex plot_pred_grid_2.png
+data/coati_population_estimation.pdf: reports/coati_population_estimation.tex \
+	plot_pred_grid_2.png
 	$(renderLatex)
 	cp reports/coati_population_estimation.pdf data/coati_population_estimation.pdf
 
-data/coati_results.json: prediction_with_count_cells_coatis.csv src/summary_for_coatis.R
+reports/coati_population_estimation.tex: reports/templates/coati_population_estimation.tex \
+	data/coati_results.json
+	$(checkDirectories)
+	python src/render.py "coati_population_estimation" "data/coati_results.json"
+
+data/coati_results.json: prediction_with_count_cells_coatis.csv \
+	src/summary_for_coatis.R
 	Rscript src/summary_for_coatis.R
 
 prediction_with_count_cells_coatis.csv: data/preds_1km_grid.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Coatis
 
-reports/cat_population_estimation.tex: reports/templates/cat_population_estimation.tex \
-	predictions_with_count_cells.csv
-	$(checkDirectories)
-	python src/render.py "cat_population_estimation"
-
-data/cat_population_estimation.pdf: reports/cat_population_estimation.tex plot_pred_grid_2.png
+data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
+	plot_pred_grid_2.png
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
-predictions_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
-	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
+reports/cat_population_estimation.tex: reports/templates/cat_population_estimation.tex \
+	data/cat_results.json
+	$(checkDirectories)
+	python src/render.py "cat_population_estimation" "data/cat_results.json"
 
 data/cat_results.json: prediction_with_count_cells.csv src/summary_for_cats.R
 	Rscript src/summary_for_cats.R
+
+prediction_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
+	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R
