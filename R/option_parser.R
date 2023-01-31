@@ -1,7 +1,7 @@
 library(optparse)
 
 #' @export
-cli_for_plot <- function() {
+get_options <- function() {
   listaOpciones <- list(
     optparse::make_option(
       c("-m", "--month"),
