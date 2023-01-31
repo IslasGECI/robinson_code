@@ -49,7 +49,7 @@ prediction_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictio
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
 plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
-	Rscript src/Robinson_crusoe.R
+	Rscript src/Robinson_crusoe.R --month 2022-9
 
 final_structures_data = \
 	data/Camera-Traps.csv \
