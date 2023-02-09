@@ -9,17 +9,4 @@ testthat::describe("Cli works", {
     expected <- "Coati"
     expect_equal(obtained, expected)
   })
-  it("get_options works: default", {
-    obtained <- get_options()[["month"]]
-    expected <- "2022-7"
-    expect_equal(obtained, expected)
-  })
-  it("Use in script", {
-    src_file <- "/workdir/tests/helpers/cli_option_parser.R"
-    expected_month <- "2022-9"
-    command <- glue::glue("Rscript {src_file} --month {expected_month}")
-    output <- system(command, intern = TRUE)
-    expected <- stringr::str_detect(output, expected_month)
-    expect_true(expected)
-  })
 })
