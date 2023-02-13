@@ -1,7 +1,4 @@
-all: plot_pred_grid_2.png \
-	data/preds_1km_grid.csv \
-	data/preds_1km_grid-cats.csv \
-	data/cat_population_estimation.pdf \
+all: data/cat_population_estimation.pdf \
 	data/coati_population_estimation.pdf
 
 define checkDirectories
@@ -16,7 +13,7 @@ define renderLatex
 endef
 
 data/coati_population_estimation.pdf: reports/coati_population_estimation.tex \
-	plot_pred_grid_2.png
+	plot_pred_grid_2_2022-9.png
 	$(renderLatex)
 	cp reports/coati_population_estimation.pdf data/coati_population_estimation.pdf
 
@@ -33,7 +30,7 @@ prediction_with_count_cells_coatis.csv: data/preds_1km_grid.csv src/join_predict
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Coatis
 
 data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
-	plot_pred_grid_2.png
+	plot_pred_grid_2_2022-7.png
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
@@ -48,8 +45,11 @@ data/cat_results.json: prediction_with_count_cells.csv src/summary_for_cats.R
 prediction_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
-plot_pred_grid_2.png: data/Camera-Traps.csv src/Robinson_crusoe.R
+plot_pred_grid_2_2022-9.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R --month 2022-9
+
+plot_pred_grid_2_2022-7.png: data/Camera-Traps.csv src/Robinson_crusoe.R
+	Rscript src/Robinson_crusoe.R --month 2022-7
 
 final_structures_data = \
 	data/Camera-Traps.csv \
