@@ -119,8 +119,8 @@ install: install_r
 install_r: clean setup
 	R -e "devtools::document()" && \
     R CMD build . && \
-    R CMD check robinson_0.1.0.tar.gz && \
-    R CMD INSTALL robinson_0.1.0.tar.gz
+    R CMD check robinson_1.0.0.tar.gz && \
+    R CMD INSTALL robinson_1.0.0.tar.gz
 
 setup: clean
 	mkdir --parents tests/testthat/data
