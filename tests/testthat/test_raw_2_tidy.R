@@ -78,13 +78,6 @@ testthat::describe("Group data by window", {
   it("Test count_detection_by_day", {
     path <- "../data/output_data_grouped_by_window.csv"
     data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
-    obtained_grouped <- count_detection_by_day(data_grouped_by_window)
-    expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
-    expect_equal(obtained_grouped, expected_grouped)
-  })
-  it("Test count_detection_by_day", {
-    path <- "../data/output_data_grouped_by_window.csv"
-    data_grouped_by_window <- read_csv(path, show_col_types = FALSE)
     obtained_grouped <- count_detection_by_day_for_coatis(data_grouped_by_window)
     expected_grouped <- read_csv("../data/max_captures_grouped_by_day.csv", show_col_types = FALSE)
     expect_equal(obtained_grouped, expected_grouped)

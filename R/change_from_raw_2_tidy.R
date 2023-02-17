@@ -142,11 +142,6 @@ count_detection_by_day_for_species <- function(filter_table, species) {
     ungroup()
   return(filtered_structure)
 }
-count_detection_by_day <- function(filter_table) {
-  warning("This function will be deprecated in the next major version ⚰️ . Please use 'count_detection_by_day_for_coatis()' instead of 'count_detection_by_day()'")
-  count_detection_by_day_for_coatis(filter_table)
-}
-
 
 add_effort_and_detection_columns_by_ocassion <- function(grouped_data) {
   group_by_id_ocassion <- grouped_data %>%
@@ -171,7 +166,7 @@ tidy_from_path_camera <- function(path) {
     fill_dates() %>%
     select_date_ocassion_camera_and_detection_columns() %>%
     count_detection_by_window_for_coatis() %>%
-    count_detection_by_day() %>%
+    count_detection_by_day_for_coatis() %>%
     add_effort_and_detection_columns_by_ocassion() %>%
     replace_camera_id_with_grid_id(path[["coordinates"]])
   return(tidy_table)
