@@ -10,12 +10,15 @@ Config/testthat/edition: 3
 Description: Data Management Support for the Coati Eradication Project on Robinson Crusoe Island, Chile.
 Encoding: UTF-8
 Imports:
+    dplyr,
     glue,
     lubridate,
+    magrittr,
     plyr,
     R6,
     readr,
     sf,
+    tidyr,
     tidyverse,
 LazyData: true
 License: AGPL-3.0-or-later
