@@ -18,7 +18,8 @@ data/coati_population_estimation.pdf: reports/coati_population_estimation.tex \
 	cp reports/coati_population_estimation.pdf data/coati_population_estimation.pdf
 
 reports/coati_population_estimation.tex: reports/templates/coati_population_estimation.tex \
-	data/coati_results.json
+	data/coati_results.json \
+	data/count_of_sessions_per_grid.csv
 	$(checkDirectories)
 	python src/render.py "coati_population_estimation" "data/coati_results.json"
 
