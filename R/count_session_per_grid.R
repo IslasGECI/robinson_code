@@ -6,6 +6,7 @@
 
 count_session_per_grid <- function(tidy_camera_traps) {
   tidy_camera_traps %>%
+    get_cameras_since_october_2021() %>%
     drop_na() %>%
     group_by(Grid) %>%
     summarise(number_session = n_distinct(Session))

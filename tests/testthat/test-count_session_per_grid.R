@@ -4,12 +4,12 @@ testthat::describe("How many sessions per grid?", {
   it("How many cameras?", {
     obtained <- count_session_per_grid(tidy_camera_traps)
     obtained_rows <- nrow(obtained)
-    expected_rows <- 6
+    expected_rows <- 5
     expect_equal(obtained_rows, expected_rows)
     obtained_colums <- colnames(obtained)
     expected_columns <- c("Grid", "number_session")
     expect_equal(obtained_colums, expected_columns)
-    obtained_count <- obtained[[4, 2]]
+    obtained_count <- filter(obtained, Grid == 31)$number_session
     expected_count <- 2
     expect_equal(obtained_count, expected_count)
   })
