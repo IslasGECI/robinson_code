@@ -29,6 +29,9 @@ data/coati_results.json: prediction_with_count_cells_coatis.csv \
 prediction_with_count_cells_coatis.csv: data/preds_1km_grid.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Coatis
 
+data/count_of_sessions_per_grid.csv: data/raw/robinson_coati_detection_camera_traps/detection_camera_traps.csv
+	Rscript -e "robinson::write_session_per_grid()"
+
 data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
 	data/plot_crusoe_2022-10.png
 	$(renderLatex)
