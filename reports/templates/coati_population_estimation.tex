@@ -17,6 +17,7 @@
 \usepackage[lang=english]{bicaption}
 
 \pgfplotstableread[col sep=comma]{../prediction_with_count_cells_coatis.csv}\Coatis
+\pgfplotstableread[col sep=comma]{../data/count_of_sessions_per_grid.csv}\CamerasSession
 
 \author{ Grupo de Ecología y Conservación de Islas, A.C. }
 
@@ -100,26 +101,26 @@ We used a home range diameter of 1 km for the coati population.
 \end{parcolumns}
 
 \begin{table}[H]
-    \centering
-    \bicaption{Tamaño poblacional de coati en Isla Robinson Crusoe.
-    \texttt{N} es el número de individuos de coati.}{
-      Coati population size on Robinson Crusoe Island.
-      \texttt{N} is the number of coati individuals.
-    }
-     \pgfplotstabletypeset[
-       string type,
-       columns={months,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
-       columns/{months}/.style={column name={\textbf{Mes}}},
-       columns/{N}/.style={column name={\textbf{N}}},
-       columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
-       columns/{ucl}/.style={column name={\textbf{Límite superior}}},
-       columns/{cells_with_camera_data}/.style={column name={\textbf{Celdas con datos}}},
-       columns/{percentage_of_cells_with_camera_data}/.style={column name={\textbf{\% Celdas con datos}}},
-      every head row/.style={before row=\toprule,after row=\midrule},
-      every last row/.style={after row=\bottomrule},
-      ]{\Coatis}
-    \label{tab:csvEstimacionCoati}
-  \end{table}
+  \centering
+  \bicaption{Tamaño poblacional de coati en Isla Robinson Crusoe.
+  \texttt{N} es el número de individuos de coati.}{
+    Coati population size on Robinson Crusoe Island.
+    \texttt{N} is the number of coati individuals.
+  }
+   \pgfplotstabletypeset[
+     string type,
+     columns={months,N,lcl,ucl,cells_with_camera_data,percentage_of_cells_with_camera_data},
+     columns/{months}/.style={column name={\textbf{Mes}}},
+     columns/{N}/.style={column name={\textbf{N}}},
+     columns/{lcl}/.style={column name={\textbf{Límite inferior}}},
+     columns/{ucl}/.style={column name={\textbf{Límite superior}}},
+     columns/{cells_with_camera_data}/.style={column name={\textbf{Celdas con datos}}},
+     columns/{percentage_of_cells_with_camera_data}/.style={column name={\textbf{\% Celdas con datos}}},
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    ]{\Coatis}
+  \label{tab:csvEstimacionCoati}
+\end{table}
 
 \begin{figure}[H]
   \centering
@@ -135,6 +136,22 @@ We used a home range diameter of 1 km for the coati population.
   camera-trap data for the month of \VAR{prediction_date}.}
   \label{fig:cameras_per_month}
 \end{figure}
+
+\begin{table}[H]
+  \centering
+  \bicaption{Número de sesiones con datos de \VAR{fecha_inicio} a \VAR{fecha_fin} para cada celda.}{
+    Number of sessions with data from \VAR{start_date} to \VAR{end_date} per grid cell.
+  }
+   \pgfplotstabletypeset[
+     string type,
+     columns={Grid,number_session},
+     columns/{Grid}/.style={column name={\textbf{Celdas}}},
+     columns/{number_session}/.style={column name={\textbf{Número de sesiones}}},
+    every head row/.style={before row=\toprule,after row=\midrule},
+    every last row/.style={after row=\bottomrule},
+    ]{\CamerasSession}
+  \label{tab:csvCamerasSessiones}
+\end{table}
 
 \bibliography{ref}
 \bibliographystyle{apalike}
