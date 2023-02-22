@@ -22,10 +22,14 @@ write_session_per_grid <- function(path_config = list("cameras" = "data/raw/robi
 }
 
 fill_missing_grids <- function(df_with_missing_grids) {
+  add_missing_cells(df_with_missing_grids) %>%
+    replace(is.na(.), 0) %>%
+    arrange(Grid)
+}
+
+add_missing_cells <- function(df_with_missing_grids) {
   all_grids <- tibble(Grid = 1:50, number_session = 0)
   right_join(df_with_missing_grids, all_grids, by = c("Grid")) %>%
     mutate(number_session = number_session.x) %>%
-    select(-c("number_session.y", "number_session.x")) %>%
-    replace(is.na(.), 0) %>%
-    arrange(Grid)
+    select(-c("number_session.y", "number_session.x"))
 }
