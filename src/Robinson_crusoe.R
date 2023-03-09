@@ -26,7 +26,7 @@ camera_sightings_filtered <- Filter_Data_Structure$get_data_by_month(month = ses
 camera_observations <- get_camera_observations(camera_sightings = camera_sightings_filtered)
 
 # Quick plot of grid cells and camera locations
-plot_output_path <- glue::glue("data/plot_crusoe_{session}.png")
+plot_output_path <- "data/plot_cameras_for_month.png"
 plot_camera_positions_in_square_grid(crusoe, square_grid, camera_observations, plot_output_path)
 # Extract habitat information from raster using a buffer around the camera
 # locations (size set below).  In this case habitat appears to be categorical
