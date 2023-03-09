@@ -13,7 +13,7 @@ define renderLatex
 endef
 
 data/coati_population_estimation.pdf: reports/coati_population_estimation.tex \
-	data/plot_crusoe_2022-10.png
+	data/plot_cameras_for_month.png
 	$(renderLatex)
 	cp reports/coati_population_estimation.pdf data/coati_population_estimation.pdf
 
@@ -34,7 +34,7 @@ data/count_of_sessions_per_grid.csv: data/raw/robinson_coati_detection_camera_tr
 	Rscript -e "robinson::write_session_per_grid()"
 
 data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
-	data/plot_crusoe_2022-10.png
+	data/plot_cameras_for_month.png
 	$(renderLatex)
 	cp reports/cat_population_estimation.pdf data/cat_population_estimation.pdf
 
@@ -49,8 +49,8 @@ data/cat_results.json: prediction_with_count_cells.csv src/summary_for_cats.R
 prediction_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictions_with_count_of_cells_with_data.R
 	Rscript src/join_predictions_with_count_of_cells_with_data.R --species Cats
 
-data/plot_crusoe_2022-10.png: data/Camera-Traps.csv src/Robinson_crusoe.R
-	Rscript src/Robinson_crusoe.R --month 2022-10
+data/plot_cameras_for_month.png: data/Camera-Traps.csv src/Robinson_crusoe.R
+	Rscript src/Robinson_crusoe.R --month 2022-11
 
 final_structures_data = \
 	data/Camera-Traps.csv \
