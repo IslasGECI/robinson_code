@@ -1,9 +1,15 @@
 fill_months <- function(number_of_sessions, initial_month = "2021-10") {
-  start_month <- lubridate::ym(initial_month)
-  month_range <- start_month + months(1:number_of_sessions - 1)
+  month_range <- get_month_range(number_of_sessions, initial_month)
   string_range <- format(month_range, "%B %Y")
   return(string_range)
 }
+
+get_month_range <- function(number_of_sessions, initial_month) {
+  start_month <- lubridate::ym(initial_month)
+  month_range <- start_month + months(1:number_of_sessions - 1)
+  return(month_range)
+}
+
 add_month_names <- function(original_table) {
   number_of_sessions <- nrow(original_table)
   month_names <- fill_months(number_of_sessions)
