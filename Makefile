@@ -52,6 +52,9 @@ prediction_with_count_cells.csv: data/preds_1km_grid-cats.csv src/join_predictio
 data/plot_cameras_for_month.png: data/Camera-Traps.csv src/Robinson_crusoe.R
 	Rscript src/Robinson_crusoe.R --month 2022-11
 
+plot_predictions_single_session_months: data/Camera-Traps.csv
+	Rscript src/plot_pred_grid_months.R --initial_date 2022-1 --final_date 2022-11
+
 final_structures_data = \
 	data/Camera-Traps.csv \
 	data/Camera-Traps-Cats.csv \
