@@ -31,3 +31,9 @@ plot_population_prediction_per_grid_from_a_session <- function(propulation_predi
   plot_output_path <- glue::glue("data/plot_pred_grid_{session}.png")
   plot_population_prediction_per_grid(propulation_prediction_per_grid, plot_output_path, crusoe_shp_path)
 }
+
+get_camera_observations_from_a_session <- function(camera_sightings = camera_sightings_filtered, session, coordinates_path) {
+  Filter_Data_Structure <- Filter_Data_Structure$new(camera_sightings)
+  camera_sightings_filtered <- Filter_Data_Structure$get_data_by_month(session)
+  return(get_camera_observations(camera_sightings = camera_sightings_filtered, coordinates_path))
+}
