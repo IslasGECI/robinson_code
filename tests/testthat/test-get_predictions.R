@@ -25,4 +25,12 @@ testthat::describe("Get camera traps positions", {
     expected_hash <- c("01e789a0345bf323c338e020bb9a6665")
     expect_equal(obtanied_hash, expected_hash)
   })
+  it("Hash test for plot_crusoe", {
+    plot_output_path <- "/workdir/data/plot_pred_grid_2022-4.png"
+    session <- "2022-4"
+    plot_population_prediction_per_grid_from_a_session(obtained_pred_grid, crusoe_shp_path = crusoe_shp_path, session = session)
+    obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
+    expected_hash <- c("01e789a0345bf323c338e020bb9a6665")
+    expect_equal(obtanied_hash, expected_hash)
+  })
 })
