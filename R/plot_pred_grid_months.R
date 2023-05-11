@@ -28,6 +28,6 @@ plot_pred_grid_months <- function(initial_date, final_date, camera_sightings,
 }
 
 plot_population_prediction_per_grid_from_a_session <- function(propulation_prediction_per_grid, session, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
-  plot_output_path <- glue::glue("/workdir/data/plot_pred_grid_{session}.png")
+  plot_output_path <- glue::glue("data/plot_pred_grid_{session}.png")
   plot_population_prediction_per_grid(propulation_prediction_per_grid, plot_output_path, crusoe_shp_path)
 }
