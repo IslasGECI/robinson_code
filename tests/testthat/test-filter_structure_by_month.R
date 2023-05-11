@@ -20,6 +20,19 @@ testthat::describe("Filter cameras by month", {
     expected_detection <- 0
     expect_equal(obtained_detection, expected_detection)
   })
+  it("Test number of camera observations with the new object", {
+    all_camera_sightings_path <- "../data/all_camera_traps_2022.csv"
+    all_camera_sightings <- read_csv(all_camera_sightings_path, show_col_types = FALSE)
+    session <- "2022-4"
+    obtained_camera_observations <- get_camera_observations_from_a_session(camera_sightings = all_camera_sightings, session = session, coordinates_path = coordinates_path)
+    obtained_camera_observations <- obtained_camera_observations[["detections"]]
+    obtained_camera_observations_columns <- names(obtained_camera_observations)
+    expected_camera_observations_columns <- c("ID", "Session", "r_1", "r_2", "r_3", "r_4", "r_5", "r_6")
+    expect_equal(obtained_camera_observations_columns, expected_camera_observations_columns)
+    obtained_detection <- obtained_camera_observations$r_2[[12]]
+    expected_detection <- 13
+    expect_equal(obtained_detection, expected_detection)
+  })
   it("Define filter_data_for_multisession method 💫", {
     all_camera_sightings_path <- "../data/input_ramsey_format.csv"
     all_camera_sightings <- read_csv(all_camera_sightings_path, show_col_types = FALSE)
