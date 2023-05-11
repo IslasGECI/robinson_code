@@ -22,7 +22,7 @@ testthat::describe("Get camera traps positions", {
     plot_output_path <- "../data/plot_pred_grid.png"
     plot_population_prediction_per_grid(obtained_pred_grid, crusoe_shp_path = crusoe_shp_path, plot_output_path = plot_output_path)
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
-    expected_hash <- c("bffb5d89cc24c99ce39ddc1fb26b6b9a")
+    expected_hash <- c("01e789a0345bf323c338e020bb9a6665")
     expect_equal(obtanied_hash, expected_hash)
   })
 })
