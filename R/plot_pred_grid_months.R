@@ -1,3 +1,11 @@
+#' @export
+plot_pred_grid_months <- function(initial_date, final_date, camera_sightings, grid_cell, grid_clip, crusoe_shp_path, buffer_radius, square_grid, habitats, coordinates_path = "data/raw/robinson_coati_detection_camera_traps/camera_trap_coordinates.csv") {
+  months <- get_months_between(initial_date, final_date)
+  for (session in months) {
+    plot_pred_grid_session(session, camera_sightings, grid_cell, grid_clip, crusoe_shp_path, buffer_radius, square_grid, habitats, coordinates_path)
+  }
+}
+
 get_months_between <- function(initial_date_character, final_date_character) {
   initial_date <- lubridate::ym(initial_date_character)
   final_date <- lubridate::ym(final_date_character)
@@ -6,13 +14,6 @@ get_months_between <- function(initial_date_character, final_date_character) {
   years <- lubridate::year(month_range)
   months <- lubridate::month(month_range)
   paste(years, months, sep = "-")
-}
-
-plot_pred_grid_months <- function(initial_date, final_date, camera_sightings, grid_cell, grid_clip, crusoe_shp_path, buffer_radius, square_grid,habitats, coordinates_path) {
-  months <- get_months_between(initial_date, final_date)
-  for (session in months) {
-    plot_pred_grid_session(session, camera_sightings, grid_cell, grid_clip, crusoe_shp_path, buffer_radius, square_grid, habitats, coordinates_path)
-  }
 }
 
 plot_population_prediction_per_grid_from_a_session <- function(propulation_prediction_per_grid, session, crusoe_shp_path = "data/spatial/Robinson_Coati_Workzones_Simple.shp") {
