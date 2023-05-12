@@ -32,5 +32,6 @@ testthat::describe("Get camera traps positions", {
     obtanied_hash <- as.vector(tools::md5sum(plot_output_path))
     expected_hash <- c("01e789a0345bf323c338e020bb9a6665")
     expect_equal(obtanied_hash, expected_hash)
+    testtools::delete_output_file(plot_output_path)
   })
 })
