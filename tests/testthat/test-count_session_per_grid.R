@@ -38,7 +38,6 @@ testthat::describe("How many sessions per grid?", {
     expect_true(testtools::exist_output_file(output_path))
 
     obtained_csv <- read_csv(output_path, show_col_types = FALSE)
-    print(obtained_csv, n = 50)
     obtained_rows <- nrow(obtained_csv)
     expected_rows <- 50
     expect_equal(obtained_rows, expected_rows)
