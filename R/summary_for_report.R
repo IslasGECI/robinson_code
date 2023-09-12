@@ -71,7 +71,9 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
     "fecha_inicio" = get_start_date_es(predictions_df),
     "fecha_fin" = get_end_date_es(predictions_df),
     "prediction_date" = prediction_date,
-    "fecha_prediccion" = translate_date(prediction_date)
+    "fecha_prediccion" = translate_date(prediction_date),
+    "fecha_recepcion_datos" = NA,
+    "data_reception_date" = NA
   )
 }
 
