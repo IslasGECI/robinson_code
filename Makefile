@@ -124,6 +124,9 @@ format:
       -e "style_dir('tests/testthat')"
 
 init: setup tests
+	git config --global --add safe.directory /workdir
+	git config --global user.name "Ciencia de Datos • GECI"
+	git config --global user.email "ciencia.datos@islas.org.mx"
 
 install: install_r
 
@@ -136,6 +139,24 @@ install_r: clean setup
 setup: clean
 	mkdir --parents tests/testthat/data
 	shellspec --init
+
+red: format
+	Rscript -e "devtools::test(stop_on_failure = TRUE)" \
+	&& git restore . \
+	|| (git add tests/testthat/*.R && git commit -m "🛑🧪 Fail tests")
+	chmod g+w -R .
+
+green: format
+	Rscript -e "devtools::test(stop_on_failure = TRUE)" \
+	&& (git add R/*.R && git commit -m "✅ Pass tests") \
+	|| git restore .
+	chmod g+w -R .
+
+refactor: format
+	Rscript -e "devtools::test(stop_on_failure = TRUE)" \
+	&& (git add R/*.R tests/testthat/*.R && git commit -m "♻️  Refactor") \
+	|| git restore .
+	chmod g+w -R .
 
 tests: tests_r tests_spec
 
