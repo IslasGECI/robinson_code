@@ -1,0 +1,31 @@
+[
+    {
+        "image_tag": "",
+        "name": "",
+        "description": "",
+        "report": "cat_population_estimation.pdf",
+        "results": [],
+        "scripts": [],
+        "data": [],
+        "requirements": [],
+        "metadata": {
+            "data_reception_date": "February 13, 2023",
+            "fecha_recepcion_datos": "13 de febrero de 2023"
+        }
+    },
+    {
+        "image_tag": "",
+        "hc_ping_key": "",
+        "name": "",
+        "description": "",
+        "report": "coati_population_estimation.pdf",
+        "results": [],
+        "scripts": [],
+        "data": [],
+        "requirements": [],
+        "metadata": {
+            "data_reception_date": "March 2, 2023",
+            "fecha_recepcion_datos": "2 de marzo de 2023"
+        }
+    }
+]
