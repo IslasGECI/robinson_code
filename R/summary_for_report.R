@@ -83,15 +83,15 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
 
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
-  write_concatenate_summary_for_report(predictions_df, "/workdir/data/coati_results.json", ignore_month)
+  write_summary_for_report(predictions_df, "/workdir/data/coati_results.json", ignore_month)
 }
 
 #' @export
 write_summary_for_cat_report <- function(predictions_df, ignore_month = NULL) {
-  write_concatenate_summary_for_report(predictions_df, "/workdir/data/cat_results.json", ignore_month)
+  write_summary_for_report(predictions_df, "/workdir/data/cat_results.json", ignore_month)
 }
 
-write_concatenate_summary_for_report <- function(predictions_df, output_path, ignore_month = NULL) {
+write_summary_for_report <- function(predictions_df, output_path, ignore_month = NULL) {
   summary_for_report <- concatenate_summary_for_report(predictions_df, ignore_month)
   myfile <- rjson::toJSON(summary_for_report)
   write(myfile, output_path)
