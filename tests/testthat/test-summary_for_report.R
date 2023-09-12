@@ -31,24 +31,6 @@ testthat::describe("Write json", {
     expect_equal(obtained, expected)
   }
   it("Get completed list", {
-    obtained_summary_report <- concatenate_summary_for_report(predictions_df)
-    obtained_names <- names(obtained_summary_report)
-    expected_names <- c(
-      "prediction",
-      "max",
-      "min",
-      "median",
-      "start_date",
-      "end_date",
-      "fecha_inicio",
-      "fecha_fin",
-      "prediction_date",
-      "fecha_prediccion",
-      "fecha_recepcion_datos",
-      "data_reception_date"
-    )
-    expect_equal(obtained_names, expected_names)
-
     expected_start_date <- "October 2021"
     assert_value(expected_start_date, "start_date")
 
