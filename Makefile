@@ -21,7 +21,9 @@ reports/coati_population_estimation.tex: reports/templates/coati_population_esti
 	data/coati_results.json \
 	data/count_of_sessions_per_grid.csv
 	$(checkDirectories)
-	python src/render.py "coati_population_estimation" "data/coati_results.json"
+	typer jinja_render run \
+	--report-name coati_population_estimation \
+	--summary-path data/coati_results.json
 
 data/coati_results.json: prediction_with_count_cells_coatis.csv \
 	src/summary_for_coatis.R
@@ -41,7 +43,9 @@ data/cat_population_estimation.pdf: reports/cat_population_estimation.tex \
 reports/cat_population_estimation.tex: reports/templates/cat_population_estimation.tex \
 	data/cat_results.json
 	$(checkDirectories)
-	python src/render.py "cat_population_estimation" "data/cat_results.json"
+	typer jinja_render run \
+	--report-name cat_population_estimation \
+	--summary-path data/cat_results.json
 
 data/cat_results.json: prediction_with_count_cells.csv src/summary_for_cats.R
 	Rscript src/summary_for_cats.R
