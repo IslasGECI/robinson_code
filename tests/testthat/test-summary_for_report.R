@@ -43,7 +43,9 @@ testthat::describe("Write json", {
       "fecha_inicio",
       "fecha_fin",
       "prediction_date",
-      "fecha_prediccion"
+      "fecha_prediccion",
+      "fecha_recepcion_datos",
+      "data_reception_date"
     )
     expect_equal(obtained_names, expected_names)
 
