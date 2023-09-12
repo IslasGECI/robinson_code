@@ -59,6 +59,10 @@ translate_date <- function(date) {
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
 
+get_data_reception_date <- function() {
+
+}
+
 concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) {
   prediction_date <- get_prediction_date(predictions_df, ignore_month)
   list(
