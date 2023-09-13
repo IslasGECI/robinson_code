@@ -1,7 +1,7 @@
 predictions_df <- read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)
 testthat::describe("Obtain relevant numbers for json", {
   it("obtains data reception date", {
-    obtained_date <- get_data_reception_date()
+    obtained_date <- get_data_reception_date(specie)
   })
   it("Obtain prediction for July 2022", {
     month <- "July 2022"
@@ -29,13 +29,18 @@ testthat::describe("Obtain relevant numbers for json", {
 })
 predictions_cats <- read_csv("../data/prediction_with_count_cells_cats.csv", show_col_types = FALSE)
 testthat::describe("Fabric to configure by species", {
-  specie <- "coati"
-  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
-  expect_true(checkmate::checkR6(obtained))
-  expect_equal(obtained$predictions_df, predictions_df)
-  specie <- "cats"
-  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
-  expect_equal(obtained$predictions_df, predictions_cats)
+  it("Works for coati", {
+    specie <- "coati"
+    obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
+    expect_true(checkmate::checkR6(obtained))
+    expect_equal(obtained$predictions_df, predictions_df)
+    expect_equal(obtained$data_reception_date, "March 2, 2023")
+  })
+  it("Works for cats", {
+    specie <- "cats"
+    obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
+    expect_equal(obtained$predictions_df, predictions_cats)
+  })
 })
 
 testthat::describe("Write json", {
