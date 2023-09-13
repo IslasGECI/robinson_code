@@ -31,6 +31,7 @@ testthat::describe("Fabric to configure by species", {
   specie <- "coati"
   obtained <- configurator_summary_by_species(specie)
   expect_equal(typeof(obtained), "list")
+  expect_equal(obtained$predictionsdf, predictions_df)
 })
 
 testthat::describe("Write json", {
