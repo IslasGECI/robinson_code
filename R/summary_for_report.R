@@ -96,17 +96,29 @@ write_summary_for_report <- function(predictions_df, output_path, ignore_month =
 Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
   public = list(
     predictions_df = NULL,
-    data_reception_date = "March 2, 2023",
+    data_reception_date = NULL,
+    workdir = NULL,
     initialize = function(specie, workdir) {
+      self$workdir <- workdir
       file_name <- private$predictions_list[[specie]]
-      predictions_path <- glue::glue("{workdir}{file_name}")
+      predictions_path <- glue::glue("{self$workdir}{file_name}")
       self$predictions_df <- readr::read_csv(predictions_path, show_col_types = FALSE)
+      self$data_reception_date <- private$get_reception_date(specie)
     }
   ),
   private = list(
     predictions_list = list(
       "coati" = "prediction_with_count_cells_coatis.csv",
       "cats" = "prediction_with_count_cells_cats.csv"
-    )
+    ),
+    metadata_resources = list(
+      "coati" = 2,
+      "cats" = 1
+    ),
+    get_reception_date = function(specie) {
+      json_path <- glue::glue("{self$workdir}analyses.json")
+      json_content <- rjson::fromJSON(file = json_path)
+      json_content[[private$metadata_resources[[specie]]]]$metadata$data_reception_date
+    }
   )
 )
