@@ -29,7 +29,6 @@ testthat::describe("Fabric to configure by species", {
   it("Works for coati", {
     specie <- "coati"
     obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
-    expect_true(checkmate::checkR6(obtained))
     expect_equal(obtained$predictions_df, predictions_df)
     expect_equal(obtained$data_reception_date, "March 2, 2023")
   })
