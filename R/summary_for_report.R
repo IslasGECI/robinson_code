@@ -1,5 +1,5 @@
 get_prediction <- function(predictions_df, month) {
-  selected_data <- predictions_df %>% filter(months == month)
+  selected_data <- predictions_df |> filter(months == month)
   return(selected_data$ucl)
 }
 get_prediction_date <- function(predictions_df, ignore_month = NULL) {
@@ -22,19 +22,19 @@ get_median <- function(predictions_df, ignore_month = NULL) {
 }
 
 ignoring_months <- function(predictions_df, ignore_month) {
-  predictions_df %>% filter(!(months %in% ignore_month))
+  predictions_df |> filter(!(months %in% ignore_month))
 }
 
 get_statistic <- function(data, ignore_month, column, statistic) {
-  selected_data <- ignoring_months(data, ignore_month) %>%
-    summarize(computed_statistics = statistic({{ column }}))
+  selected_data <- ignoring_months(data, ignore_month) |>
+    dplyr::summarize(computed_statistics = statistic({{ column }}))
   return(selected_data$computed_statistics)
 }
 get_start_date <- function(predictions_df) {
-  return(first(predictions_df$months))
+  return(dplyr::first(predictions_df$months))
 }
 get_end_date <- function(predictions_df) {
-  return(last(predictions_df$months))
+  return(dplyr::last(predictions_df$months))
 }
 
 get_start_date_es <- function(predictions_df) {
