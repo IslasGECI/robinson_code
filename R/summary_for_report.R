@@ -101,8 +101,15 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
   public = list(
     predictions_df = NULL,
     initialize = function(specie, workdir) {
-      predictions_path <- glue::glue("{workdir}prediction_with_count_cells_coatis.csv")
+      file_name <- private$predictions_list[[specie]]
+      predictions_path <- glue::glue("{workdir}{file_name}")
       self$predictions_df <- readr::read_csv(predictions_path, show_col_types = FALSE)
     }
+  ),
+  private = list(
+    predictions_list = list(
+      "coati" = "prediction_with_count_cells_coatis.csv",
+      "cats" = "prediction_with_count_cells_cats.csv"
+    )
   )
 )
