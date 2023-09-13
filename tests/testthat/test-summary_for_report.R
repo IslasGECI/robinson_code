@@ -27,6 +27,12 @@ testthat::describe("Obtain relevant numbers for json", {
     expect_equal(obtained_start_date, expected_start_date)
   })
 })
+testthat::describe("Fabric to configure by species", {
+  specie <- "coati"
+  obtained <- configurator_summary_by_species(specie)
+  expect_equal(typeof(obtained), "list")
+})
+
 testthat::describe("Write json", {
   assert_value <- function(expected, variable_name) {
     obtained_summary_report <- concatenate_summary_for_report(predictions_df)
