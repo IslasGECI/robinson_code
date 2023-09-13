@@ -99,7 +99,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     data_reception_date = NULL,
     data_reception_date_es = NULL,
     workdir = NULL,
-    initialize = function(specie, workdir) {
+    initialize = function(specie, workdir = "/workdir/") {
       self$workdir <- workdir
       file_name <- private$predictions_list[[specie]]
       predictions_path <- glue::glue("{self$workdir}{file_name}")
