@@ -31,12 +31,14 @@ testthat::describe("Fabric to configure by species", {
     obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
     expect_equal(obtained$predictions_df, predictions_df)
     expect_equal(obtained$data_reception_date, "March 2, 2023")
+    expect_equal(obtained$data_reception_date_es, "2 de marzo de 2023")
   })
   it("Works for cats", {
     specie <- "cats"
     obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
     expect_equal(obtained$predictions_df, predictions_cats)
     expect_equal(obtained$data_reception_date, "February 13, 2023")
+    expect_equal(obtained$data_reception_date_es, "13 de febrero de 2023")
   })
 })
 
