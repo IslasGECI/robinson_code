@@ -97,7 +97,11 @@ write_summary_for_report <- function(predictions_df, output_path, ignore_month =
   write(myfile, output_path)
 }
 
-configurator_summary_by_species <- function(specie) {
-  config_list <- list("coati" = list("predictions_df" = readr::read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)), "cat" = NA)
-  config_list[[specie]]
-}
+Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
+  public = list(
+    predictions_df = NULL,
+    initialize = function(specie) {
+      self$predictions_df <- readr::read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)
+    }
+  )
+)
