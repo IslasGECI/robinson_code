@@ -27,11 +27,15 @@ testthat::describe("Obtain relevant numbers for json", {
     expect_equal(obtained_start_date, expected_start_date)
   })
 })
+predictions_cats <- read_csv("../data/prediction_with_count_cells_cats.csv", show_col_types = FALSE)
 testthat::describe("Fabric to configure by species", {
   specie <- "coati"
-  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data")
+  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
   expect_true(checkmate::checkR6(obtained))
   expect_equal(obtained$predictions_df, predictions_df)
+  specie <- "cats"
+  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
+  expect_equal(obtained$predictions_df, predictions_cats)
 })
 
 testthat::describe("Write json", {
@@ -123,7 +127,6 @@ testthat::describe("Write json", {
     delete_output_file(output_path)
   })
   it("Write complete Json file for cats report", {
-    predictions_cats <- read_csv("../data/prediction_with_count_cells_cats.csv", show_col_types = FALSE)
     output_path <- "/workdir/data/cat_results.json"
     delete_output_file(output_path)
     create_dir_data()
