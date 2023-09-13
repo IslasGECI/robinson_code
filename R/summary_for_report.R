@@ -97,6 +97,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
   public = list(
     predictions_df = NULL,
     data_reception_date = NULL,
+    data_reception_date_es = NULL,
     workdir = NULL,
     initialize = function(specie, workdir) {
       self$workdir <- workdir
@@ -104,6 +105,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       predictions_path <- glue::glue("{self$workdir}{file_name}")
       self$predictions_df <- readr::read_csv(predictions_path, show_col_types = FALSE)
       self$data_reception_date <- private$get_reception_date(specie)
+      self$data_reception_date_es <- private$get_reception_date_es(specie)
     }
   ),
   private = list(
@@ -119,6 +121,11 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
       json_content[[private$metadata_resources[[specie]]]]$metadata$data_reception_date
+    },
+    get_reception_date_es = function(specie) {
+      json_path <- glue::glue("{self$workdir}analyses.json")
+      json_content <- rjson::fromJSON(file = json_path)
+      json_content[[private$metadata_resources[[specie]]]]$metadata$fecha_recepcion_datos
     }
   )
 )
