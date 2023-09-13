@@ -96,3 +96,7 @@ write_summary_for_report <- function(predictions_df, output_path, ignore_month =
   myfile <- rjson::toJSON(summary_for_report)
   write(myfile, output_path)
 }
+
+configurator_summary_by_species <- function(specie) {
+  list("coati" = NA, "cat" = NA)
+}
