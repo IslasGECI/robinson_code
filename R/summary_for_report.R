@@ -59,10 +59,6 @@ translate_date <- function(date) {
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
 
-get_data_reception_date <- function() {
-
-}
-
 concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) {
   prediction_date <- get_prediction_date(predictions_df, ignore_month)
   list(
@@ -100,6 +96,7 @@ write_summary_for_report <- function(predictions_df, output_path, ignore_month =
 Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
   public = list(
     predictions_df = NULL,
+    data_reception_date = "March 2, 2023",
     initialize = function(specie, workdir) {
       file_name <- private$predictions_list[[specie]]
       predictions_path <- glue::glue("{workdir}{file_name}")
