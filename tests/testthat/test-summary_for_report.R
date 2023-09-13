@@ -29,8 +29,8 @@ testthat::describe("Obtain relevant numbers for json", {
 })
 testthat::describe("Fabric to configure by species", {
   specie <- "coati"
-  obtained <- Configurator_summary_by_species$new(specie)
-  expect_equal(typeof(obtained), "R6")
+  obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data")
+  expect_true(checkmate::checkR6(obtained))
   expect_equal(obtained$predictions_df, predictions_df)
 })
 
