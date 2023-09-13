@@ -100,8 +100,9 @@ write_summary_for_report <- function(predictions_df, output_path, ignore_month =
 Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
   public = list(
     predictions_df = NULL,
-    initialize = function(specie) {
-      self$predictions_df <- readr::read_csv("../data/prediction_with_count_cells_coatis.csv", show_col_types = FALSE)
+    initialize = function(specie, workdir) {
+      predictions_path <- glue::glue("{workdir}prediction_with_count_cells_coatis.csv")
+      self$predictions_df <- readr::read_csv(predictions_path, show_col_types = FALSE)
     }
   )
 )
