@@ -118,14 +118,16 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       "cats" = 1
     ),
     get_reception_date = function(specie) {
-      json_path <- glue::glue("{self$workdir}analyses.json")
-      json_content <- rjson::fromJSON(file = json_path)
+      json_content <- private$read_analyses()
       json_content[[private$metadata_resources[[specie]]]]$metadata$data_reception_date
     },
     get_reception_date_es = function(specie) {
+      json_content <- private$read_analyses()
+      json_content[[private$metadata_resources[[specie]]]]$metadata$fecha_recepcion_datos
+    },
+    read_analyses = function() {
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
-      json_content[[private$metadata_resources[[specie]]]]$metadata$fecha_recepcion_datos
     }
   )
 )
