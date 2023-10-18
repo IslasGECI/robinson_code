@@ -60,7 +60,8 @@ testthat::describe("Write json", {
     assert_value(expected_end_date_es, "fecha_fin")
   })
   assert_value_with_ignoring_month <- function(expected, variable_name, ignore_month = "August 2022") {
-    obtained_summary_report_ignoring_month <- concatenate_summary_for_report(predictions_df, ignore_month)
+    configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
+    obtained_summary_report_ignoring_month <- configurator$xxconcatenate_summary_for_report(ignore_month)
     obtained <- obtained_summary_report_ignoring_month[[variable_name]]
     expect_equal(obtained, expected)
   }
