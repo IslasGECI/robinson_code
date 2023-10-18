@@ -107,6 +107,11 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       self$data_reception_date <- private$get_reception_date(specie)
       self$data_reception_date_es <- private$get_reception_date_es(specie)
     },
+    xxwrite_summary_for_report = function(output_path, ignore_month = NULL) {
+      summary_for_report <- self$xxconcatenate_summary_for_report(ignore_month)
+      myfile <- rjson::toJSON(summary_for_report)
+      write(myfile, output_path)
+    },
     xxconcatenate_summary_for_report = function(ignore_month = NULL) {
       prediction_date <- private$xxget_prediction_date(ignore_month)
       list(
