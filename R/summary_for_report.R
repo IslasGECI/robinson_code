@@ -115,7 +115,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "max" = private$xxget_max(ignore_month),
         "min" = private$xxget_min(ignore_month),
         "median" = private$xxget_median(ignore_month),
-        "start_date" = get_start_date(predictions_df),
+        "start_date" = self$xxget_start_date(),
         "end_date" = get_end_date(predictions_df),
         "fecha_inicio" = get_start_date_es(predictions_df),
         "fecha_fin" = get_end_date_es(predictions_df),
@@ -128,6 +128,9 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     xxget_prediction = function(month) {
       selected_data <- self$predictions_df |> filter(months == month)
       return(selected_data$ucl)
+    },
+    xxget_start_date = function() {
+      return(dplyr::first(self$predictions_df$months))
     }
   ),
   private = list(
