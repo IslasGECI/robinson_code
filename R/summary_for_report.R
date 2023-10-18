@@ -120,7 +120,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "fecha_inicio" = private$xxget_start_date_es(),
         "fecha_fin" = private$xxget_end_date_es(),
         "prediction_date" = prediction_date,
-        "fecha_prediccion" = translate_date(prediction_date),
+        "fecha_prediccion" = private$xxtranslate_date(prediction_date),
         "fecha_recepcion_datos" = self$data_reception_date_es,
         "data_reception_date" = self$data_reception_date
       )
@@ -187,6 +187,13 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     xxget_date_limits = function(limit) {
       date <- limit()
       translate_date(date)
+    },
+    xxtranslate_date = function(date) {
+      date <- lubridate::my(date)
+      month_number <- lubridate::month(date)
+      month_in_spanish <- replace_number_with_spanish_name(month_number)
+      year <- lubridate::year(date)
+      add_month_in_spanish_and_year(month_in_spanish, year)
     }
   )
 )
