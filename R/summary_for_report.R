@@ -106,6 +106,24 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       self$predictions_df <- readr::read_csv(predictions_path, show_col_types = FALSE)
       self$data_reception_date <- private$get_reception_date(specie)
       self$data_reception_date_es <- private$get_reception_date_es(specie)
+    },
+    xxconcatenate_summary_for_report = function(ignore_month = NULL) {
+      predictions_df <- self$predictions_df
+      prediction_date <- get_prediction_date(predictions_df, ignore_month)
+      list(
+        "prediction" = get_prediction(predictions_df, prediction_date),
+        "max" = get_max(predictions_df, ignore_month),
+        "min" = get_min(predictions_df, ignore_month),
+        "median" = get_median(predictions_df, ignore_month),
+        "start_date" = get_start_date(predictions_df),
+        "end_date" = get_end_date(predictions_df),
+        "fecha_inicio" = get_start_date_es(predictions_df),
+        "fecha_fin" = get_end_date_es(predictions_df),
+        "prediction_date" = prediction_date,
+        "fecha_prediccion" = translate_date(prediction_date),
+        "fecha_recepcion_datos" = self$data_reception_date_es,
+        "data_reception_date" = self$data_reception_date
+      )
     }
   ),
   private = list(
@@ -128,24 +146,6 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     read_analyses = function() {
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
-    },
-    xxconcatenate_summary_for_report = function(ignore_month = NULL) {
-      predictions_df <- self$predictions_df
-      prediction_date <- get_prediction_date(predictions_df, ignore_month)
-      list(
-        "prediction" = get_prediction(predictions_df, prediction_date),
-        "max" = get_max(predictions_df, ignore_month),
-        "min" = get_min(predictions_df, ignore_month),
-        "median" = get_median(predictions_df, ignore_month),
-        "start_date" = get_start_date(predictions_df),
-        "end_date" = get_end_date(predictions_df),
-        "fecha_inicio" = get_start_date_es(predictions_df),
-        "fecha_fin" = get_end_date_es(predictions_df),
-        "prediction_date" = prediction_date,
-        "fecha_prediccion" = translate_date(prediction_date),
-        "fecha_recepcion_datos" = self$data_reception_date_es,
-        "data_reception_date" = self$data_reception_date
-      )
     }
   )
 )

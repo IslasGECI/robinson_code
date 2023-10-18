@@ -44,7 +44,8 @@ testthat::describe("Fabric to configure by species", {
 
 testthat::describe("Write json", {
   assert_value <- function(expected, variable_name) {
-    obtained_summary_report <- concatenate_summary_for_report(predictions_df)
+    configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
+    obtained_summary_report <- configurator$xxconcatenate_summary_for_report()
     obtained <- obtained_summary_report[[variable_name]]
     expect_equal(obtained, expected)
   }
