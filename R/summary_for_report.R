@@ -118,7 +118,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "start_date" = self$xxget_start_date(),
         "end_date" = private$xxget_end_date(),
         "fecha_inicio" = private$xxget_start_date_es(),
-        "fecha_fin" = get_end_date_es(predictions_df),
+        "fecha_fin" = private$xxget_end_date_es(),
         "prediction_date" = prediction_date,
         "fecha_prediccion" = translate_date(prediction_date),
         "fecha_recepcion_datos" = self$data_reception_date_es,
