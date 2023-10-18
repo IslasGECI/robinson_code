@@ -99,9 +99,6 @@ check:
       -e "resumen <- rbind(resumen, style_dir('tests/testthat'))" \
       -e "any(resumen[[2]])" \
       | grep FALSE
-	black --check --line-length 100 src
-	flake8 --max-line-length 100 src
-	mypy src
 
 clean:
 	rm --force *.tar.gz
@@ -116,7 +113,6 @@ coverage: install tests
 	Rscript tests/testthat/coverage.R
 
 format:
-	black --line-length 100 src
 	R -e "library(styler)" \
       -e "style_dir('R')" \
       -e "style_dir('src')" \
