@@ -79,7 +79,8 @@ concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) 
 
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
-  write_summary_for_report(predictions_df, "/workdir/data/coati_results.json", ignore_month)
+  configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
+  configurator$xxwrite_summary_for_report("/workdir/data/coati_results.json", ignore_month)
 }
 
 #' @export

@@ -116,7 +116,8 @@ testthat::describe("Write json", {
   it("Write complete Json file", {
     output_path <- "/workdir/tests/testthat/obtained_coati_results.json"
     delete_output_file(output_path)
-    write_summary_for_report(predictions_df, output_path, "August 2022")
+    configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
+    configurator$xxwrite_summary_for_report(output_path, "August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
