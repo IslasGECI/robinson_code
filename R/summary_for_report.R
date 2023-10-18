@@ -181,6 +181,9 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     xxget_start_date_es = function() {
       private$xxget_date_limits(self$xxget_start_date)
     },
+    xxget_end_date_es = function() {
+      private$xxget_date_limits(private$xxget_end_date)
+    },
     xxget_date_limits = function(limit) {
       date <- limit()
       translate_date(date)
