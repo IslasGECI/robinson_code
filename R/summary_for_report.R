@@ -129,7 +129,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
     },
-    xxconcatenate_summary_for_report = function(predictions_df, ignore_month = NULL) {
+    xxconcatenate_summary_for_report = function(ignore_month = NULL) {
       predictions_df <- self$predictions_df
       prediction_date <- get_prediction_date(predictions_df, ignore_month)
       list(
