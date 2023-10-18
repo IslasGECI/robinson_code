@@ -128,6 +128,23 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     read_analyses = function() {
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
+    },
+    xxconcatenate_summary_for_report = function(predictions_df, ignore_month = NULL) {
+      prediction_date <- get_prediction_date(predictions_df, ignore_month)
+      list(
+        "prediction" = get_prediction(predictions_df, prediction_date),
+        "max" = get_max(predictions_df, ignore_month),
+        "min" = get_min(predictions_df, ignore_month),
+        "median" = get_median(predictions_df, ignore_month),
+        "start_date" = get_start_date(predictions_df),
+        "end_date" = get_end_date(predictions_df),
+        "fecha_inicio" = get_start_date_es(predictions_df),
+        "fecha_fin" = get_end_date_es(predictions_df),
+        "prediction_date" = prediction_date,
+        "fecha_prediccion" = translate_date(prediction_date),
+        "fecha_recepcion_datos" = NA,
+        "data_reception_date" = NA
+      )
     }
   )
 )
