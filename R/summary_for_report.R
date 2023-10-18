@@ -130,6 +130,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_content <- rjson::fromJSON(file = json_path)
     },
     xxconcatenate_summary_for_report = function(predictions_df, ignore_month = NULL) {
+      predictions_df <- self$predictions_df
       prediction_date <- get_prediction_date(predictions_df, ignore_month)
       list(
         "prediction" = get_prediction(predictions_df, prediction_date),
@@ -142,8 +143,8 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "fecha_fin" = get_end_date_es(predictions_df),
         "prediction_date" = prediction_date,
         "fecha_prediccion" = translate_date(prediction_date),
-        "fecha_recepcion_datos" = NA,
-        "data_reception_date" = NA
+        "fecha_recepcion_datos" = self$data_reception_date_es,
+        "data_reception_date" = self$data_reception_date
       )
     }
   )
