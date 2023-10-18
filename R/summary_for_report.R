@@ -108,7 +108,6 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       self$data_reception_date_es <- private$get_reception_date_es(specie)
     },
     xxconcatenate_summary_for_report = function(ignore_month = NULL) {
-      predictions_df <- self$predictions_df
       prediction_date <- private$xxget_prediction_date(ignore_month)
       list(
         "prediction" = self$xxget_prediction(prediction_date),
