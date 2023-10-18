@@ -2,7 +2,8 @@ predictions_df <- read_csv("../data/prediction_with_count_cells_coatis.csv", sho
 testthat::describe("Obtain relevant numbers for json", {
   it("Obtain prediction for July 2022", {
     month <- "July 2022"
-    obtained_prediction <- get_prediction(predictions_df, month)
+    configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
+    obtained_prediction <- configurator$xxget_prediction(month)
     expect_true(is.numeric(obtained_prediction))
     expected_prediction <- 194
     expect_equal(obtained_prediction, expected_prediction)
