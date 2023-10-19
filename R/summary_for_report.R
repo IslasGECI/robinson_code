@@ -80,8 +80,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_content <- rjson::fromJSON(file = json_path)
     },
     get_prediction_date = function(ignore_month = NULL) {
-      last_month <- self$predictions_df %>%
-        ignoring_months(ignore_month) %>%
+      last_month <- private$xxignoring_months(ignore_month) %>%
         .$months %>%
         last()
       return(last_month)
@@ -96,7 +95,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       ceiling(private$get_statistic(self$predictions_df, ignore_month, `N`, median))
     },
     get_statistic = function(data, ignore_month, column, statistic) {
-      selected_data <- ignoring_months(data, ignore_month) |>
+      selected_data <- private$xxignoring_months(ignore_month) |>
         dplyr::summarize(computed_statistics = statistic({{ column }}))
       return(selected_data$computed_statistics)
     },
