@@ -2,13 +2,6 @@ ignoring_months <- function(predictions_df, ignore_month) {
   predictions_df |> filter(!(months %in% ignore_month))
 }
 
-get_statistic <- function(data, ignore_month, column, statistic) {
-  selected_data <- ignoring_months(data, ignore_month) |>
-    dplyr::summarize(computed_statistics = statistic({{ column }}))
-  return(selected_data$computed_statistics)
-}
-
-
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
   configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
@@ -94,15 +87,15 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       return(last_month)
     },
     get_max = function(ignore_month = NULL) {
-      private$xxget_statistic(self$predictions_df, ignore_month, `ucl`, max)
+      private$get_statistic(self$predictions_df, ignore_month, `ucl`, max)
     },
     get_min = function(ignore_month = NULL) {
-      private$xxget_statistic(self$predictions_df, ignore_month, `lcl`, min)
+      private$get_statistic(self$predictions_df, ignore_month, `lcl`, min)
     },
     get_median = function(ignore_month = NULL) {
-      ceiling(private$xxget_statistic(self$predictions_df, ignore_month, `N`, median))
+      ceiling(private$get_statistic(self$predictions_df, ignore_month, `N`, median))
     },
-    xxget_statistic = function(data, ignore_month, column, statistic) {
+    get_statistic = function(data, ignore_month, column, statistic) {
       selected_data <- ignoring_months(data, ignore_month) |>
         dplyr::summarize(computed_statistics = statistic({{ column }}))
       return(selected_data$computed_statistics)
