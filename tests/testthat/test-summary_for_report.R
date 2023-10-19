@@ -139,7 +139,7 @@ testthat::describe("Write json", {
     output_path <- "/workdir/data/cat_results.json"
     delete_output_file(output_path)
     create_dir_data()
-    write_summary_for_cat_report(predictions_cats, "August 2022")
+    write_summary_for_cat_report("August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/results.json")

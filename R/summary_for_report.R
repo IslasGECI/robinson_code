@@ -5,7 +5,7 @@ write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) 
 }
 
 #' @export
-write_summary_for_cat_report <- function(predictions_df, ignore_month = NULL) {
+write_summary_for_cat_report <- function(ignore_month = NULL) {
   configurator <- Configurator_summary_by_species$new("cats", workdir = "/workdir/tests/data/")
   configurator$write_summary_for_report("/workdir/data/cat_results.json", ignore_month)
 }
