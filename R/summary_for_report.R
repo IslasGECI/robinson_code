@@ -1,7 +1,3 @@
-ignoring_months <- function(predictions_df, ignore_month) {
-  predictions_df |> filter(!(months %in% ignore_month))
-}
-
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
   configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
@@ -80,7 +76,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_content <- rjson::fromJSON(file = json_path)
     },
     get_prediction_date = function(ignore_month = NULL) {
-      last_month <- private$xxignoring_months(ignore_month) %>%
+      last_month <- private$ignoring_months(ignore_month) %>%
         .$months %>%
         last()
       return(last_month)
@@ -95,7 +91,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       ceiling(private$get_statistic(self$predictions_df, ignore_month, `N`, median))
     },
     get_statistic = function(data, ignore_month, column, statistic) {
-      selected_data <- private$xxignoring_months(ignore_month) |>
+      selected_data <- private$ignoring_months(ignore_month) |>
         dplyr::summarize(computed_statistics = statistic({{ column }}))
       return(selected_data$computed_statistics)
     },
@@ -119,7 +115,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       year <- lubridate::year(date)
       add_month_in_spanish_and_year(month_in_spanish, year)
     },
-    xxignoring_months = function(ignore_month) {
+    ignoring_months = function(ignore_month) {
       self$predictions_df |> filter(!(months %in% ignore_month))
     }
   )
