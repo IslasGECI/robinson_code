@@ -119,6 +119,9 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       month_in_spanish <- replace_number_with_spanish_name(month_number)
       year <- lubridate::year(date)
       add_month_in_spanish_and_year(month_in_spanish, year)
+    },
+    xxignoring_months = function(ignore_month) {
+      self$predictions_df |> filter(!(months %in% ignore_month))
     }
   )
 )
