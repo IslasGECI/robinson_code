@@ -34,14 +34,6 @@ get_end_date <- function(predictions_df) {
 }
 
 
-translate_date <- function(date) {
-  date <- lubridate::my(date)
-  month_number <- lubridate::month(date)
-  month_in_spanish <- replace_number_with_spanish_name(month_number)
-  year <- lubridate::year(date)
-  add_month_in_spanish_and_year(month_in_spanish, year)
-}
-
 
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
@@ -86,7 +78,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "fecha_inicio" = private$get_start_date_es(),
         "fecha_fin" = private$get_end_date_es(),
         "prediction_date" = prediction_date,
-        "fecha_prediccion" = private$xxtranslate_date(prediction_date),
+        "fecha_prediccion" = private$translate_date(prediction_date),
         "fecha_recepcion_datos" = self$data_reception_date_es,
         "data_reception_date" = self$data_reception_date
       )
@@ -152,9 +144,9 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     },
     get_date_limits = function(limit) {
       date <- limit()
-      private$xxtranslate_date(date)
+      private$translate_date(date)
     },
-    xxtranslate_date = function(date) {
+    translate_date = function(date) {
       date <- lubridate::my(date)
       month_number <- lubridate::month(date)
       month_in_spanish <- replace_number_with_spanish_name(month_number)
