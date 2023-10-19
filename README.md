@@ -4,4 +4,6 @@
 
 # robinson
 
+[![codecov](https://codecov.io/gh/IslasGECI/robinson_code/graph/badge.svg?token=XGpslllctS)](https://codecov.io/gh/IslasGECI/robinson_code)
+
 R package for data management of the Coati Eradication Project on Robinson Crusoe Island
