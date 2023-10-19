@@ -56,13 +56,13 @@ translate_date <- function(date) {
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
   configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
-  configurator$xxwrite_summary_for_report("/workdir/data/coati_results.json", ignore_month)
+  configurator$write_summary_for_report("/workdir/data/coati_results.json", ignore_month)
 }
 
 #' @export
 write_summary_for_cat_report <- function(predictions_df, ignore_month = NULL) {
   configurator <- Configurator_summary_by_species$new("cats", workdir = "/workdir/tests/data/")
-  configurator$xxwrite_summary_for_report("/workdir/data/cat_results.json", ignore_month)
+  configurator$write_summary_for_report("/workdir/data/cat_results.json", ignore_month)
 }
 
 Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
@@ -79,7 +79,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       self$data_reception_date <- private$get_reception_date(specie)
       self$data_reception_date_es <- private$get_reception_date_es(specie)
     },
-    xxwrite_summary_for_report = function(output_path, ignore_month = NULL) {
+    write_summary_for_report = function(output_path, ignore_month = NULL) {
       summary_for_report <- self$concatenate_summary_for_report(ignore_month)
       myfile <- rjson::toJSON(summary_for_report)
       write(myfile, output_path)
