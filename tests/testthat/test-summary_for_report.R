@@ -128,7 +128,7 @@ testthat::describe("Write json", {
     output_path <- "/workdir/data/coati_results.json"
     delete_output_file(output_path)
     create_dir_data()
-    write_summary_for_coati_report(predictions_df, "August 2022")
+    write_summary_for_coati_report("August 2022")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
