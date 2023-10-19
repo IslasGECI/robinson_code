@@ -1,10 +1,3 @@
-get_prediction_date <- function(predictions_df, ignore_month = NULL) {
-  last_month <- predictions_df %>%
-    ignoring_months(ignore_month) %>%
-    .$months %>%
-    last()
-  return(last_month)
-}
 get_max <- function(predictions_df, ignore_month = NULL) {
   get_statistic(predictions_df, ignore_month, `ucl`, max)
 }
@@ -60,7 +53,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       write(myfile, output_path)
     },
     concatenate_summary_for_report = function(ignore_month = NULL) {
-      prediction_date <- private$xxget_prediction_date(ignore_month)
+      prediction_date <- private$get_prediction_date(ignore_month)
       list(
         "prediction" = self$get_prediction(prediction_date),
         "max" = private$xxget_max(ignore_month),
@@ -105,7 +98,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       json_path <- glue::glue("{self$workdir}analyses.json")
       json_content <- rjson::fromJSON(file = json_path)
     },
-    xxget_prediction_date = function(ignore_month = NULL) {
+    get_prediction_date = function(ignore_month = NULL) {
       last_month <- self$predictions_df %>%
         ignoring_months(ignore_month) %>%
         .$months %>%
