@@ -33,9 +33,6 @@ get_end_date <- function(predictions_df) {
   return(dplyr::last(predictions_df$months))
 }
 
-get_start_date_es <- function(predictions_df) {
-  get_date_limits(predictions_df, get_start_date)
-}
 get_end_date_es <- function(predictions_df) {
   get_date_limits(predictions_df, get_end_date)
 }
@@ -96,7 +93,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "median" = private$xxget_median(ignore_month),
         "start_date" = self$xxget_start_date(),
         "end_date" = private$xxget_end_date(),
-        "fecha_inicio" = private$xxget_start_date_es(),
+        "fecha_inicio" = private$get_start_date_es(),
         "fecha_fin" = private$xxget_end_date_es(),
         "prediction_date" = prediction_date,
         "fecha_prediccion" = private$xxtranslate_date(prediction_date),
@@ -157,7 +154,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     xxget_end_date = function() {
       return(dplyr::last(self$predictions_df$months))
     },
-    xxget_start_date_es = function() {
+    get_start_date_es = function() {
       private$xxget_date_limits(self$xxget_start_date)
     },
     xxget_end_date_es = function() {
