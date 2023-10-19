@@ -89,12 +89,6 @@ write_summary_for_cat_report <- function(predictions_df, ignore_month = NULL) {
   configurator$xxwrite_summary_for_report("/workdir/data/cat_results.json", ignore_month)
 }
 
-write_summary_for_report <- function(predictions_df, output_path, ignore_month = NULL) {
-  summary_for_report <- concatenate_summary_for_report(predictions_df, ignore_month)
-  myfile <- rjson::toJSON(summary_for_report)
-  write(myfile, output_path)
-}
-
 Configurator_summary_by_species <- R6::R6Class("Configurator summary by species",
   public = list(
     predictions_df = NULL,
