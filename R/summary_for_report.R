@@ -33,13 +33,6 @@ get_end_date <- function(predictions_df) {
   return(dplyr::last(predictions_df$months))
 }
 
-get_prediction_date_es <- function(predictions_df) {
-  get_date_limits(predictions_df, get_prediction_date)
-}
-get_date_limits <- function(predictions_df, limit) {
-  date <- limit(predictions_df)
-  translate_date(date)
-}
 
 translate_date <- function(date) {
   date <- lubridate::my(date)
@@ -152,12 +145,12 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       return(dplyr::last(self$predictions_df$months))
     },
     get_start_date_es = function() {
-      private$xxget_date_limits(self$xxget_start_date)
+      private$get_date_limits(self$xxget_start_date)
     },
     get_end_date_es = function() {
-      private$xxget_date_limits(private$xxget_end_date)
+      private$get_date_limits(private$xxget_end_date)
     },
-    xxget_date_limits = function(limit) {
+    get_date_limits = function(limit) {
       date <- limit()
       translate_date(date)
     },
