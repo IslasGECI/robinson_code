@@ -152,7 +152,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     },
     get_date_limits = function(limit) {
       date <- limit()
-      translate_date(date)
+      private$xxtranslate_date(date)
     },
     xxtranslate_date = function(date) {
       date <- lubridate::my(date)
