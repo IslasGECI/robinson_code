@@ -1,7 +1,3 @@
-get_prediction <- function(predictions_df, month) {
-  selected_data <- predictions_df |> filter(months == month)
-  return(selected_data$ucl)
-}
 get_prediction_date <- function(predictions_df, ignore_month = NULL) {
   last_month <- predictions_df %>%
     ignoring_months(ignore_month) %>%
@@ -94,7 +90,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
     concatenate_summary_for_report = function(ignore_month = NULL) {
       prediction_date <- private$xxget_prediction_date(ignore_month)
       list(
-        "prediction" = self$xxget_prediction(prediction_date),
+        "prediction" = self$get_prediction(prediction_date),
         "max" = private$xxget_max(ignore_month),
         "min" = private$xxget_min(ignore_month),
         "median" = private$xxget_median(ignore_month),
@@ -108,7 +104,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "data_reception_date" = self$data_reception_date
       )
     },
-    xxget_prediction = function(month) {
+    get_prediction = function(month) {
       selected_data <- self$predictions_df |> filter(months == month)
       return(selected_data$ucl)
     },
