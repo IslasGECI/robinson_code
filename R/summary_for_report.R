@@ -29,10 +29,6 @@ get_statistic <- function(data, ignore_month, column, statistic) {
 get_start_date <- function(predictions_df) {
   return(dplyr::first(predictions_df$months))
 }
-get_end_date <- function(predictions_df) {
-  return(dplyr::last(predictions_df$months))
-}
-
 
 
 #' @export
@@ -74,7 +70,7 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         "min" = private$xxget_min(ignore_month),
         "median" = private$xxget_median(ignore_month),
         "start_date" = self$xxget_start_date(),
-        "end_date" = private$xxget_end_date(),
+        "end_date" = private$get_end_date(),
         "fecha_inicio" = private$get_start_date_es(),
         "fecha_fin" = private$get_end_date_es(),
         "prediction_date" = prediction_date,
@@ -133,14 +129,14 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
         dplyr::summarize(computed_statistics = statistic({{ column }}))
       return(selected_data$computed_statistics)
     },
-    xxget_end_date = function() {
+    get_end_date = function() {
       return(dplyr::last(self$predictions_df$months))
     },
     get_start_date_es = function() {
       private$get_date_limits(self$xxget_start_date)
     },
     get_end_date_es = function() {
-      private$get_date_limits(private$xxget_end_date)
+      private$get_date_limits(private$get_end_date)
     },
     get_date_limits = function(limit) {
       date <- limit()
