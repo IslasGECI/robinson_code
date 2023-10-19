@@ -16,12 +16,12 @@ testthat::describe("Obtain relevant numbers for json", {
   })
   predictions_2022 <- predictions_df[4:(nrow(predictions_df) - 2), ]
   it("Get start date", {
-    obtained_start_date <- configurator$xxget_start_date()
+    obtained_start_date <- configurator$get_start_date()
     expect_true(is.character(obtained_start_date))
     expected_start_date <- "October 2021"
     expect_equal(obtained_start_date, expected_start_date)
     configurator$predictions_df <- predictions_df[4:(nrow(predictions_df) - 2), ]
-    obtained_start_date <- configurator$xxget_start_date()
+    obtained_start_date <- configurator$get_start_date()
     expected_start_date <- "January 2022"
     expect_equal(obtained_start_date, expected_start_date)
   })
