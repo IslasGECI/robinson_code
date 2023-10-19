@@ -47,7 +47,7 @@ testthat::describe("Fabric to configure by species", {
 testthat::describe("Write json", {
   assert_value <- function(expected, variable_name) {
     configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
-    obtained_summary_report <- configurator$xxconcatenate_summary_for_report()
+    obtained_summary_report <- configurator$concatenate_summary_for_report()
     obtained <- obtained_summary_report[[variable_name]]
     expect_equal(obtained, expected)
   }
@@ -63,7 +63,7 @@ testthat::describe("Write json", {
   })
   assert_value_with_ignoring_month <- function(expected, variable_name, ignore_month = "August 2022") {
     configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
-    obtained_summary_report_ignoring_month <- configurator$xxconcatenate_summary_for_report(ignore_month)
+    obtained_summary_report_ignoring_month <- configurator$concatenate_summary_for_report(ignore_month)
     obtained <- obtained_summary_report_ignoring_month[[variable_name]]
     expect_equal(obtained, expected)
   }

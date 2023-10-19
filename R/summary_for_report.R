@@ -59,23 +59,6 @@ translate_date <- function(date) {
   add_month_in_spanish_and_year(month_in_spanish, year)
 }
 
-concatenate_summary_for_report <- function(predictions_df, ignore_month = NULL) {
-  prediction_date <- get_prediction_date(predictions_df, ignore_month)
-  list(
-    "prediction" = get_prediction(predictions_df, prediction_date),
-    "max" = get_max(predictions_df, ignore_month),
-    "min" = get_min(predictions_df, ignore_month),
-    "median" = get_median(predictions_df, ignore_month),
-    "start_date" = get_start_date(predictions_df),
-    "end_date" = get_end_date(predictions_df),
-    "fecha_inicio" = get_start_date_es(predictions_df),
-    "fecha_fin" = get_end_date_es(predictions_df),
-    "prediction_date" = prediction_date,
-    "fecha_prediccion" = translate_date(prediction_date),
-    "fecha_recepcion_datos" = NA,
-    "data_reception_date" = NA
-  )
-}
 
 #' @export
 write_summary_for_coati_report <- function(predictions_df, ignore_month = NULL) {
@@ -104,11 +87,11 @@ Configurator_summary_by_species <- R6::R6Class("Configurator summary by species"
       self$data_reception_date_es <- private$get_reception_date_es(specie)
     },
     xxwrite_summary_for_report = function(output_path, ignore_month = NULL) {
-      summary_for_report <- self$xxconcatenate_summary_for_report(ignore_month)
+      summary_for_report <- self$concatenate_summary_for_report(ignore_month)
       myfile <- rjson::toJSON(summary_for_report)
       write(myfile, output_path)
     },
-    xxconcatenate_summary_for_report = function(ignore_month = NULL) {
+    concatenate_summary_for_report = function(ignore_month = NULL) {
       prediction_date <- private$xxget_prediction_date(ignore_month)
       list(
         "prediction" = self$xxget_prediction(prediction_date),
