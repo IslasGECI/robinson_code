@@ -32,8 +32,8 @@ testthat::describe("Fabric to configure by species", {
     specie <- "coati"
     obtained <- Configurator_summary_by_species$new(specie, workdir = "/workdir/tests/data/")
     expect_equal(obtained$predictions_df, predictions_df)
-    expect_equal(obtained$data_reception_date, "March 2, 2023")
-    expect_equal(obtained$data_reception_date_es, "2 de marzo de 2023")
+    expect_equal(obtained$data_reception_date, "September 27, 1821")
+    expect_equal(obtained$data_reception_date_es, "27 de septiembre de 1821")
   })
   it("Works for cats", {
     specie <- "cats"
