@@ -113,22 +113,11 @@ testthat::describe("Write json", {
       dir.create("/workdir/data", recursive = TRUE)
     }
   }
-  it("Write complete Json file", {
-    output_path <- "/workdir/tests/testthat/obtained_coati_results.json"
-    delete_output_file(output_path)
-    configurator <- Configurator_summary_by_species$new("coati", workdir = "/workdir/tests/data/")
-    configurator$write_summary_for_report(output_path, "August 2022")
-    expect_true(exist_output_file(output_path))
-    obtained_summary <- rjson::fromJSON(file = output_path)
-    expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
-    expect_equal(obtained_summary, expected_summary)
-    delete_output_file(output_path)
-  })
   it("Write complete Json file for coati report", {
     output_path <- "/workdir/data/coati_results.json"
     delete_output_file(output_path)
     create_dir_data()
-    write_summary_for_coati_report("August 2022")
+    write_summary_for_coati_report("August 2022", workdir = "/workdir/tests/data/")
     expect_true(exist_output_file(output_path))
     obtained_summary <- rjson::fromJSON(file = output_path)
     expected_summary <- rjson::fromJSON(file = "/workdir/tests/data/coati_results.json")
