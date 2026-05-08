@@ -22,7 +22,7 @@ grid_cell <- sf::read_sf("data/spatial/Robinson_Coati_1kmGrid_SubsetCameraGridPo
 habitats <- terra::rast("data/spatial/VegetationCONAF2014_50mHabitat.tif")
 grid_clip <- make_grid_square(crusoe, square_grid)
 
-options <- geci.optparse::get_options()
+options <- gecioptparse::get_options()
 
 initial_date <- options[["initial_date"]]
 final_date <- options[["final_date"]]
